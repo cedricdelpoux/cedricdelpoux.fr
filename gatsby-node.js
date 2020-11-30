@@ -1,36 +1,11 @@
 const {resolve} = require("path")
 const isAfter = require("date-fns/isAfter")
 const sub = require("date-fns/sub")
-const turf = require("@turf/turf")
-const mapboxPolyline = require("@mapbox/polyline")
 
 exports.onCreateNode = async ({node, cache}) => {
   if (node.internal.type === "GoogleMyMaps") {
-    const coordinates = node.layers.reduce(
-      (acc, layer) => [
-        ...acc,
-        ...layer.lineStrings.reduce(
-          (acc, lineString) => [...acc, ...lineString.coordinates],
-          []
-        ),
-      ],
-      []
-    )
-    const geoJSON = {
-      type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: coordinates.map(({latitude, longitude}) => [
-          longitude,
-          latitude,
-        ]),
-      },
-    }
-    const simple = turf.simplify(geoJSON, {tolerance: 0.01, highQuality: false})
-    const polyline = mapboxPolyline.fromGeoJSON(simple)
-
-    await cache.set("map-" + node.name, node.id)
-    await cache.set("polyline-" + node.name, polyline)
+    await cache.set("mymaps-" + node.name, node.id)
+    await cache.set("polyline-" + node.name, node.polyline)
   }
 
   if (node.internal.type === "YoutubeVideo") {
@@ -71,33 +46,13 @@ exports.onCreateNode = async ({node, cache}) => {
       node.videos___NODE = videos
     }
 
-    if (node.template === "story" && node.country) {
+    if (node.template === "travel-story" && node.country) {
       const polyline = await cache.get("polyline-" + node.country)
-      const map = await cache.get("map-" + node.country)
+      const map = await cache.get("mymaps-" + node.country)
       node.polyline = polyline
       node.map___NODE = map
     }
   }
-}
-
-exports.createSchemaCustomization = ({actions, schema}) => {
-  actions.createTypes([
-    schema.buildObjectType({
-      name: "StravaActivity",
-      interfaces: ["Node"],
-      fields: {
-        inTheLastThreeMonths: {
-          type: "Boolean!",
-          resolve: ({activity}) => {
-            const nowDate = new Date()
-            const threeMonthsAgoDate = sub(nowDate, {months: 3})
-            const activityDate = new Date(activity.start_date)
-            return isAfter(activityDate, threeMonthsAgoDate)
-          },
-        },
-      },
-    }),
-  ])
 }
 
 exports.onCreatePage = ({page}) => {

@@ -30,7 +30,7 @@ export default ({
       <Flag country={country} css={{alignSelf: "center"}} />
       <Html html={html} />
       <Masonry>
-        {story && <PaperStory key={story.fields.slug} post={story} />}
+        {story && <PaperStory key={story.fields.slug} {...story} />}
         {regions.nodes.length > 0 &&
           regions.nodes.map(({region, fields: {slug}, ...rest}) => (
             <PaperCountry key={region} to={slug} country={region} {...rest} />
@@ -93,7 +93,7 @@ export const pageQuery = graphql`
     story: googleDocs(
       locale: {eq: $locale}
       country: {eq: $country}
-      template: {eq: "story"}
+      template: {eq: "travel-story"}
     ) {
       ...PaperStory
     }
@@ -104,7 +104,6 @@ export const pageQuery = graphql`
         country: {eq: $country}
         region: {eq: null}
         template: {eq: "post"}
-        name: {ne: "story"}
       }
     ) {
       nodes {

@@ -11,7 +11,6 @@ export const useMapbox = (polyline) => {
   const [themeKey] = useSwitchTheme()
   const pathColor = theme.colors.secondary.substr(1)
   const polylineEncoded = encodeURIComponent(polyline)
-  console.log(polylineEncoded)
   const style = `xuopled/${themeKey === "light" ? THEME_LIGHT : THEME_DARK}`
   return `https://api.mapbox.com/styles/v1/${style}/static/path+${pathColor}(${polylineEncoded})/auto/500x300@2x?access_token=${TOKEN}&logo=false&attribution=false`
 }

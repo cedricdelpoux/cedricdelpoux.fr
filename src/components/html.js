@@ -13,6 +13,7 @@ export const Html = ({html, css, fluid, ...props}) => {
       css={{
         flex: 1,
         fontSize: {_: 3, s: 4},
+        gap: 2,
         "& > *:first-child": {
           mt: 0,
         },

@@ -6,14 +6,7 @@ import {Title} from "./title"
 import {View} from "./view"
 import {useMapbox} from "../hooks/use-mapbox"
 
-export const PaperStory = ({
-  post: {
-    fields: {slug},
-    name,
-    polyline,
-  },
-  ...props
-}) => {
+export const PaperStory = ({fields: {slug}, name, polyline, ...props}) => {
   const mapUrl = useMapbox(polyline)
   return (
     <Paper to={slug} css={{px: 0, pb: 0}} {...props}>

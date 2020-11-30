@@ -13,6 +13,8 @@ const {
 } = process.env
 
 const {colors} = require("./theme.js")
+const {transformMymaps} = require("./src/utils/node/transform-mymaps")
+const {transformStravaActivity} = require("./src/utils/node/transform-strava")
 
 module.exports = {
   siteMetadata: {
@@ -54,6 +56,7 @@ module.exports = {
               new Date().getMonth() - 1,
               new Date().getDate()
             ).getTime() / 1000,
+          extend: ({activity}) => transformStravaActivity(activity),
         },
         athlete: {
           extend: ({activities, athlete}) => {
@@ -233,6 +236,7 @@ module.exports = {
           "1mQBBrUWGSjjvetsWwZvozaiMlOBChuW2", // Iceland
         ],
         name: "travel",
+        transform: transformMymaps,
       },
     },
 

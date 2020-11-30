@@ -46,7 +46,7 @@
     "gatsby-remark-unwrap-images": "^1.0.2",
     "gatsby-source-filesystem": "^2.6.1",
     "gatsby-source-google-docs": "^2.0.0-beta.35",
-    "gatsby-source-google-mymaps": "^1.0.0-beta.1",
+    "gatsby-source-google-mymaps": "^1.0.0-beta.3",
     "gatsby-source-google-photos": "^2.4.1",
     "gatsby-source-graphql": "2.9.0",
     "gatsby-source-strava": "^2.0.0-beta.12",
@@ -64,8 +64,6 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
     "react-intl": "^5.10.6",
-    "react-map-gl": "^5.2.10",
-    "react-mapbox-gl": "^5.1.1",
     "react-neumorphic-toggle": "^1.0.1",
     "react-range": "^1.8.3",
     "react-responsive-masonry": "^2.1.0",
@@ -90,7 +88,7 @@
   "scripts": {
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "dev": "gatsby  develop",
+    "dev": "GATSBY_EXPERIMENTAL_LAZY_DEVJS=true gatsby develop",
     "lint": "eslint src/**/*.js"
   },
   "husky": {
