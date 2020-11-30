@@ -1,6 +1,5 @@
 import {Helmet} from "react-helmet"
 import {ThemeContext} from "css-system"
-import {TranslateUrlsContext} from "gatsby-plugin-translate-urls"
 import {graphql, useStaticQuery} from "gatsby"
 import {useTrail} from "react-spring"
 import Img from "gatsby-image"
@@ -33,7 +32,6 @@ export const LayoutPage = ({
   html,
   children,
 }) => {
-  const {locale} = useContext(TranslateUrlsContext)
   const theme = useContext(ThemeContext)
   const childrenArray = flattenChildren(children)
 
@@ -80,11 +78,9 @@ export const LayoutPage = ({
   const metaImage = cover?.image || metaLayoutImage
   const ogImagePath = metaImage.childImageSharp.fixed.src
   const ogImageUrl = path.join(siteMetadata.siteUrl, ogImagePath)
-
   return (
     <>
       <Helmet>
-        <html lang={locale} />
         <title>{metaTitle}</title>
         <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
         <meta charSet="utf-8" />
@@ -92,7 +88,6 @@ export const LayoutPage = ({
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={metaTitle} />
-        <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content={siteMetadata.title} />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
@@ -154,8 +149,8 @@ export const LayoutPage = ({
                   }}
                   gradient
                 />
-                {item.url ? (
-                  <Link to={item.url}>{item.label}</Link>
+                {item.to ? (
+                  <Link to={item.to}>{item.label}</Link>
                 ) : (
                   <Text>{item.label}</Text>
                 )}

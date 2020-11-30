@@ -14,7 +14,7 @@ export const PaperVideo = ({id, title, cover, statistics}) => {
   const autoplay = cover ? 1 : 0
   const props = showYoutube
     ? {
-        href: `https://www.youtube.com/watch?v=${id}`,
+        to: `https://www.youtube.com/watch?v=${id}`,
       }
     : {
         onClick: () => setShowYoutube(true),

@@ -39,7 +39,7 @@ export const PaperActivity = ({
   const timeObject = secondsToHms(moving_time)
   return (
     <Paper
-      href={`https://www.strava.com/activities/${id}`}
+      to={`https://www.strava.com/activities/${id}`}
       css={{position: "relative", p: 0}}
       {...props}
     >

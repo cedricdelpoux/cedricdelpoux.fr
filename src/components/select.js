@@ -36,6 +36,8 @@ export const SelectGradient = ({css, ...props}) => {
       <Select
         css={{
           backgroundColor: "backgroundLight",
+          transitionProperty: "background",
+          transitionDuration: theme.transition,
           p: "4px",
           borderRadius: 2,
           ...css,

@@ -35,7 +35,7 @@ export const pageQuery = graphql`
       }
     }
     countries: allGoogleDocs(
-      filter: {locale: {eq: $locale}, template: {eq: "country"}}
+      filter: {locale: {eq: $locale}, template: {eq: "travel-country"}}
     ) {
       nodes {
         fields {

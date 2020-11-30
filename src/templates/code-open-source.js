@@ -1,43 +1,11 @@
-import {FormattedMessage} from "react-intl"
-import {faCodeBranch, faStar} from "@fortawesome/pro-light-svg-icons"
+import {faStar} from "@fortawesome/pro-light-svg-icons"
 import {faGithub} from "@fortawesome/free-brands-svg-icons"
 import {graphql} from "gatsby"
 import React, {useMemo} from "react"
 
 import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
-import {Paper, PaperMetadata} from "../components/paper"
-import {Title} from "../components/title"
-import {View} from "../components/view"
-
-const PaperRepository = ({
-  repository: {
-    url,
-    name,
-    description,
-    stargazers: {totalCount: starCount},
-    forkCount,
-  },
-  ...props
-}) => {
-  return (
-    <Paper href={url} css={{p: 3, gap: 2}} {...props}>
-      <Title as="h2" css={{m: 0}}>
-        {name}
-      </Title>
-      <PaperMetadata
-        items={[
-          {
-            icon: faStar,
-            label: starCount,
-          },
-          {icon: faCodeBranch, label: forkCount},
-        ]}
-      />
-      <View>{description}</View>
-    </Paper>
-  )
-}
+import {PaperRepository} from "../components/paper-repository"
 
 export default ({
   data: {
@@ -63,25 +31,22 @@ export default ({
         {
           icon: faGithub,
           label: "cedricdelpoux",
-          url: "https://github.com/cedricdelpoux",
+          to: "https://github.com/cedricdelpoux",
         },
-        {icon: faStar, label: starsCount},
+        {
+          icon: faStar,
+          label: starsCount,
+          to: "https://github.com/cedricdelpoux",
+        },
       ]}
     >
-      {github && github.viewer.repositories.nodes && (
-        <>
-          <Title as="h2">
-            <FormattedMessage id="pages.code.open-source.projects" />
-          </Title>
-          <Masonry>
-            {github.viewer.repositories.nodes
-              .filter((repository) => repository.stargazers.totalCount > 0)
-              .map((repository) => (
-                <PaperRepository key={repository.id} repository={repository} />
-              ))}
-          </Masonry>
-        </>
-      )}
+      <Masonry>
+        {github.viewer.repositories.nodes
+          .filter((repository) => repository.stargazers.totalCount > 0)
+          .map((repository) => (
+            <PaperRepository key={repository.id} repository={repository} />
+          ))}
+      </Masonry>
     </LayoutPage>
   )
 }
@@ -105,13 +70,7 @@ export const pageQuery = graphql`
         ) {
           nodes {
             id
-            url
-            name
-            description
-            stargazers {
-              totalCount
-            }
-            forkCount
+            ...PaperRepository
           }
         }
       }

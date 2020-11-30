@@ -4,29 +4,28 @@ import {extendPrimitive} from "css-system"
 
 import {Text} from "./text"
 
-export const Link = extendPrimitive(Text, ({css, to, ...props}) => {
-  return {
-    as: to && GatsbyLink,
-    css: {
-      color: "inherit",
-      textDecoration: "none",
-      ...css,
-    },
-    to,
-    ...props,
-  }
-})
+const relativesExceptions = ["/rss.xml", "/sitemap.xml"]
 
-export const ExternalLink = extendPrimitive(Text, ({css, ...props}) => {
+export const Link = extendPrimitive(Text, ({css, to, ...props}) => {
+  const relative = to.startsWith("/") && !relativesExceptions.includes(to)
+  const as = relative ? GatsbyLink : OutboundLink
+  const linkProps = relative
+    ? {
+        to,
+      }
+    : {
+        href: to,
+        rel: "noopener noreferrer nofollow",
+        target: "_blank",
+      }
   return {
-    as: OutboundLink,
+    as,
     css: {
       color: "inherit",
       textDecoration: "none",
       ...css,
     },
-    rel: "noopener noreferrer nofollow",
-    target: "_blank",
+    ...linkProps,
     ...props,
   }
 })

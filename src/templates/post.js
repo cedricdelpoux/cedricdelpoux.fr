@@ -59,7 +59,7 @@ export default ({
           },
         }}
       >
-        <FormattedMessage id="pages.post.shares" />
+        <FormattedMessage id="post.shares" />
       </Title>
       <View
         css={{
@@ -92,7 +92,7 @@ export default ({
           },
         }}
       >
-        <FormattedMessage id="pages.post.comments" />
+        <FormattedMessage id="post.comments" />
       </Title>
       {location && (
         <ReactDisqusComments

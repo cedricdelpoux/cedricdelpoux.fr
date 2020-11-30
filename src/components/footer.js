@@ -12,7 +12,7 @@ import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
 import React, {useCallback, useContext} from "react"
 
 import {Icon} from "./icon"
-import {Link, ExternalLink} from "./link"
+import {Link} from "./link"
 import {Select} from "./select"
 import {View} from "./view"
 import {useMenu} from "../hooks/use-menu"
@@ -101,21 +101,21 @@ export const Footer = ({locale}) => {
             gap: 2,
           }}
         >
-          <ExternalLink href="https://www.strava.com/athletes/229804">
+          <Link to="https://www.strava.com/athletes/229804">
             <Icon icon={faStrava} />
-          </ExternalLink>
-          <ExternalLink href="https://github.com/cedricdelpoux">
+          </Link>
+          <Link to="https://github.com/cedricdelpoux">
             <Icon icon={faGithub} />
-          </ExternalLink>
-          <ExternalLink href="https://twitter.com/cedricdelpoux">
+          </Link>
+          <Link to="https://twitter.com/cedricdelpoux">
             <Icon icon={faTwitter} />
-          </ExternalLink>
-          <ExternalLink href="https://www.youtube.com/channel/UCuyZxPyDBbPYeGneo_7jY4g">
+          </Link>
+          <Link to="https://www.youtube.com/channel/UCuyZxPyDBbPYeGneo_7jY4g">
             <Icon icon={faYoutube} />
-          </ExternalLink>
-          <ExternalLink href="https://www.instagram.com/cedricdelpoux">
+          </Link>
+          <Link to="https://www.instagram.com/cedricdelpoux">
             <Icon icon={faInstagram} />
-          </ExternalLink>
+          </Link>
         </View>
       </View>
       <View

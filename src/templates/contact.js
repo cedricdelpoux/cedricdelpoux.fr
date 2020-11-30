@@ -81,19 +81,19 @@ export default ({
       >
         <Label>
           <Text gradient css={{fontWeight: "bold"}}>
-            <FormattedMessage id="pages.contact.form.email" />
+            <FormattedMessage id="contact.form.email" />
           </Text>
           <Input type="email" name="email" />
         </Label>
         <Label>
           <Text gradient css={{fontWeight: "bold"}}>
-            <FormattedMessage id="pages.contact.form.name" />
+            <FormattedMessage id="contact.form.name" />
           </Text>
           <Input name="name" />
         </Label>
         <Label>
           <Text gradient css={{fontWeight: "bold"}}>
-            <FormattedMessage id="pages.contact.form.message" />
+            <FormattedMessage id="contact.form.message" />
           </Text>
           <Input
             as="textarea"

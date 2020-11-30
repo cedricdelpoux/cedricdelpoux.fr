@@ -120,7 +120,7 @@ export default ({
       </View>
       <Title as="h2">
         <FormattedMessage
-          id="pages.sport.activities.count"
+          id="sport.activities.count"
           values={{count: filteredActivities.length}}
         />
       </Title>

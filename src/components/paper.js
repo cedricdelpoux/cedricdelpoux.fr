@@ -1,14 +1,14 @@
 import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
 
-import {ExternalLink, Link} from "./link"
+import {Link} from "./link"
 import {Icon} from "./icon"
 import {Text} from "./text"
 import {View} from "./view"
 
 export const Paper = ({css, deps, children, ...props}) => {
   const theme = useContext(ThemeContext)
-  const Component = props.to ? Link : props.href ? ExternalLink : View
+  const Component = props.to ? Link : View
   return (
     <Component
       css={{
@@ -20,7 +20,7 @@ export const Paper = ({css, deps, children, ...props}) => {
         transitionDuration: theme.transition,
         borderRadius: 2,
         overflow: "hidden",
-        "&:hover": (props.to || props.href || props.onClick) && {
+        "&:hover": (props.to || props.onClick) && {
           cursor: "pointer",
           transform: "translate3d(0, -4px, 0)",
         },

@@ -49,7 +49,7 @@ export default ({
         })}
       </Timeline>
       <Title as="h2" css={{mt: 3, mb: 0}}>
-        <FormattedMessage id="pages.code.career.education" />
+        <FormattedMessage id="code.career.education" />
       </Title>
       <Timeline>
         {resume.education.map((work) => {

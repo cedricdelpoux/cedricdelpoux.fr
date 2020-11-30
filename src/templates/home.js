@@ -28,21 +28,13 @@ export default ({
       description={excerpt}
       css={{alignItems: "center"}}
     >
-      <View
-        css={{
-          flexDirection: {_: "column", s: "row"},
-          alignItems: "center",
-          gap: 3,
-        }}
-      >
-        <View css={{alignItems: "center", gap: 3}}>
-          <CedricCircle />
-          <Button as={Link} to={menu.items.about.path}>
-            <Text>{menu.items.about.name}</Text>
-          </Button>
-        </View>
-        <Html html={html} fluid />
+      <View css={{alignItems: "center", gap: 3}}>
+        <CedricCircle />
+        <Button as={Link} to={menu.items.about.path}>
+          <Text>{menu.items.about.name}</Text>
+        </Button>
       </View>
+      <Html html={html} fluid />
       <View
         css={{
           flexDirection: {_: "column", m: "row"},

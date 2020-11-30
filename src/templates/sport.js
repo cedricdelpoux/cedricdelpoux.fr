@@ -55,25 +55,25 @@ export default ({
         css={{alignSelf: "center"}}
       />
       <Title as="h2">
-        <FormattedMessage id={`pages.sport.types.${sport.toLowerCase()}`} />
+        <FormattedMessage id={`sport.types.${sport.toLowerCase()}`} />
       </Title>
       <Heatmap activities={activities} />
       <Masonry>
         <View css={{gap: 2}}>
           <Title as="h3">
-            <FormattedMessage id="pages.sport.index.latest-activity" />
+            <FormattedMessage id="sport.index.latest-activity" />
           </Title>
           <PaperActivity activity={latestActivity.activity} />
         </View>
         <View css={{gap: 2}}>
           <Title as="h3">
-            <FormattedMessage id="pages.sport.index.fastest-activity" />
+            <FormattedMessage id="sport.index.fastest-activity" />
           </Title>
           <PaperActivity activity={fastestActivity.activity} />
         </View>
         <View css={{gap: 2}}>
           <Title as="h3">
-            <FormattedMessage id="pages.sport.index.longest-activity" />
+            <FormattedMessage id="sport.index.longest-activity" />
           </Title>
           <PaperActivity activity={longestActivity.activity} />
         </View>

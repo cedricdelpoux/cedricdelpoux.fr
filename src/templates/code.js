@@ -36,7 +36,7 @@ export default ({
   return (
     <LayoutPage title={title} description={excerpt} html={html}>
       <Title as="h2">
-        <FormattedMessage id="pages.code.index.i-use-daily" />
+        <FormattedMessage id="code.i-use-daily" />
       </Title>
       <View
         css={{
@@ -68,7 +68,7 @@ export default ({
       {projects?.nodes.length > 0 && (
         <>
           <Title as="h2">
-            <FormattedMessage id="pages.code.index.projects" />
+            <FormattedMessage id="code.projects" />
           </Title>
           <Masonry>
             {projects.nodes.map((project) => (
@@ -92,7 +92,7 @@ export const pageQuery = graphql`
     }
     projects: allGoogleDocs(
       sort: {fields: date, order: DESC}
-      filter: {template: {eq: "project"}, locale: {eq: $locale}}
+      filter: {type: {eq: "project"}, locale: {eq: $locale}}
     ) {
       nodes {
         fields {

@@ -32,14 +32,14 @@ exports.onCreateNode = async ({node, cache}) => {
   }
 
   if (node.internal.type === "GoogleDocs") {
-    if (node.template === "country-region" && node.region) {
+    if (node.template === "travel-region" && node.region) {
       const album = await cache.get("album-" + node.region)
       const videos = await cache.get("videos-" + node.region)
       node.album___NODE = album
       node.videos___NODE = videos
     }
 
-    if (node.template === "country" && node.country) {
+    if (node.template === "travel-country" && node.country) {
       const album = await cache.get("album-" + node.country)
       const videos = await cache.get("videos-" + node.country)
       node.album___NODE = album

@@ -18,9 +18,10 @@ const World = ({css, selectedCountries = []}) => {
         flex: 1,
         width: "100%",
         transitionProperty: "fill",
+        fill: "url(#svg-gradient)",
         ...selectedCountries.reduce((acc, country) => {
           acc[`& > path[data-country="${country}"]`] = {
-            fill: "url(#svg-gradient)",
+            fill: theme.colors.text,
           }
           return acc
         }, {}),
