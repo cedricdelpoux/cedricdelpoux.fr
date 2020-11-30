@@ -76,7 +76,7 @@ export const pageQuery = graphql`
         fields {
           slug
         }
-        ...PaperPostNodeFragment
+        ...PaperPost
       }
     }
     story: googleDocs(
@@ -89,7 +89,7 @@ export const pageQuery = graphql`
     videos: allYoutubeVideo(filter: {tags: {in: [$region]}}) {
       nodes {
         id
-        ...YoutubeVideoFragment
+        ...PaperVideo
       }
     }
     album: googlePhotosAlbum(country: {eq: $country}, region: {eq: $region}) {

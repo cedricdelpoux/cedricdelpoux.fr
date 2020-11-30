@@ -152,7 +152,7 @@ export const pageQuery = graphql`
       sort: {fields: [activity___start_date], order: DESC}
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
   }

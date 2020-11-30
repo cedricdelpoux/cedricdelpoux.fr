@@ -161,7 +161,7 @@ export const PaperActivity = ({
 }
 
 export const query = graphql`
-  fragment PaperActivityFragment on StravaActivity {
+  fragment PaperActivity on StravaActivity {
     activity {
       id
       type

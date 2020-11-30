@@ -106,7 +106,7 @@ export const PaperVideo = ({id, title, cover, statistics}) => {
 }
 
 export const query = graphql`
-  fragment YoutubeVideoFragment on YoutubeVideo {
+  fragment PaperVideo on YoutubeVideo {
     id
     title
     cover {

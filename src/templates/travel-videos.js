@@ -39,7 +39,7 @@ export const pageQuery = graphql`
     videos: allYoutubeVideo(filter: {tags: {in: "travel"}}) {
       nodes {
         id
-        ...YoutubeVideoFragment
+        ...PaperVideo
       }
     }
   }

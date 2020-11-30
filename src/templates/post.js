@@ -108,7 +108,7 @@ export default ({
 }
 
 export const pageQuery = graphql`
-  query PostBySlug($path: String!) {
+  query Post($path: String!) {
     site {
       siteMetadata {
         title

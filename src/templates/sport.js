@@ -107,7 +107,7 @@ export const pageQuery = graphql`
       limit: 1000
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
 
@@ -119,7 +119,7 @@ export const pageQuery = graphql`
       limit: 1000
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
 
@@ -131,7 +131,7 @@ export const pageQuery = graphql`
       limit: 1
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
 
@@ -143,7 +143,7 @@ export const pageQuery = graphql`
       limit: 1
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
     longestRuns: allStravaActivity(
@@ -154,7 +154,7 @@ export const pageQuery = graphql`
       limit: 1
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
 
@@ -166,7 +166,7 @@ export const pageQuery = graphql`
       limit: 1
     ) {
       nodes {
-        ...PaperActivityFragment
+        ...PaperActivity
       }
     }
   }

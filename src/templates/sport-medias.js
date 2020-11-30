@@ -35,7 +35,7 @@ export default ({
 }
 
 export const pageQuery = graphql`
-  query SportMedia($path: String!) {
+  query SportMedias($path: String!) {
     googleDocs(fields: {slug: {eq: $path}}) {
       name
       childMarkdownRemark {
@@ -46,7 +46,7 @@ export const pageQuery = graphql`
     videos: allYoutubeVideo(filter: {tags: {in: "sport"}}) {
       nodes {
         id
-        ...YoutubeVideoFragment
+        ...PaperVideo
       }
     }
     album: googlePhotosAlbum(category: {eq: "sport"}) {

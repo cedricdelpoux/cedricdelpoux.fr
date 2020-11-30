@@ -15,7 +15,7 @@ export default ({
 }
 
 export const pageQuery = graphql`
-  query PageBySlug($path: String!) {
+  query Page($path: String!) {
     googleDocs(fields: {slug: {eq: $path}}) {
       name
       childMarkdownRemark {
