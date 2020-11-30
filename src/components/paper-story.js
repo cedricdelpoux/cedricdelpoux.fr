@@ -19,7 +19,7 @@ export const PaperStory = ({fields: {slug}, name, polyline, ...props}) => {
 }
 
 export const query = graphql`
-  fragment PaperStory on GoogleDocs {
+  fragment PaperStoryFragment on GoogleDocs {
     fields {
       slug
     }

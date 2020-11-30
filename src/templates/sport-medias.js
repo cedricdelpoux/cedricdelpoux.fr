@@ -46,7 +46,7 @@ export const pageQuery = graphql`
     videos: allYoutubeVideo(filter: {tags: {in: "sport"}}) {
       nodes {
         id
-        ...PaperVideo
+        ...PaperVideoFragment
       }
     }
     album: googlePhotosAlbum(category: {eq: "sport"}) {

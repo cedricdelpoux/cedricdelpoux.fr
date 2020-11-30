@@ -41,7 +41,7 @@ export const pageQuery = graphql`
         fields {
           slug
         }
-        ...PaperCountry
+        ...PaperCountryFragment
       }
     }
   }

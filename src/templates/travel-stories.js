@@ -42,7 +42,7 @@ export const pageQuery = graphql`
         fields {
           slug
         }
-        ...PaperStory
+        ...PaperStoryFragment
       }
     }
   }

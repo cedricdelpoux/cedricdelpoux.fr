@@ -36,7 +36,7 @@ export const PaperCountry = ({name, country, album, videos, ...props}) => (
 )
 
 export const query = graphql`
-  fragment PaperCountry on GoogleDocs {
+  fragment PaperCountryFragment on GoogleDocs {
     name
     country
     album {

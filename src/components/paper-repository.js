@@ -36,7 +36,7 @@ export const PaperRepository = ({
 }
 
 export const query = graphql`
-  fragment PaperRepository on GitHub_Repository {
+  fragment PaperRepositoryFragment on GitHub_Repository {
     id
     url
     name

@@ -45,7 +45,7 @@ export const PaperPost = ({
 }
 
 export const query = graphql`
-  fragment PaperPost on GoogleDocs {
+  fragment PaperPostFragment on GoogleDocs {
     fields {
       slug
     }

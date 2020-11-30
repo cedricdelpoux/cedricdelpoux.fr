@@ -70,7 +70,7 @@ export const pageQuery = graphql`
         ) {
           nodes {
             id
-            ...PaperRepository
+            ...PaperRepositoryFragment
           }
         }
       }

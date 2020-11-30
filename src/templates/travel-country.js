@@ -80,14 +80,14 @@ export const pageQuery = graphql`
         fields {
           slug
         }
-        ...PaperCountry
+        ...PaperCountryFragment
       }
     }
     videos: allYoutubeVideo(filter: {country: {eq: $country}}) {
       nodes {
         id
         region
-        ...PaperVideo
+        ...PaperVideoFragment
       }
     }
     story: googleDocs(
@@ -95,7 +95,7 @@ export const pageQuery = graphql`
       country: {eq: $country}
       template: {eq: "travel-story"}
     ) {
-      ...PaperStory
+      ...PaperStoryFragment
     }
     posts: allGoogleDocs(
       sort: {fields: [date], order: DESC}
@@ -110,7 +110,7 @@ export const pageQuery = graphql`
         fields {
           slug
         }
-        ...PaperPost
+        ...PaperPostFragment
       }
     }
     album: googlePhotosAlbum(country: {eq: $country}, region: {eq: null}) {

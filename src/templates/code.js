@@ -98,7 +98,7 @@ export const pageQuery = graphql`
         fields {
           slug
         }
-        ...PaperProject
+        ...PaperProjectFragment
       }
     }
   }
