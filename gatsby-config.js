@@ -44,7 +44,7 @@ module.exports = {
     {
       resolve: "gatsby-source-strava",
       options: {
-        debug: NODE_ENV === "development",
+        debug: true,
         stravaClientId: STRAVA_CLIENT_ID,
         stravaClientSecret: STRAVA_CLIENT_SECRET,
         stravaToken: STRAVA_TOKEN,
@@ -196,13 +196,13 @@ module.exports = {
           }
         },
         photosMaxWidth: NODE_ENV === "development" ? 512 : 1024,
-        debug: NODE_ENV === "development",
+        debug: true,
       },
     },
     {
       resolve: "gatsby-source-google-docs",
       options: {
-        debug: NODE_ENV === "development",
+        debug: true,
         folder: GOOGLE_DOCS_FOLDER,
         demoteHeadings: true,
         imagesMaxWidth: NODE_ENV === "development" ? 512 : 1024,
