@@ -6,6 +6,7 @@ import {AnimationSport} from "../components/animation-sport"
 import {AnimationTravel} from "../components/animation-travel"
 import {Button} from "../components/button"
 import {CedricCircle} from "../components/cedric-circle"
+import {Flag} from "../components/flag"
 import {Html} from "../components/html"
 import {LayoutPage} from "../layouts/page"
 import {Link} from "../components/link"
@@ -28,7 +29,24 @@ export default ({
       description={excerpt}
       css={{alignItems: "center"}}
     >
-      <View css={{alignItems: "center", gap: 3}}>
+      <View
+        css={{
+          flexDirection: {_: "column", m: "row"},
+          alignItems: "center",
+          gap: 3,
+        }}
+      >
+        {locale === "fr" ? (
+          <Button as={Link} to="/en">
+            <Flag country="united-kingdom" css={{width: "25px"}} />
+            <Text>{"English"}</Text>
+          </Button>
+        ) : (
+          <Button as={Link} to="/">
+            <Flag country="france" css={{width: "25px"}} />
+            <Text>{"Français"}</Text>
+          </Button>
+        )}
         <CedricCircle />
         <Button as={Link} to={menu.items.about.path}>
           <Text>{menu.items.about.name}</Text>

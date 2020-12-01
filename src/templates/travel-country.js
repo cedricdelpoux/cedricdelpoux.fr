@@ -83,7 +83,10 @@ export const pageQuery = graphql`
         ...PaperCountryFragment
       }
     }
-    videos: allYoutubeVideo(filter: {country: {eq: $country}}) {
+    videos: allYoutubeVideo(
+      filter: {country: {eq: $country}}
+      sort: {fields: statistics___viewCount, order: DESC}
+    ) {
       nodes {
         id
         region

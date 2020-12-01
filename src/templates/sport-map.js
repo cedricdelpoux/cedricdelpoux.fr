@@ -116,7 +116,14 @@ export default ({
         px: 0,
       }}
     >
-      <View css={{flexDirection: "row", gap: 2, alignSelf: "center"}}>
+      <View
+        css={{
+          flexDirection: {_: "column", s: "row"},
+          gap: 2,
+          alignSelf: "center",
+          alignItems: "center",
+        }}
+      >
         <SwitcherSport
           value={type}
           onChange={() =>

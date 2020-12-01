@@ -36,7 +36,10 @@ export const pageQuery = graphql`
         excerpt
       }
     }
-    videos: allYoutubeVideo(filter: {tags: {in: "travel"}}) {
+    videos: allYoutubeVideo(
+      filter: {tags: {in: "travel"}}
+      sort: {fields: statistics___viewCount, order: DESC}
+    ) {
       nodes {
         id
         ...PaperVideoFragment

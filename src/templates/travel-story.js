@@ -80,6 +80,9 @@ export default ({
         css={{
           flexDirection: {_: "column", s: "row"},
           gap: 0,
+          position: {_: "sticky", s: "unset"},
+          height: {_: "100vh", s: "auto"},
+          top: 0,
         }}
       >
         <View
@@ -87,10 +90,8 @@ export default ({
             flex: {s: 1},
             px: {_: 1, s: 2, m: 3},
             gap: 3,
-            height: {_: "70vh", s: "auto"},
+            height: {_: "50vh", s: "auto"},
             overflow: {_: "scroll", s: "auto"},
-            position: {_: "sticky", s: "unset"},
-            top: 0,
           }}
         >
           <Scrollama onStepEnter={onStepEnter}>
@@ -106,7 +107,7 @@ export default ({
         <View
           css={{
             flex: {s: 1},
-            height: {_: "30vh", s: "100vh"},
+            height: {_: "50vh", s: "100vh"},
             position: {s: "sticky"},
             top: {s: 0},
           }}

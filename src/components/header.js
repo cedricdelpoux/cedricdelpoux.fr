@@ -16,7 +16,7 @@ import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
 import React, {useContext, useState} from "react"
 
 import {Button} from "./button"
-import {Flag} from "../components/flag"
+import {Flag} from "./flag"
 import {Icon} from "./icon"
 import {Link} from "./link"
 import {Sidebar} from "./sidebar"
@@ -86,30 +86,33 @@ export const Header = ({locale}) => {
               />
             </View>
           </View>
-          <View css={{flex: 1, alignItems: "center"}}>
-            <Link
-              to={menu.items.home.path}
-              css={{
+          <View
+            as={Link}
+            to={menu.items.home.path}
+            css={{
+              "&&": {
                 display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                height: MENU_ITEM_HEIGHT,
-                fontSize: {_: 3, s: 4},
-                gap: 2,
+              },
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              height: MENU_ITEM_HEIGHT,
+              fontSize: {_: 3, s: 4},
+              gap: 2,
+            }}
+          >
+            <View css={{flex: 1, textAlign: "right"}}>{"Cédric"}</View>
+            <View
+              as={IconCed}
+              css={{
+                height: "30px",
+                "& path": {
+                  stroke: "url(#svg-gradient)",
+                },
               }}
-            >
-              <Text>{"Cédric"}</Text>
-              <Text
-                as={IconCed}
-                css={{
-                  height: "30px",
-                  "& path": {
-                    stroke: "url(#svg-gradient)",
-                  },
-                }}
-              />
-              <Text>{"Delpoux"}</Text>
-            </Link>
+            />
+            <View css={{flex: 1}}>{"Delpoux"}</View>
           </View>
           <View
             css={{
@@ -154,6 +157,9 @@ export const Header = ({locale}) => {
                   url: item.path,
                   label: item.name,
                 }))}
+                css={{
+                  width: `${100 / Object.keys(menu.categories).length}%`,
+                }}
               />
             ))}
           </View>

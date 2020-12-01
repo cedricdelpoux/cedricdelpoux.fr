@@ -53,10 +53,11 @@ export default ({children, pageContext}) => {
     <>
       <Helmet>
         <html lang={pageContext.locale} />
-        <meta property="og:locale" content={pageContext.locale} />
-        <title>{"Cédric Delpoux"}</title>
         <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
-        <meta name="robots" content="noindex, nofollow" />
+        <title>{"Cédric Delpoux"}</title>
+        <meta charSet="utf-8" />
+        <meta property="og:locale" content={pageContext.locale} />
+        <meta property="og:type" content="website" />
       </Helmet>
       <View
         as="svg"

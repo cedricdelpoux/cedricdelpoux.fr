@@ -82,14 +82,10 @@ export const LayoutPage = ({
     <>
       <Helmet>
         <title>{metaTitle}</title>
-        <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
-        <meta charSet="utf-8" />
         <meta property="image" content={ogImageUrl} />
         <meta property="og:image" content={ogImageUrl} />
-        <meta property="og:type" content="website" />
         <meta property="og:title" content={metaTitle} />
         <meta property="og:site_name" content={siteMetadata.title} />
-        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       {description && (
         <Helmet>

@@ -86,7 +86,10 @@ export const pageQuery = graphql`
     ) {
       ...PaperStoryFragment
     }
-    videos: allYoutubeVideo(filter: {tags: {in: [$region]}}) {
+    videos: allYoutubeVideo(
+      filter: {tags: {in: [$region]}}
+      sort: {fields: statistics___viewCount, order: DESC}
+    ) {
       nodes {
         id
         ...PaperVideoFragment

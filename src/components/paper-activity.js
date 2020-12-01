@@ -16,7 +16,7 @@ import {Paper} from "./paper"
 import {Text} from "./text"
 import {View} from "./view"
 import {
-  metersPerSecondToMinPerKm,
+  metersPerSecondTokmPerHour,
   metersToKilometers,
 } from "../utils/convertors"
 import {secondsToHms} from "../utils/formattors"
@@ -119,11 +119,11 @@ export const PaperActivity = ({
             )}
             {timeObject.m > 0 && (
               <>
-                <Text css={{fontSize: 3}}>{timeObject.m}</Text>
+                <Text css={{fontSize: 3}}>{" " + timeObject.m}</Text>
                 <Text css={{fontSize: 2}}>m</Text>
               </>
             )}
-            <Text css={{fontSize: 3}}>{timeObject.s}</Text>
+            <Text css={{fontSize: 3}}>{" " + timeObject.s}</Text>
             <Text css={{fontSize: 2}}>s</Text>
           </Text>
         </GridItem>
@@ -150,9 +150,9 @@ export const PaperActivity = ({
           />
           <Text>
             <Text css={{fontSize: 3}}>
-              {metersPerSecondToMinPerKm(average_speed)}
+              {metersPerSecondTokmPerHour(average_speed)}
             </Text>
-            <Text css={{fontSize: 2}}>{'"/km'}</Text>
+            <Text css={{fontSize: 2}}>{" km/h"}</Text>
           </Text>
         </GridItem>
       </Grid>

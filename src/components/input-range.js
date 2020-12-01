@@ -37,6 +37,7 @@ export default ({minValue, maxValue, onChange, unit, ...props}) => {
         step={1}
         min={minValue}
         max={maxValue}
+        allowOverlap={true}
         onChange={([min, max]) => {
           setValue({min, max})
         }}
@@ -56,6 +57,8 @@ export default ({minValue, maxValue, onChange, unit, ...props}) => {
               height: theme.space[1],
               borderRadius: 2,
               boxShadow: theme.boxShadow,
+              transitionDuration: theme.transition,
+              transitionProperty: "background",
             }}
           >
             {children}
@@ -77,6 +80,7 @@ export default ({minValue, maxValue, onChange, unit, ...props}) => {
               "&:focus": {
                 outline: "none",
               },
+              whiteSpace: "nowrap",
             }}
             style={props.style}
           >
