@@ -13,6 +13,7 @@ import {SwitcherSport} from "../components/switcher-sport"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {useMenu} from "../hooks/use-menu"
 
 export default ({
   data: {
@@ -27,7 +28,9 @@ export default ({
     latestRuns,
     latestRides,
   },
+  pageContext: {locale},
 }) => {
+  const menu = useMenu(locale)
   const [sport, setSport] = useState("Run")
   const activities = useMemo(
     () => (sport === "Run" ? latestRuns.nodes : latestRides.nodes),
@@ -79,7 +82,7 @@ export default ({
         </View>
       </Masonry>
       <View css={{alignSelf: "center"}}>
-        <Button as={Link} to="/sport/activities">
+        <Button as={Link} to={menu.categories.sport.items[0].path}>
           <Text>
             <FormattedMessage id="actions.see-more" />
           </Text>

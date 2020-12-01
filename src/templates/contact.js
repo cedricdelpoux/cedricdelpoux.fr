@@ -79,6 +79,7 @@ export default ({
         data-netlify="true"
         data-netlify-recaptcha="true"
       >
+        <input type="hidden" name="form-name" value="contact" />
         <Label>
           <Text gradient css={{fontWeight: "bold"}}>
             <FormattedMessage id="contact.form.email" />
