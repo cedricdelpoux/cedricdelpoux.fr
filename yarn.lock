@@ -8518,10 +8518,10 @@ gatsby-source-strava@^2.0.0-beta.12:
     strava-v3 "^2.0.6"
     system-sleep "^1.3.6"
 
-gatsby-source-youtube@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/gatsby-source-youtube/-/gatsby-source-youtube-2.2.0.tgz#25006d3f51d580c011c71f6f224cb86122a97f1e"
-  integrity sha512-iI1rN8ajI62DKE0CxcTfwkp4rs2cW2wRqxJGHYLJ61p0QbGFh9KFGz6WskjBdzwSqW0+1PHEcHGUG8Lx8TOoUA==
+gatsby-source-youtube@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-youtube/-/gatsby-source-youtube-2.3.0.tgz#bbb02078a25b2cdfcc54f81a27b285df4b65fae5"
+  integrity sha512-LfdSafLWi9m4IPuSrR5jX5OqYcv0hn8z8avzrcvkY7y8FEqhs8mKHj07kxYyuFioAZFHLTtLM9Js+V026SgZkg==
   dependencies:
     gatsby-source-filesystem "^2.3.31"
     google-oauth2-env-vars "^1.1.0"
