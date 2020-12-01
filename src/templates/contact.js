@@ -3,7 +3,8 @@ import {ThemeContext} from "css-system"
 import {animated} from "react-spring"
 import {faPaperPlane} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
-import React, {useContext} from "react"
+import {navigate} from "gatsby-link"
+import React, {useCallback, useContext} from "react"
 
 import {Button} from "../components/button"
 import {LayoutPage} from "../layouts/page"
@@ -53,6 +54,11 @@ const Input = ({css, as = "input", ...props}) => {
   )
 }
 
+const encode = (data) =>
+  Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&")
+
 export default ({
   data: {
     googleDocs: {
@@ -63,6 +69,24 @@ export default ({
   pageContext: {locale},
 }) => {
   const menu = useMenu(locale)
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault()
+    const form = e.target
+    fetch("/", {
+      method: "POST",
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: encode({
+        "form-name": form.getAttribute("name"),
+        email: form.email.value,
+        name: form.name.value,
+        message: form.message.value,
+      }),
+    })
+      .then(() => navigate(form.getAttribute("action")))
+      .catch((error) => alert(error))
+  }, [])
+
   return (
     <LayoutPage title={title} description={excerpt} html={html}>
       <View
@@ -78,8 +102,8 @@ export default ({
         name="contact"
         data-netlify="true"
         data-netlify-recaptcha="true"
+        onSubmit={handleSubmit}
       >
-        <input type="hidden" name="form-name" value="contact" />
         <Label>
           <Text gradient css={{fontWeight: "bold"}}>
             <FormattedMessage id="contact.form.email" />
