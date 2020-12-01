@@ -100,5 +100,6 @@
     "*.{css,js,md}": [
       "prettier --write"
     ]
-  }
+  },
+  "browserslist": "last 2 versions and >0.25% and not IE 11"
 }
