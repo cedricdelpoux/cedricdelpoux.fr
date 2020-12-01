@@ -12,8 +12,11 @@ const {
 
 const {colors} = require("./theme.js")
 const {transformMymaps} = require("./src/utils/node/transform-mymaps")
-const {transformStravaActivity} = require("./src/utils/node/transform-strava")
 const {transformYoutubeVideo} = require("./src/utils/node/transform-youtube")
+const {
+  transformStravaActivity,
+  transformStravaAthlete,
+} = require("./src/utils/node/transform-strava")
 const {
   transformGooglePhotosAlbum,
 } = require("./src/utils/node/transform-google-photos")
@@ -221,7 +224,6 @@ module.exports = {
         ],
       },
     },
-    "gatsby-plugin-loadable-components-ssr",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-remove-trailing-slashes",
     "gatsby-plugin-netlify",

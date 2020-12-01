@@ -474,7 +474,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
 
-"@babel/plugin-syntax-dynamic-import@^7.7.4", "@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
+"@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==
@@ -1004,7 +1004,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4":
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
@@ -1704,36 +1704,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     regenerator-runtime "^0.13.3"
-
-"@loadable/babel-plugin@^5.12.0":
-  version "5.13.2"
-  resolved "https://registry.yarnpkg.com/@loadable/babel-plugin/-/babel-plugin-5.13.2.tgz#373cddc64ee5437814f7dca1c1b6a7b2c1665a9f"
-  integrity sha512-vSZUVeTH1S1sDbk8Tzft0plZSkN7W4zmVR5w/Bmy4UmvBiu9lin7ztrDpoUTUzxpoups+OJbTc/OosvN0aMXWg==
-  dependencies:
-    "@babel/plugin-syntax-dynamic-import" "^7.7.4"
-
-"@loadable/component@^5.14.1":
-  version "5.14.1"
-  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.14.1.tgz#cacd807162430bb85ae085945318027a600adc85"
-  integrity sha512-UQBZfZrp1FLTf8RNhljXNHFNY4QhAA1L2+GOEeABBFre9TD0aFyQh3Sai5QxcOfy+FTbjIfti5iHaNRR7yUzEQ==
-  dependencies:
-    "@babel/runtime" "^7.7.7"
-    hoist-non-react-statics "^3.3.1"
-    react-is "^16.12.0"
-
-"@loadable/server@^5.12.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@loadable/server/-/server-5.14.0.tgz#8aa83166aaad7401a14d8a1b04a7e1cc169ca6c4"
-  integrity sha512-oiZiHzUdkOsDzZNXU6fsZ7U0W3+nWZRljVCFCeR8CZSXEKUfXAllUf8tx5G385q7vapAQpXM7U8EzgDns3Q4vQ==
-  dependencies:
-    lodash "^4.17.15"
-
-"@loadable/webpack-plugin@^5.12.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@loadable/webpack-plugin/-/webpack-plugin-5.14.0.tgz#656cb298c4b30d3b93cfe6ebf227d9709685f357"
-  integrity sha512-md9Nm6o+OjWJH6RgHcYsbko36YDKG2zuM19rFYkQsktdfq+JnbwOCp3hVhZM7L8V1M4MP3uJfmxKh6QGOnk4+w==
-  dependencies:
-    make-dir "^3.0.2"
 
 "@mapbox/geojson-rewind@^0.5.0":
   version "0.5.0"
@@ -8135,17 +8105,6 @@ gatsby-plugin-layout@^1.5.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-gatsby-plugin-loadable-components-ssr@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-loadable-components-ssr/-/gatsby-plugin-loadable-components-ssr-2.1.0.tgz#cafb98df82ec029d5380a2dcf4816fd572f52dfe"
-  integrity sha512-/jifBSNo+JuzPO91OrO4jYh2j2bqNYA0oiG3/6GkY6vkF9GmwyUpcnThRdiju2l3CReuKpvI5A8nDP6I6iCaSA==
-  dependencies:
-    "@babel/runtime" "^7.9.6"
-    "@loadable/babel-plugin" "^5.12.0"
-    "@loadable/server" "^5.12.0"
-    "@loadable/webpack-plugin" "^5.12.0"
-    react-dom "^16.12.0"
-
 gatsby-plugin-lodash@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-lodash/-/gatsby-plugin-lodash-3.5.0.tgz#54fde321e2530718fcd025ebd2204f1d81b87504"
@@ -8259,11 +8218,6 @@ gatsby-plugin-sitemap@^2.7.0:
     minimatch "^3.0.4"
     pify "^3.0.0"
     sitemap "^1.13.0"
-
-gatsby-plugin-translate-urls@^1.0.0-beta.4:
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-translate-urls/-/gatsby-plugin-translate-urls-1.0.0-beta.4.tgz#ea35b3c94332c00c63f12d5ea0bd8f097cf09388"
-  integrity sha512-oS1kbtkacsZ8vQhxfHq/dUbzVWaiZpify38LBnUyLKVbgc6YGG4/y0PhBxUPGqsKbbAVnkA0vFct4qQ/2eQj7w==
 
 gatsby-plugin-typescript@^2.7.0:
   version "2.7.0"
@@ -8634,10 +8588,10 @@ gatsby-transformer-sharp@^2.7.0:
     semver "^7.3.2"
     sharp "^0.26.3"
 
-gatsby@^2.27.4:
-  version "2.27.4"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.27.4.tgz#560d9e7f20c809e4c754f801ba2715a26c498eb4"
-  integrity sha512-gpgKkb2/tP4E06F/0SJ+iH+rg0rkSH9d2u8v+RAwm96Z6idwMitGu6pgjhRquNtZdhsM1wghVmQt4P5MM0a1yg==
+gatsby@^2.27.5:
+  version "2.27.5"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.27.5.tgz#bc41898a5053f169efcdc459237f6b799f8ac63b"
+  integrity sha512-lIzS60367UJ/9gqRDTwOMftc5xVhWFRe2/mSv8KAeg8iU1uQgHsIFwEg1mUACIlbb0Dxf7S7QxwyCyJfXC3hrQ==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/core" "^7.12.3"
@@ -9624,7 +9578,7 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -14069,7 +14023,7 @@ react-disqus-comments@^1.4.0:
   resolved "https://registry.yarnpkg.com/react-disqus-comments/-/react-disqus-comments-1.4.0.tgz#bf56ff319a35d086f3070d31a4f70ed21ce3a958"
   integrity sha512-NkCNsnBSujliii5N2HbA6Wy5z2s6GtCtPaJ0D6GWNMSKnP8wmEtQ3u2qAeG9+xHJE2cMRFmfqMpDeJtBay38RA==
 
-react-dom@^16.12.0, react-dom@^16.13.1:
+react-dom@^16.13.1:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
   integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
@@ -14166,10 +14120,10 @@ react-responsive-masonry@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-responsive-masonry/-/react-responsive-masonry-2.1.0.tgz#5ef1c38c0ac542776ab29ff97a0adfa7f8bc929c"
   integrity sha512-sAMV04NcanmusNdCMRmLoT6YJU/kQ7s1PEG1Ycnx1aQU4iqZfmADlcletEhEBl5jT0EPatHrgW5/d3LNTy37oQ==
 
-react-scrollama@2.2.7:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.7.tgz#52b42ba4715d2ad6651204623420580c3b229e43"
-  integrity sha512-IaQg8+tThOJrQCJE/oRaF4JVWvYM2X7KB/DJl3lc8xW64GOfA39Lnbrr24xbk4Sk4ibEcBMlh0cu2j/UAd+buw==
+react-scrollama@2.2.13:
+  version "2.2.13"
+  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.13.tgz#87079704c930e4ecdaaf37641a61c7bb2d7aa644"
+  integrity sha512-mndwFqgD4NmqCiDOY2K6OBXf3SyMNE3mdEW1DHDdYxM8FBUVcCURJHloml3l/IZzb7cLwemkAAKSGoSvMXiOHw==
 
 react-share@^4.3.1:
   version "4.3.1"
