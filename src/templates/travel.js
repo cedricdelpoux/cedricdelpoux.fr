@@ -9,6 +9,7 @@ import {Html} from "../components/html"
 import {Text} from "../components/text"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
+import {useMenu} from "../hooks/use-menu"
 
 export default ({
   data: {
@@ -17,7 +18,9 @@ export default ({
       childMarkdownRemark: {html, excerpt},
     },
   },
+  pageContext: {locale},
 }) => {
+  const menu = useMenu(locale)
   return (
     <LayoutPage title={title} description={excerpt}>
       <View css={{alignSelf: "center"}}>
