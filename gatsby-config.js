@@ -1,7 +1,5 @@
 require("dotenv").config()
 
-const cityReverseGeocoder = require("city-reverse-geocoder")
-
 const {
   NODE_ENV,
   GITHUB_TOKEN,
@@ -15,6 +13,10 @@ const {
 const {colors} = require("./theme.js")
 const {transformMymaps} = require("./src/utils/node/transform-mymaps")
 const {transformStravaActivity} = require("./src/utils/node/transform-strava")
+const {transformYoutubeVideo} = require("./src/utils/node/transform-youtube")
+const {
+  transformGooglePhotosAlbum,
+} = require("./src/utils/node/transform-google-photos")
 
 module.exports = {
   siteMetadata: {
@@ -59,104 +61,15 @@ module.exports = {
           extend: ({activity}) => transformStravaActivity(activity),
         },
         athlete: {
-          extend: ({activities, athlete}) => {
-            const sortByPopularity = (a, b) => b.count - a.count
-            const activitiesTypes = ["Run", "Ride"]
-            let countByTypes = activitiesTypes.reduce(
-              (acc, type) => ({...acc, [type]: 0}),
-              {}
-            )
-            let countByCities = activitiesTypes.reduce(
-              (acc, type) => ({...acc, [type]: []}),
-              {}
-            )
-            let countByCountries = activitiesTypes.reduce(
-              (acc, type) => ({...acc, [type]: []}),
-              {}
-            )
-
-            activities
-              .filter(
-                (activity) =>
-                  activitiesTypes.includes(activity.type) &&
-                  activity.map.summary_polyline
-              )
-              .forEach((activity) => {
-                const nearestCities = cityReverseGeocoder(
-                  activity.start_latlng[0],
-                  activity.start_latlng[1]
-                )
-
-                const {city, country, latitude, longitude} = nearestCities[0]
-
-                const countryIndex = countByCountries[activity.type].findIndex(
-                  (c) => c.name === country
-                )
-
-                if (countryIndex !== -1) {
-                  countByCountries[activity.type][countryIndex].count++
-                } else {
-                  countByCountries[activity.type].push({
-                    name: country,
-                    count: 1,
-                  })
-                }
-
-                const cityIndex = countByCities[activity.type].findIndex(
-                  (c) => c.name === city
-                )
-                if (cityIndex !== -1) {
-                  countByCities[activity.type][cityIndex].count++
-                } else {
-                  countByCities[activity.type].push({
-                    name: city,
-                    country,
-                    latitude,
-                    longitude,
-                    count: 1,
-                  })
-                }
-
-                countByTypes[activity.type]++
-              })
-
-            activitiesTypes.forEach((type) => {
-              countByCities[type].sort(sortByPopularity)
-              countByCountries[type].sort(sortByPopularity)
-            })
-
-            athlete.activitiesCounts = {
-              types: countByTypes,
-              cities: countByCities,
-              countries: countByCountries,
-            }
-          },
+          extend: ({activities, athlete}) =>
+            transformStravaAthlete(athlete, activities),
         },
       },
     },
     {
       resolve: "gatsby-source-youtube",
       options: {
-        updateVideo: (video) => {
-          const countryTag = video.tags.find((tag) => tag.startsWith("country"))
-          const regionTag = video.tags.find((tag) => tag.startsWith("region"))
-          let country
-          let region
-
-          if (countryTag) {
-            ;[, country] = countryTag.split(":")
-          }
-
-          if (regionTag) {
-            ;[, region] = regionTag.split(":")
-          }
-
-          return {
-            ...video,
-            country,
-            region,
-          }
-        },
+        updateVideo: (video) => transformYoutubeVideo(video),
       },
     },
     {
@@ -186,15 +99,7 @@ module.exports = {
           //   "Denmark",
           //   "Belgium",
         ],
-        albumsUpdate: (album) => {
-          const [, category, country, region] = album.title.split("/")
-          return {
-            ...album,
-            category,
-            country,
-            region,
-          }
-        },
+        albumsUpdate: (album) => transformGooglePhotosAlbum(album),
         photosMaxWidth: NODE_ENV === "development" ? 512 : 1024,
         debug: true,
       },
@@ -384,7 +289,7 @@ module.exports = {
               }
             `,
             output: "/rss.xml",
-            title: "Cédric Delpoux - Sport",
+            title: "Cédric Delpoux",
           },
         ],
       },

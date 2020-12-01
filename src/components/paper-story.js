@@ -6,8 +6,8 @@ import {Title} from "./title"
 import {View} from "./view"
 import {useMapbox} from "../hooks/use-mapbox"
 
-export const PaperStory = ({fields: {slug}, name, polyline, ...props}) => {
-  const mapUrl = useMapbox(polyline)
+export const PaperStory = ({fields: {slug}, name, map, ...props}) => {
+  const mapUrl = useMapbox(map.polyline)
   return (
     <Paper to={slug} css={{px: 0, pb: 0}} {...props}>
       <Title as="h2" css={{mx: 3, my: 3}}>
@@ -24,6 +24,8 @@ export const query = graphql`
       slug
     }
     name
-    polyline
+    map {
+      polyline
+    }
   }
 `

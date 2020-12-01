@@ -26,7 +26,7 @@ export default ({
 }
 
 export const pageQuery = graphql`
-  query TravelCountry($path: String!, $locale: String!) {
+  query TravelCountries($path: String!, $locale: String!) {
     googleDocs(fields: {slug: {eq: $path}}) {
       name
       childMarkdownRemark {
