@@ -5,6 +5,7 @@ import {faPaperPlane} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
 import {navigate} from "gatsby-link"
 import React, {useCallback, useContext} from "react"
+import {useLocation} from "@reach/router"
 
 import {Button} from "../components/button"
 import {LayoutPage} from "../layouts/page"
@@ -69,23 +70,28 @@ export default ({
   pageContext: {locale},
 }) => {
   const menu = useMenu(locale)
+  const location = useLocation()
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault()
-    const form = e.target
-    fetch("/", {
-      method: "POST",
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: encode({
-        "form-name": form.getAttribute("name"),
-        email: form.email.value,
-        name: form.name.value,
-        message: form.message.value,
-      }),
-    })
-      .then(() => navigate(form.getAttribute("action")))
-      .catch((error) => alert(error))
-  }, [])
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+      const form = e.target
+      location.pathname
+      fetch(location.pathname, {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: encode({
+          "form-name": form.getAttribute("name"),
+          email: form.email.value,
+          name: form.name.value,
+          message: form.message.value,
+        }),
+      })
+        .then(() => navigate(form.getAttribute("action")))
+        .catch((error) => alert(error))
+    },
+    [location]
+  )
 
   return (
     <LayoutPage title={title} description={excerpt} html={html}>
@@ -104,6 +110,7 @@ export default ({
         data-netlify-recaptcha="true"
         onSubmit={handleSubmit}
       >
+        <input type="hidden" name="form-name" value="contact" />
         <Label>
           <Text gradient css={{fontWeight: "bold"}}>
             <FormattedMessage id="contact.form.email" />
