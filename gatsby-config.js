@@ -37,10 +37,10 @@ module.exports = {
             {
               family: "Quicksand",
               variants: ["400", "700"],
+              fontDisplay: "block",
             },
           ],
         },
-        fontDisplay: "fallback",
         formats: ["woff2"],
         usePreload: true,
       },
