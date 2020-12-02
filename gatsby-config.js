@@ -57,6 +57,7 @@ module.exports = {
         },
       },
     },
+    "gatsby-plugin-preact",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-plugin-react-helmet",
@@ -299,6 +300,7 @@ module.exports = {
         ],
       },
     },
-    "gatsby-plugin-offline"
+    "gatsby-plugin-offline",
+    "gatsby-plugin-webpack-bundle-analyser-v2",
   ],
 }

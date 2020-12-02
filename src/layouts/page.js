@@ -35,17 +35,16 @@ export const LayoutPage = ({
   const childrenArray = flattenChildren(children)
 
   /* Animations */
-  // const animationTitle = title ? 1 : 0
-  // const animationMetadata = metadata ? 1 : 0
-  // const animationCover = cover ? 1 : 0
-  // const animationHtml = html ? 1 : 0
-  // const animationsCount =
-  //   childrenArray.length +
-  //   animationTitle +
-  //   animationMetadata +
-  //   animationCover +
-  //   animationHtml
-  const animationsCount = 0
+  const animationTitle = title ? 1 : 0
+  const animationMetadata = metadata ? 1 : 0
+  const animationCover = cover ? 1 : 0
+  const animationHtml = html ? 1 : 0
+  const animationsCount =
+    childrenArray.length +
+    animationTitle +
+    animationMetadata +
+    animationCover +
+    animationHtml
   const animations = useTrail(animationsCount, {
     from: {opacity: 0, transform: "translate3d(0, -30px, 0)"},
     to: {opacity: 1, transform: "translate3d(0, 0, 0)"},
@@ -74,7 +73,7 @@ export const LayoutPage = ({
       }
     }
   `)
-  
+
   const coverImage = cover?.image || metaLayoutImage
   const metaImage = siteMetadata.siteUrl + coverImage.childImageSharp.fixed.src
   const metaTitle = title || siteMetadata.title
