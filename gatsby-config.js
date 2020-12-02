@@ -29,11 +29,22 @@ module.exports = {
     siteUrl: "https://cedricdelpoux.fr",
   },
   plugins: [
-    "gatsby-plugin-sharp",
-    "gatsby-transformer-sharp",
-    "gatsby-plugin-react-helmet",
-    "gatsby-plugin-lodash",
-    "gatsby-plugin-layout",
+    {
+      resolve: "gatsby-plugin-webfonts",
+      options: {
+        fonts: {
+          google: [
+            {
+              family: "Quicksand",
+              variants: ["400", "700"],
+            },
+          ],
+        },
+        formats: ["woff2"],
+        usePreload: true,
+        usePreconnect: true
+      },
+    },
     {
       resolve: "@css-system/gatsby-plugin-css-system",
       options: require("./theme.js"),
@@ -46,6 +57,11 @@ module.exports = {
         },
       },
     },
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-react-helmet",
+    "gatsby-plugin-lodash",
+    "gatsby-plugin-layout",
     {
       resolve: "gatsby-source-strava",
       options: {
@@ -227,19 +243,6 @@ module.exports = {
     "gatsby-plugin-sitemap",
     "gatsby-plugin-remove-trailing-slashes",
     "gatsby-plugin-netlify",
-    {
-      resolve: `gatsby-plugin-webfonts`,
-      options: {
-        fonts: {
-          google: [
-            {
-              family: "Quicksand",
-              variants: ["400", "700"],
-            },
-          ],
-        },
-      },
-    },
     {
       resolve: `gatsby-plugin-feed`,
       options: {
