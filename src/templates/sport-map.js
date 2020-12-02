@@ -18,7 +18,6 @@ import React, {
   useMemo,
   useState,
 } from "react"
-import polyline from "@mapbox/polyline"
 
 import {Button} from "../components/button"
 import {LayoutPage} from "../layouts/page"
@@ -186,7 +185,7 @@ export default ({
                       activity,
                       type: activity.type,
                     },
-                    geometry: polyline.toGeoJSON(activity.map.summary_polyline),
+                    geometry: activity.map.geoJSON,
                   })),
                 }}
               />
@@ -330,7 +329,7 @@ export const pageQuery = graphql`
       filter: {
         activity: {
           type: {in: ["Run", "Ride", "Hike"]}
-          map: {summary_polyline: {ne: null}}
+          map: {geoJSON: {ne: null}}
         }
       }
       sort: {fields: [activity___start_date], order: DESC}

@@ -1,4 +1,6 @@
-import chroma from "chroma-js"
+import Loadable from "@loadable/component"
+
+const chroma = Loadable(() => import("chroma-js"))
 
 const generateColorsRange = ({colors, min, max}) => {
   return chroma
@@ -13,4 +15,15 @@ const getColorFromRange = (colorsRange, value) => {
 
 const getRgbFromHex = (hex) => chroma(hex).rgb()
 
-export {generateColorsRange, getColorFromRange, getRgbFromHex}
+const getColorWithOpacity = (color, opacity) =>
+  chroma(color).alpha(opacity).hex()
+
+const getColorsScale = (colors) => chroma.scale(colors)
+
+export {
+  getColorWithOpacity,
+  getColorsScale,
+  generateColorsRange,
+  getColorFromRange,
+  getRgbFromHex,
+}

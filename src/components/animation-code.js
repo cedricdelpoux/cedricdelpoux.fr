@@ -1,9 +1,9 @@
 import {ThemeContext, useKeyframes} from "css-system"
 import React, {useContext} from "react"
-import chroma from "chroma-js"
 
 import {Text} from "./text"
 import {View} from "./view"
+import {getColorWithOpacity} from "../utils/colors"
 
 const typingStep = 50
 
@@ -99,7 +99,7 @@ export const AnimationCode = ({css, ...props}) => {
           flex: 1,
           alignItems: "flex-start",
           zIndex: 1,
-          background: chroma(theme.colors.background).alpha(0.4).hex(),
+          background: getColorWithOpacity(theme.colors.background, 0.4),
           position: "absolute",
           left: 0,
           right: 0,

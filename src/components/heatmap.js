@@ -1,7 +1,6 @@
 import {ThemeContext} from "css-system"
 import {graphql} from "gatsby"
-import {startOfWeek, subWeeks} from "date-fns"
-import CalendarHeatmap from "react-calendar-heatmap"
+import Loadable from "@loadable/component"
 import React, {useContext, useState} from "react"
 
 import {Masonry} from "./masonry"
@@ -10,6 +9,10 @@ import {Sidebar} from "./sidebar"
 import {View} from "./view"
 import {generateColorsRange, getColorFromRange} from "../utils/colors"
 import {metersToKilometers} from "../utils/convertors"
+
+const CalendarHeatmap = Loadable(() => import("react-calendar-heatmap"))
+const startOfWeek = Loadable(() => import("date-fns/startOfWeek"))
+const subWeeks = Loadable(() => import("date-fns/subWeeks"))
 
 const weeksCount = 42
 const endDate = new Date()

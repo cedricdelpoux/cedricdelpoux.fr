@@ -1,6 +1,6 @@
 import "mapbox-gl/dist/mapbox-gl.css"
 
-import {Scrollama, Step} from "react-scrollama"
+import Loadable from "@loadable/component"
 import {ThemeContext, useGlobalCss} from "css-system"
 import {graphql} from "gatsby"
 import MapGL, {
@@ -10,13 +10,14 @@ import MapGL, {
   NavigationControl,
   ScaleControl,
 } from "@urbica/react-map-gl"
-
 import React, {useCallback, useContext, useMemo, useState} from "react"
-import chroma from "chroma-js"
 
 import {Html} from "../components/html"
 import {LayoutPage} from "../layouts/page"
 import {View} from "../components/view"
+import {getColorsScale} from "../utils/colors"
+
+const {Scrollama, Step} = Loadable(() => import("react-scrollama"))
 
 export default ({
   data: {
@@ -35,7 +36,7 @@ export default ({
   })
 
   const colorsScale = useMemo(
-    () => chroma.scale([theme.colors.secondary, theme.colors.primary]),
+    () => getColorsScale([theme.colors.secondary, theme.colors.primary]),
     [theme]
   )
 

@@ -1,7 +1,6 @@
 import {FormattedMessage} from "react-intl"
 import {graphql} from "gatsby"
 import React, {useMemo, useState} from "react"
-import ReactTooltip from "react-tooltip"
 
 import {Button} from "../components/button"
 import {Heatmap} from "../components/heatmap"
@@ -88,7 +87,6 @@ export default ({
           </Text>
         </Button>
       </View>
-      <ReactTooltip />
     </LayoutPage>
   )
 }

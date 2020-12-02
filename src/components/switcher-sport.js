@@ -1,10 +1,12 @@
+import Loadable from "@loadable/component"
 import {ThemeContext} from "css-system"
 import {faBiking, faRunning} from "@fortawesome/pro-light-svg-icons"
 import React, {useContext} from "react"
-import Switch from "react-neumorphic-toggle"
 
 import {Icon} from "./icon"
 import {View} from "../components/view"
+
+const Switch = Loadable(() => import("react-neumorphic-toggle"))
 
 export const SwitcherSport = ({value, onChange, css, ...props}) => {
   const theme = useContext(ThemeContext)

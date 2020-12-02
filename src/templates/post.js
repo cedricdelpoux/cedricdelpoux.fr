@@ -1,4 +1,17 @@
-import {
+import {FormattedMessage} from "react-intl"
+import {Helmet} from "react-helmet"
+import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
+import {graphql} from "gatsby"
+import React from "react"
+import Loadable from "@loadable/component"
+
+import {Html} from "../components/html"
+import {LayoutPage} from "../layouts/page"
+import {Title} from "../components/title"
+import {View} from "../components/view"
+
+const ReactDisqusComments = Loadable(() => import("react-disqus-comments"))
+const {
   EmailIcon,
   EmailShareButton,
   FacebookIcon,
@@ -9,18 +22,7 @@ import {
   WhatsappShareButton,
   PocketShareButton,
   PocketIcon,
-} from "react-share"
-import {FormattedMessage} from "react-intl"
-import {Helmet} from "react-helmet"
-import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
-import {graphql} from "gatsby"
-import React from "react"
-import ReactDisqusComments from "react-disqus-comments"
-
-import {Html} from "../components/html"
-import {LayoutPage} from "../layouts/page"
-import {Title} from "../components/title"
-import {View} from "../components/view"
+} = Loadable(() => import("react-share"))
 
 export default ({
   data: {

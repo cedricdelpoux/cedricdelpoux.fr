@@ -1,7 +1,12 @@
 import {ThemeContext} from "css-system"
 import {graphql, useStaticQuery} from "gatsby"
-import React, {useState, useEffect, useContext} from "react"
-import _sample from "lodash/sample"
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from "react"
 
 import {View} from "./view"
 
@@ -1881,14 +1886,22 @@ export const AnimationTravel = () => {
       }
     }
   `)
-  const countries = [...data.countries.distinct, ...data.regions.distinct]
-  const [country, setCountry] = useState(_sample(countries))
+
+  const countries = useMemo(
+    () => [...data.countries.distinct, ...data.regions.distinct],
+    [data]
+  )
+  const getRandomCountry = useCallback(
+    () => countries[Math.floor(Math.random() * countries.length)],
+    [countries]
+  )
+  const [country, setCountry] = useState(getRandomCountry())
   useEffect(() => {
     let id = setInterval(() => {
-      setCountry(_sample(countries))
+      setCountry(getRandomCountry())
     }, 500)
     return () => clearInterval(id)
-  }, [countries])
+  }, [getRandomCountry])
 
   return <World selectedCountries={[country]} />
 }

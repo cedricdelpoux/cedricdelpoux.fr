@@ -37,7 +37,7 @@ module.exports = {
             {
               family: "Quicksand",
               variants: ["400", "700"],
-              fontDisplay: "block",
+              fontDisplay: "fallback",
             },
           ],
         },
@@ -61,7 +61,6 @@ module.exports = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-plugin-react-helmet",
-    "gatsby-plugin-lodash",
     "gatsby-plugin-layout",
     {
       resolve: "gatsby-source-strava",
