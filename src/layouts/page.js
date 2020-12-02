@@ -85,12 +85,8 @@ export const LayoutPage = ({
         <meta property="og:image" content={metaImage} />
         <meta property="og:title" content={metaTitle} />
         <meta property="og:site_name" content={siteMetadata.title} />
+        <meta name="description" content={description || ""} />
       </Helmet>
-      {description && (
-        <Helmet>
-          <meta name="description" content={description} />
-        </Helmet>
-      )}
       <View
         css={{
           flex: 1,

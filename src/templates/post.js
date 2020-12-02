@@ -8,7 +8,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
   PocketShareButton,
-  PocketShareIcon,
+  PocketIcon,
 } from "react-share"
 import {FormattedMessage} from "react-intl"
 import {Helmet} from "react-helmet"
@@ -78,7 +78,7 @@ export default ({
           <WhatsappIcon size={48} round />
         </WhatsappShareButton>
         <PocketShareButton title={title}>
-          <PocketShareIcon size={48} round />
+          <PocketIcon size={48} round />
         </PocketShareButton>
         <FacebookShareButton url={absoluteUrl} quote={excerpt}>
           <FacebookIcon size={48} round />
