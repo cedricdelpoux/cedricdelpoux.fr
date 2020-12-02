@@ -4,7 +4,6 @@ import {graphql, useStaticQuery} from "gatsby"
 import {useTrail} from "react-spring"
 import Img from "gatsby-image"
 import React, {useContext} from "react"
-import path from "path"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -74,9 +73,10 @@ export const LayoutPage = ({
       }
     }
   `)
+  
+  const coverImage = cover?.image || metaLayoutImage
+  const metaImage = siteMetadata.siteUrl + coverImage.childImageSharp.fixed.src
   const metaTitle = title || siteMetadata.title
-  const metaImage = cover?.image || metaLayoutImage
-  const metaImage = siteMetadata.siteUrl + metaImage.childImageSharp.fixed.src
   return (
     <>
       <Helmet>
