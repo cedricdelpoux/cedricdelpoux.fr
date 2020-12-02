@@ -76,14 +76,13 @@ export const LayoutPage = ({
   `)
   const metaTitle = title || siteMetadata.title
   const metaImage = cover?.image || metaLayoutImage
-  const ogImagePath = metaImage.childImageSharp.fixed.src
-  const ogImageUrl = path.join(siteMetadata.siteUrl, ogImagePath)
+  const metaImage = siteMetadata.siteUrl + metaImage.childImageSharp.fixed.src
   return (
     <>
       <Helmet>
         <title>{metaTitle}</title>
-        <meta property="image" content={ogImageUrl} />
-        <meta property="og:image" content={ogImageUrl} />
+        <meta property="image" content={metaImage} />
+        <meta property="og:image" content={metaImage} />
         <meta property="og:title" content={metaTitle} />
         <meta property="og:site_name" content={siteMetadata.title} />
       </Helmet>

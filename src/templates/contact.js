@@ -107,7 +107,6 @@ export default ({
         }}
         name="contact"
         data-netlify="true"
-        data-netlify-recaptcha="true"
         onSubmit={handleSubmit}
       >
         <input type="hidden" name="form-name" value="contact" />
@@ -133,7 +132,6 @@ export default ({
             css={{resize: "none", height: 200}}
           />
         </Label>
-        <View data-netlify-recaptcha="true" />
         <Button type="submit" css={{alignSelf: "center"}} icon={faPaperPlane}>
           <Text>
             <FormattedMessage id="actions.send" />

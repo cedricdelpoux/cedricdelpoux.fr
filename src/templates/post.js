@@ -7,6 +7,8 @@ import {
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
+  PocketShareButton,
+  PocketShareIcon,
 } from "react-share"
 import {FormattedMessage} from "react-intl"
 import {Helmet} from "react-helmet"
@@ -14,8 +16,6 @@ import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
 import React from "react"
 import ReactDisqusComments from "react-disqus-comments"
-
-import path from "path"
 
 import {Html} from "../components/html"
 import {LayoutPage} from "../layouts/page"
@@ -35,7 +35,7 @@ export default ({
   },
   location,
 }) => {
-  const absoluteUrl = path.join(siteMetadata.siteUrl, slug)
+  const absoluteUrl = siteMetadata.siteUrl + slug
   return (
     <LayoutPage
       title={title}
@@ -72,17 +72,20 @@ export default ({
         }}
       >
         <EmailShareButton url={absoluteUrl}>
-          <EmailIcon />
+          <EmailIcon size={48} round />
         </EmailShareButton>
+        <WhatsappShareButton url={absoluteUrl}>
+          <WhatsappIcon size={48} round />
+        </WhatsappShareButton>
+        <PocketShareButton title={title}>
+          <PocketShareIcon size={48} round />
+        </PocketShareButton>
         <FacebookShareButton url={absoluteUrl} quote={excerpt}>
-          <FacebookIcon />
+          <FacebookIcon size={48} round />
         </FacebookShareButton>
         <TwitterShareButton url={absoluteUrl} title={title}>
-          <TwitterIcon />
+          <TwitterIcon size={48} round />
         </TwitterShareButton>
-        <WhatsappShareButton url={absoluteUrl}>
-          <WhatsappIcon />
-        </WhatsappShareButton>
       </View>
       <Title
         css={{
