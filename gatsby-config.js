@@ -40,9 +40,9 @@ module.exports = {
             },
           ],
         },
+        fontDisplay: "fallback",
         formats: ["woff2"],
         usePreload: true,
-        usePreconnect: true
       },
     },
     {
