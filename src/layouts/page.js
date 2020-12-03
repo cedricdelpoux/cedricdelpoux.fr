@@ -4,6 +4,7 @@ import {graphql, useStaticQuery} from "gatsby"
 import {useTrail} from "react-spring"
 import Img from "gatsby-image"
 import React, {useContext} from "react"
+import {useLocation} from "@reach/router"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -33,6 +34,7 @@ export const LayoutPage = ({
 }) => {
   const theme = useContext(ThemeContext)
   const childrenArray = flattenChildren(children)
+  const location = useLocation()
 
   /* Animations */
   const animationTitle = title ? 1 : 0
@@ -58,7 +60,6 @@ export const LayoutPage = ({
     query LayoutPageQuery {
       site {
         siteMetadata {
-          siteUrl
           title
         }
       }
@@ -74,15 +75,17 @@ export const LayoutPage = ({
     }
   `)
 
-  const coverImage = cover?.image || metaLayoutImage
-  const metaImage = siteMetadata.siteUrl + coverImage.childImageSharp.fixed.src
+  const metaImage = cover?.image || metaLayoutImage
+  const metaImageUrl = metaImage
+    ? location.origin + metaImage.childImageSharp.fixed.src
+    : ""
   const metaTitle = title || siteMetadata.title
   return (
     <>
       <Helmet>
         <title>{metaTitle}</title>
-        <meta property="image" content={metaImage} />
-        <meta property="og:image" content={metaImage} />
+        <meta property="image" content={metaImageUrl} />
+        <meta property="og:image" content={metaImageUrl} />
         <meta property="og:title" content={metaTitle} />
         <meta property="og:site_name" content={siteMetadata.title} />
         <meta name="description" content={description || ""} />

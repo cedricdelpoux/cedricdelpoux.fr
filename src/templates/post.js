@@ -30,14 +30,11 @@ export default ({
       date,
       name: title,
       cover,
-      fields: {slug},
       childMarkdownRemark: {excerpt, timeToRead, html},
     },
-    site: {siteMetadata},
   },
   location,
 }) => {
-  const absoluteUrl = siteMetadata.siteUrl + slug
   return (
     <LayoutPage
       title={title}
@@ -73,19 +70,19 @@ export default ({
           },
         }}
       >
-        <EmailShareButton url={absoluteUrl}>
+        <EmailShareButton url={location.href}>
           <EmailIcon size={48} round />
         </EmailShareButton>
-        <WhatsappShareButton url={absoluteUrl}>
+        <WhatsappShareButton url={location.href}>
           <WhatsappIcon size={48} round />
         </WhatsappShareButton>
         <PocketShareButton title={title}>
           <PocketIcon size={48} round />
         </PocketShareButton>
-        <FacebookShareButton url={absoluteUrl} quote={excerpt}>
+        <FacebookShareButton url={location.href} quote={excerpt}>
           <FacebookIcon size={48} round />
         </FacebookShareButton>
-        <TwitterShareButton url={absoluteUrl} title={title}>
+        <TwitterShareButton url={location.href} title={title}>
           <TwitterIcon size={48} round />
         </TwitterShareButton>
       </View>
@@ -103,7 +100,7 @@ export default ({
         <ReactDisqusComments
           shortname="cedricdelpoux"
           identifier={location.pathname}
-          url={`${siteMetadata.siteUrl}${location.pathname}`}
+          url={location.href}
           title={title}
           language="fr"
         />
@@ -114,12 +111,6 @@ export default ({
 
 export const pageQuery = graphql`
   query Post($path: String!) {
-    site {
-      siteMetadata {
-        title
-        siteUrl
-      }
-    }
     googleDocs(fields: {slug: {eq: $path}}) {
       name
       date(formatString: "Do MMMM YYYY", locale: "fr")
@@ -134,9 +125,6 @@ export const pageQuery = graphql`
             }
           }
         }
-      }
-      fields {
-        slug
       }
       childMarkdownRemark {
         html
