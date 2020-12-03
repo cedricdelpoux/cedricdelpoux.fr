@@ -14236,10 +14236,10 @@ react-responsive-masonry@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-responsive-masonry/-/react-responsive-masonry-2.1.0.tgz#5ef1c38c0ac542776ab29ff97a0adfa7f8bc929c"
   integrity sha512-sAMV04NcanmusNdCMRmLoT6YJU/kQ7s1PEG1Ycnx1aQU4iqZfmADlcletEhEBl5jT0EPatHrgW5/d3LNTy37oQ==
 
-react-scrollama@2.2.14:
-  version "2.2.14"
-  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.14.tgz#e80d95ddafedcfb604aef6507fd51d5080c8ecbe"
-  integrity sha512-dFK916USBSq9hoZ/svG+JcrwyKSLs1gaa0fsKCRQlfelCV7tAEFZriIz8p50xZ9aoV4WU0Urt8jwYOt1q3t1qQ==
+react-scrollama@2.2.7:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.7.tgz#52b42ba4715d2ad6651204623420580c3b229e43"
+  integrity sha512-IaQg8+tThOJrQCJE/oRaF4JVWvYM2X7KB/DJl3lc8xW64GOfA39Lnbrr24xbk4Sk4ibEcBMlh0cu2j/UAd+buw==
 
 react-share@^4.3.1:
   version "4.3.1"

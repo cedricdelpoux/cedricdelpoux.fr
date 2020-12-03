@@ -10,14 +10,13 @@ import MapGL, {
   NavigationControl,
   ScaleControl,
 } from "@urbica/react-map-gl"
+import {Scrollama, Step} from "react-scrollama"
 import React, {useCallback, useContext, useMemo, useState} from "react"
 
 import {Html} from "../components/html"
 import {LayoutPage} from "../layouts/page"
 import {View} from "../components/view"
 import {getColorsScale} from "../utils/colors"
-
-const {Scrollama, Step} = Loadable(() => import("react-scrollama"))
 
 export default ({
   data: {

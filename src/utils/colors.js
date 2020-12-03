@@ -1,6 +1,4 @@
-import Loadable from "@loadable/component"
-
-const chroma = Loadable(() => import("chroma-js"))
+import chroma from "chroma-js"
 
 const generateColorsRange = ({colors, min, max}) => {
   return chroma
