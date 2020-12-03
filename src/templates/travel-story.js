@@ -1,6 +1,5 @@
 import "mapbox-gl/dist/mapbox-gl.css"
 
-import Loadable from "@loadable/component"
 import {ThemeContext, useGlobalCss} from "css-system"
 import {graphql} from "gatsby"
 import MapGL, {

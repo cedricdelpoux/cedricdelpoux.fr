@@ -29,23 +29,42 @@ export const CedricCircle = ({css, ...props}) => {
         width: 260,
         position: "relative",
         alignItems: "center",
-        "&::before": {
-          content: '""',
+        ...css,
+      }}
+      {...props}
+    >
+      <View
+        css={{
           position: "absolute",
-          backgroundColor: "backgroundLight",
+          background: theme.colors.gradient,
           borderRadius: "50%",
           width: "100%",
           paddingBottom: "100%",
-          bottom: "-30px",
+          bottom: "-34px",
           left: "50%",
           transform: "translateX(-50%)",
           boxShadow: theme.boxShadow,
           transitionDuration: theme.transition,
-          transitionProperty: "background, box-shadow",
-          zIndex: -2,
-        },
-        "&::after": {
-          content: '""',
+          transitionProperty: "box-shadow",
+        }}
+      />
+      <View
+        css={{
+          position: "absolute",
+          backgroundColor: "backgroundLight",
+          borderRadius: "50%",
+          width: "calc(100% - 8px)",
+          paddingBottom: "calc(100% - 8px)",
+          bottom: "-30px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          transitionDuration: theme.transition,
+          transitionProperty: "background",
+        }}
+      />
+      <Img fixed={data.avatar.photo.childImageSharp.fixed} />
+      <View
+        css={{
           position: "absolute",
           backgroundColor: "background",
           transitionProperty: "background",
@@ -55,13 +74,8 @@ export const CedricCircle = ({css, ...props}) => {
           left: "50%",
           transform: "translateX(-50%)",
           width: "100%",
-          zIndex: -2,
-        },
-        ...css,
-      }}
-      {...props}
-    >
-      <Img fixed={data.avatar.photo.childImageSharp.fixed} />
+        }}
+      />
     </View>
   )
 }

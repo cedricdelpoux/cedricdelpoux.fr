@@ -8,9 +8,9 @@ import {View} from "./view"
 
 export const Paper = ({css, deps, children, ...props}) => {
   const theme = useContext(ThemeContext)
-  const Component = props.to ? Link : View
   return (
-    <Component
+    <View
+      as={props.to && Link}
       css={{
         display: "flex",
         flexDirection: "column",
@@ -31,7 +31,7 @@ export const Paper = ({css, deps, children, ...props}) => {
       {...props}
     >
       {children}
-    </Component>
+    </View>
   )
 }
 

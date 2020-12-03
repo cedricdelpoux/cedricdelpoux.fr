@@ -1,8 +1,7 @@
-import {ThemeContext} from "css-system"
-import {animated} from "react-spring"
 import {faAngleRight} from "@fortawesome/pro-light-svg-icons"
+import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
-
+import {animated} from "react-spring"
 import {Icon} from "./icon"
 import {View} from "./view"
 
@@ -51,7 +50,13 @@ export const Button = ({css, children, icon, ...props}) => {
           transitionDuration: theme.transition,
           transitionProperty: "background, opacity",
         },
-        "&:focus, &:hover": {
+        "&:focus": {
+          color: "#fff",
+          "&::after": {
+            opacity: 0,
+          },
+        },
+        "&:hover": {
           color: "#fff",
           "&::after": {
             opacity: 0,

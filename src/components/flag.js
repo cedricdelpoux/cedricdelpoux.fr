@@ -38,8 +38,10 @@ export const Flag = ({country, css, ...props}) =>
         as="img"
         src={flags[country]}
         alt={`Flag ${country}`}
-        height="auto"
-        width="100%"
+        css={{
+          width: "100%",
+          height: "auto",
+        }}
       />
     </View>
   ) : null

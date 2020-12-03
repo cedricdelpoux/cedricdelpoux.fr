@@ -53,7 +53,7 @@ export const LayoutPage = ({
   /* Meta */
   const {
     site: {siteMetadata},
-    profilePhoto: {photo: metaLayoutImage},
+    metaImage: {photo: metaLayoutImage},
   } = useStaticQuery(graphql`
     query LayoutPageQuery {
       site {
@@ -62,7 +62,7 @@ export const LayoutPage = ({
           title
         }
       }
-      profilePhoto: googlePhotosPhoto(description: {eq: "Cédric Delpoux"}) {
+      metaImage: googlePhotosPhoto(description: {eq: "meta-image"}) {
         photo {
           childImageSharp {
             fixed(width: 341) {
@@ -95,7 +95,7 @@ export const LayoutPage = ({
           mx: "auto",
           px: 2,
           my: 3,
-          gap: {_: 2, m: 3},
+          gap: {_: 2, s: 3},
           ...css,
         }}
       >

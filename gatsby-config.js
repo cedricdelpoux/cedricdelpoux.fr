@@ -99,22 +99,22 @@ module.exports = {
           "cedricdelpoux.fr/sport",
           "cedricdelpoux.fr/travel/iceland",
           "cedricdelpoux.fr/travel/france/reunion",
-          // ...(NODE_ENV === "production"
-          //   ? [
-          //       "cedricdelpoux.fr/travel/france/corsica",
-          //       "cedricdelpoux.fr/travel/peru",
-          //       "cedricdelpoux.fr/travel/jordan",
-          //       "cedricdelpoux.fr/travel/indonesia",
-          //       "cedricdelpoux.fr/travel/new-zealand",
-          //       "cedricdelpoux.fr/travel/austria",
-          //       "cedricdelpoux.fr/travel/spain/tenerife",
-          //       "cedricdelpoux.fr/travel/hungary",
-          //       "cedricdelpoux.fr/travel/croatia",
-          //       "cedricdelpoux.fr/travel/bosnia",
-          //       "cedricdelpoux.fr/travel/netherlands",
-          //       "cedricdelpoux.fr/travel/united-kingdom",
-          //     ]
-          //   : []),
+          ...(NODE_ENV === "production"
+            ? [
+                "cedricdelpoux.fr/travel/france/corsica",
+                "cedricdelpoux.fr/travel/peru",
+                "cedricdelpoux.fr/travel/jordan",
+                "cedricdelpoux.fr/travel/indonesia",
+                "cedricdelpoux.fr/travel/new-zealand",
+                "cedricdelpoux.fr/travel/austria",
+                "cedricdelpoux.fr/travel/spain/tenerife",
+                "cedricdelpoux.fr/travel/hungary",
+                "cedricdelpoux.fr/travel/croatia",
+                "cedricdelpoux.fr/travel/bosnia",
+                "cedricdelpoux.fr/travel/netherlands",
+                "cedricdelpoux.fr/travel/united-kingdom",
+              ]
+            : []),
         ],
         albumsUpdate: (album) => transformGooglePhotosAlbum(album),
         photosMaxWidth: NODE_ENV === "development" ? 512 : 1024,
@@ -138,12 +138,12 @@ module.exports = {
                 : false,
           }
 
-          // if (NODE_ENV === "development") {
-          const isPost = metadata.template === "post"
-          const draft = metadata.draft || isPost
+          if (NODE_ENV === "development") {
+            const isPost = metadata.template === "post"
+            const draft = metadata.draft || isPost
 
-          Object.assign(newMetadata, {draft})
-          // }
+            Object.assign(newMetadata, {draft})
+          }
 
           return newMetadata
         },
@@ -153,8 +153,6 @@ module.exports = {
       resolve: "gatsby-source-google-mymaps",
       options: {
         ids: [
-          "1QLhZ8CdYYKLbuP_Edyy5NlDsHRMQuzzt", // Jordan
-          // "1BZ3Zz1xNWsKNCOCs5sJLS6Y4gXcAfSik", // Peru
           "1mQBBrUWGSjjvetsWwZvozaiMlOBChuW2", // Iceland
         ],
         name: "travel",
@@ -217,23 +215,25 @@ module.exports = {
       options: {
         name: "Cédric Delpoux",
         short_name: "Cédric Delpoux",
-        description: `Site de Cédric Delpoux: sport, programmation, voyages et bien plus...`,
+        description:
+          "Site de Cédric Delpoux: sport, programmation, voyages et bien plus...",
         start_url: "/",
         background_color: "#fff",
         theme_color: colors.secondary,
         display: "standalone",
-        icon: `static/favicon.svg`,
+        icon: "static/favicon.svg",
         icon_options: {
-          purpose: `maskable`,
+          purpose: "any maskable",
         },
         lang: "fr",
         localize: [
           {
-            start_url: `/en`,
-            lang: `en`,
-            name: `Cédric Delpoux`,
-            short_name: `Cédric Delpoux`,
-            description: `Cédric Delpoux website: sport, programming, travels and more...`,
+            start_url: "/en",
+            lang: "en",
+            name: "Cédric Delpoux",
+            short_name: "Cédric Delpoux",
+            description:
+              "Cédric Delpoux website: sport, programming, travels and more...",
           },
         ],
       },
@@ -242,7 +242,7 @@ module.exports = {
     "gatsby-plugin-remove-trailing-slashes",
     "gatsby-plugin-netlify",
     {
-      resolve: `gatsby-plugin-feed`,
+      resolve: "gatsby-plugin-feed",
       options: {
         query: `
           {

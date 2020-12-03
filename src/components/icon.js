@@ -1,6 +1,5 @@
-import React from "react"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-
+import React from "react"
 import {Text} from "./text"
 
 export const Icon = ({icon, onClick, css, gradient}) => (
@@ -8,11 +7,13 @@ export const Icon = ({icon, onClick, css, gradient}) => (
     as={FontAwesomeIcon}
     icon={icon}
     css={{
-      fontSize: "20px",
-      "& path:first-child": gradient && {
-        fill: "url(#svg-gradient)",
+      "&&": {
+        fontSize: "20px",
+        "& path:first-child": gradient && {
+          fill: "url(#svg-gradient)",
+        },
+        ...css,
       },
-      ...css,
     }}
     onClick={onClick}
   />
