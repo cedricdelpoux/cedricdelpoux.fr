@@ -1,6 +1,4 @@
 const {resolve} = require("path")
-const isAfter = require("date-fns/isAfter")
-const sub = require("date-fns/sub")
 
 exports.onCreateNode = async ({node, cache}) => {
   if (node.internal.type === "GoogleMyMaps") {

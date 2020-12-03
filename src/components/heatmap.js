@@ -11,8 +11,8 @@ import {generateColorsRange, getColorFromRange} from "../utils/colors"
 import {metersToKilometers} from "../utils/convertors"
 
 const CalendarHeatmap = Loadable(() => import("react-calendar-heatmap"))
-const startOfWeek = Loadable(() => import("date-fns/start_of_week"))
-const subWeeks = Loadable(() => import("date-fns/sub_weeks"))
+const startOfWeek = Loadable(() => import("date-fns/startOfWeek"))
+const subWeeks = Loadable(() => import("date-fns/subWeeks"))
 
 const weeksCount = 42
 const endDate = new Date()
