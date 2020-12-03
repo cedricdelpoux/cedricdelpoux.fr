@@ -329,7 +329,7 @@ export const pageQuery = graphql`
       filter: {
         activity: {
           type: {in: ["Run", "Ride", "Hike"]}
-          map: {geoJSON: {ne: null}}
+          map: {summary_polyline: {ne: null}}
         }
       }
       sort: {fields: [activity___start_date], order: DESC}

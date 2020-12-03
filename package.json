@@ -18,7 +18,6 @@
     "city-reverse-geocoder": "^0.0.1",
     "css-system": "^0.8.0",
     "date-fns": "^2.16.1",
-    "devicon": "^2.2.0",
     "gatsby": "^2.27.5",
     "gatsby-image": "^2.6.0",
     "gatsby-plugin-catch-links": "^2.5.0",

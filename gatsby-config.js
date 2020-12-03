@@ -99,24 +99,22 @@ module.exports = {
           "cedricdelpoux.fr/sport",
           "cedricdelpoux.fr/travel/iceland",
           "cedricdelpoux.fr/travel/france/reunion",
-          ...(NODE_ENV === "production"
-            ? [
-                "cedricdelpoux.fr/travel/france/corsica",
-                "cedricdelpoux.fr/travel/peru",
-                "cedricdelpoux.fr/travel/jordan",
-                "cedricdelpoux.fr/travel/indonesia",
-                "cedricdelpoux.fr/travel/new-zealand",
-                "cedricdelpoux.fr/travel/austria",
-                "cedricdelpoux.fr/travel/spain/tenerife",
-                "cedricdelpoux.fr/travel/hungary",
-                "cedricdelpoux.fr/travel/croatia",
-                "cedricdelpoux.fr/travel/bosnia",
-                "cedricdelpoux.fr/travel/netherlands",
-                "cedricdelpoux.fr/travel/united-kingdom",
-              ]
-            : []),
-          //   "Denmark",
-          //   "Belgium",
+          // ...(NODE_ENV === "production"
+          //   ? [
+          //       "cedricdelpoux.fr/travel/france/corsica",
+          //       "cedricdelpoux.fr/travel/peru",
+          //       "cedricdelpoux.fr/travel/jordan",
+          //       "cedricdelpoux.fr/travel/indonesia",
+          //       "cedricdelpoux.fr/travel/new-zealand",
+          //       "cedricdelpoux.fr/travel/austria",
+          //       "cedricdelpoux.fr/travel/spain/tenerife",
+          //       "cedricdelpoux.fr/travel/hungary",
+          //       "cedricdelpoux.fr/travel/croatia",
+          //       "cedricdelpoux.fr/travel/bosnia",
+          //       "cedricdelpoux.fr/travel/netherlands",
+          //       "cedricdelpoux.fr/travel/united-kingdom",
+          //     ]
+          //   : []),
         ],
         albumsUpdate: (album) => transformGooglePhotosAlbum(album),
         photosMaxWidth: NODE_ENV === "development" ? 512 : 1024,
@@ -140,12 +138,12 @@ module.exports = {
                 : false,
           }
 
-          if (NODE_ENV === "development") {
-            const isPost = metadata.template === "post"
-            const draft = metadata.draft || isPost
+          // if (NODE_ENV === "development") {
+          const isPost = metadata.template === "post"
+          const draft = metadata.draft || isPost
 
-            Object.assign(newMetadata, {draft})
-          }
+          Object.assign(newMetadata, {draft})
+          // }
 
           return newMetadata
         },
