@@ -76,7 +76,7 @@ export default ({
         <WhatsappShareButton url={location.href}>
           <WhatsappIcon size={48} round />
         </WhatsappShareButton>
-        <PocketShareButton title={title}>
+        <PocketShareButton url={location.href} title={title}>
           <PocketIcon size={48} round />
         </PocketShareButton>
         <FacebookShareButton url={location.href} quote={excerpt}>

@@ -59,6 +59,7 @@ export const Html = ({html, css, fluid, ...props}) => {
           "& > thead": {
             background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 30%, ${theme.colors.primary} 100%)`,
             color: "#fff",
+            textAlign: "left",
           },
           "& > tbody": {
             backgroundColor: "backgroundLight",
