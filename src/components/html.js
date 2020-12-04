@@ -19,7 +19,6 @@ export const Html = ({html, css, fluid, ...props}) => {
         },
         "& > *:not([class^=gatsby-resp-image]):not(table):not(h1):not(h2):not(h3):not(h4):not(h5)": {
           mx: "auto",
-          px: {_: 2, s: 0},
           width: fluid ? "100%" : {m: 680},
           maxWidth: "100%",
         },
@@ -34,7 +33,6 @@ export const Html = ({html, css, fluid, ...props}) => {
         },
         "& > h1, & > h2, & > h3, & > h4, & > h5": {
           alignSelf: "center",
-          // textAlign: "center",
           background: theme.colors.gradient,
           color: "text",
           "-webkit-background-clip": "text",
@@ -52,32 +50,20 @@ export const Html = ({html, css, fluid, ...props}) => {
           backgroundImage: "inherit",
         },
         "& > table": {
-          width: "100%",
-          overflow: "hidden",
+          display: "block",
+          overflow: "scroll",
           borderRadius: 3,
-          borderCollapse: "collapse",
           "& th, & td": {
             p: 1,
           },
-          "& th": {
-            color: "#fff",
-            textAlign: "left",
-            borderLeft: "1px solid",
-            borderTop: "1px solid",
-            borderColor: "background",
-          },
-          "& thead": {
+          "& > thead": {
             background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 30%, ${theme.colors.primary} 100%)`,
+            color: "#fff",
           },
-          "& td": {
-            borderBottom: "1px solid",
-            borderLeft: "1px solid",
-            borderColor: "background",
+          "& > tbody": {
             backgroundColor: "backgroundLight",
-          },
-          "& tr > td:last-child, & tr > th:last-child": {
-            borderRight: "1px solid",
-            borderColor: "background",
+            transitionDuration: theme.transition,
+            transitionProperty: "background",
           },
         },
         "& .anchor > svg > path:first-child": {
