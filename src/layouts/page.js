@@ -55,7 +55,7 @@ export const LayoutPage = ({
   /* Meta */
   const {
     site: {siteMetadata},
-    metaImage: {photo: metaLayoutImage},
+    image,
   } = useStaticQuery(graphql`
     query LayoutPageQuery {
       site {
@@ -63,10 +63,10 @@ export const LayoutPage = ({
           title
         }
       }
-      metaImage: googlePhotosPhoto(description: {eq: "meta-image"}) {
+      image: googlePhotosPhoto(description: {eq: "meta-image"}) {
         photo {
           childImageSharp {
-            fixed(width: 341) {
+            fixed(width: 1024) {
               src
             }
           }
@@ -75,7 +75,7 @@ export const LayoutPage = ({
     }
   `)
 
-  const metaImage = cover?.image || metaLayoutImage
+  const metaImage = cover?.image || image?.photo
   const metaImageUrl = metaImage
     ? location.origin + metaImage.childImageSharp.fixed.src
     : ""
@@ -153,15 +153,15 @@ export const LayoutPage = ({
           </View>
         )}
         {cover && (
-          <View css={{position: "relative", mb: 2}} style={animations.shift()}>
+          <View css={{position: "relative", mb: 2, p:1}} style={animations.shift()}>
             <View
               css={{
                 position: "absolute",
-                left: -2,
-                top: 2,
+                left: 0,
+                top: 0,
+                bottom: 0,
+                right: 0,
                 borderRadius: 3,
-                height: "100%",
-                width: "100%",
                 background: theme.colors.gradient,
               }}
             />
@@ -169,6 +169,7 @@ export const LayoutPage = ({
               as={Img}
               fluid={cover.image.childImageSharp.fluid}
               css={{
+                
                 borderRadius: 3,
                 backgroundColor: "backgroundLight",
               }}
