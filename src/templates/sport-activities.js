@@ -1,6 +1,6 @@
 import {FormattedMessage} from "react-intl"
 import {graphql} from "gatsby"
-import React, {useMemo, useEffect, useState} from "react"
+import React, {useMemo, useLayoutEffect, useState} from "react"
 
 import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
@@ -15,9 +15,7 @@ import {
   getMaxDistance,
 } from "../utils/activities"
 import {
-  metersPerSecondTokmPerHour,
   kmPerHourToMetersPerSecond,
-  metersToKilometers,
   kilometersToMeters,
 } from "../utils/convertors"
 import {useLoadMore} from "../hooks/use-load-more"
@@ -36,49 +34,55 @@ export default ({
 }) => {
   const [activitiesCount, setActivitiesCount] = useState(COUNT_PER_PAGE)
   const [filterSport, setFilterSport] = useState("Run")
+
   const sportActivities = useMemo(
     () =>
       activities.nodes.filter(({activity}) => activity.type === filterSport),
     [activities, filterSport]
   )
-  const [minSpeed, setMinSpeed] = useState(getMinSpeed(sportActivities))
-  const [maxSpeed, setMaxSpeed] = useState(getMaxSpeed(sportActivities))
-  const [minDist, setMinDist] = useState(getMinDistance(sportActivities))
-  const [maxDist, setMaxDist] = useState(getMaxDistance(sportActivities))
+
+  const minSpeed = useMemo(() => getMinSpeed(sportActivities), [
+    sportActivities,
+  ])
+  const maxSpeed = useMemo(() => getMaxSpeed(sportActivities), [
+    sportActivities,
+  ])
+  const minDist = useMemo(
+    () => getMinDistance(sportActivities),
+    [sportActivities]
+  )
+  const maxDist = useMemo(
+    () => getMaxDistance(sportActivities),
+    [sportActivities]
+  )
 
   const [filterDistance, setFilterDistance] = useState({
-    min: metersToKilometers(minDist),
-    max: metersToKilometers(maxDist),
+    min: minDist,
+    max: maxDist,
   })
+  
   const [filterSpeed, setFilterSpeed] = useState({
-    min: metersPerSecondTokmPerHour(minSpeed),
-    max: metersPerSecondTokmPerHour(maxSpeed),
+    min: (minSpeed),
+    max: (maxSpeed),
   })
 
-  useEffect(() => {
-    setMinSpeed(getMinSpeed(sportActivities))
-    setMaxSpeed(getMaxSpeed(sportActivities))
-    setMinDist(getMinDistance(sportActivities))
-    setMaxDist(getMaxDistance(sportActivities))
-    setActivitiesCount(COUNT_PER_PAGE)
-  }, [sportActivities])
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     setFilterDistance({
-      min: metersToKilometers(minDist),
-      max: metersToKilometers(maxDist),
+      min: minDist,
+      max: maxDist,
     })
   }, [minDist, maxDist])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setFilterSpeed({
-      min: metersPerSecondTokmPerHour(minSpeed),
-      max: metersPerSecondTokmPerHour(maxSpeed),
+      min: minSpeed,
+      max: maxSpeed,
     })
   }, [minSpeed, maxSpeed])
 
+  useLoadMore(() => setActivitiesCount(activitiesCount + COUNT_PER_PAGE))
+  
   const filteredActivities = useMemo(() => {
-    setActivitiesCount(COUNT_PER_PAGE)
     return sportActivities.filter(
       ({activity}) =>
         activity.distance >= kilometersToMeters(filterDistance.min) &&
@@ -87,8 +91,6 @@ export default ({
         activity.average_speed <= kmPerHourToMetersPerSecond(filterSpeed.max)
     )
   }, [sportActivities, filterDistance, filterSpeed, filterSport])
-
-  useLoadMore(() => setActivitiesCount(activitiesCount + COUNT_PER_PAGE))
 
   return (
     <LayoutPage title={title} description={excerpt} html={html}>
@@ -100,20 +102,21 @@ export default ({
         }}
       >
         <InputRange
-          minValue={Math.floor(metersToKilometers(minDist))}
-          maxValue={Math.ceil(metersToKilometers(maxDist))}
+          minValue={minDist}
+          maxValue={maxDist}
           onChange={setFilterDistance}
           unit="km"
         />
         <SwitcherSport
           value={filterSport}
-          onChange={() =>
+          onChange={() => {
+            setActivitiesCount(COUNT_PER_PAGE)
             setFilterSport((oldSport) => (oldSport === "Run" ? "Ride" : "Run"))
-          }
+          }}
         />
         <InputRange
-          minValue={Math.floor(metersPerSecondTokmPerHour(minSpeed))}
-          maxValue={Math.ceil(metersPerSecondTokmPerHour(maxSpeed))}
+          minValue={minSpeed}
+          maxValue={maxSpeed}
           onChange={setFilterSpeed}
           unit="km/h"
         />
