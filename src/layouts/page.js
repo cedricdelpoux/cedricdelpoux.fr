@@ -52,9 +52,7 @@ export const LayoutPage = ({
 
   /* Meta */
   const {
-    site: {
-      siteMetadata: {siteUrl},
-    },
+    site: {siteMetadata},
     siteDefault,
   } = useStaticQuery(graphql`
     query LayoutPage {
@@ -78,7 +76,7 @@ export const LayoutPage = ({
 
   const metaImage = cover?.image || siteDefault?.photo
   const metaImageUrl = metaImage
-    ? siteUrl + metaImage.childImageSharp.fixed.src
+    ? siteMetadata.siteUrl + metaImage.childImageSharp.fixed.src
     : ""
   const metaTitle = title || siteMetadata.title
   return (
