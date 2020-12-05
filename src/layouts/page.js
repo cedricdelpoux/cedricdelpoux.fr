@@ -76,7 +76,7 @@ export const LayoutPage = ({
 
   const metaImage = cover?.image || siteDefault?.photo
   const metaImageUrl = metaImage
-    ? siteURL + metaImage.childImageSharp.fixed.src
+    ? siteUrl + metaImage.childImageSharp.fixed.src
     : ""
   const metaTitle = title || siteMetadata.title
   return (
