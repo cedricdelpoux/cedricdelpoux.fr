@@ -153,7 +153,7 @@ export const LayoutPage = ({
           </View>
         )}
         {cover && (
-          <View css={{position: "relative", mb: 2, p:1}} style={animations.shift()}>
+          <View css={{position: "relative", mb: 2, p: "2px"}} style={animations.shift()}>
             <View
               css={{
                 position: "absolute",

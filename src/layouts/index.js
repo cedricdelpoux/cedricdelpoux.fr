@@ -9,8 +9,9 @@ const {Footer} = require("../components/footer")
 const {Header} = require("../components/header")
 const {View} = require("../components/view")
 
-export default ({children, pageContext}) => {
+export default ({children, location, pageContext}) => {
   const theme = React.useContext(ThemeContext)
+
   useGlobalCss({
     html: {
       scrollBehavior: "smooth",
@@ -45,18 +46,24 @@ export default ({children, pageContext}) => {
     },
   })
 
+  if (location.pathname.startsWith("/offline-plugin-app-shell-fallback")) {
+    return null
+  }
+
   if (pageContext.layout === "blank") {
     return <Blank>{children}</Blank>
   }
 
+  const locale = location.pathname.startsWith("/en") ? "en" : "fr"
+
   return (
     <>
       <Helmet>
-        <html lang={pageContext.locale} />
+        <html lang={locale} />
         <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
         <title>{"Cédric Delpoux"}</title>
         <meta charSet="utf-8" />
-        <meta property="og:locale" content={pageContext.locale} />
+        <meta property="og:locale" content={locale} />
         <meta property="og:type" content="website" />
       </Helmet>
       <View
@@ -103,10 +110,10 @@ export default ({children, pageContext}) => {
           transitionDuration: theme.transition,
         }}
       >
-        <Header locale={pageContext.locale} />
+        <Header locale={locale} />
         {children}
       </View>
-      <Footer locale={pageContext.locale} />
+      <Footer locale={locale} />
     </>
   )
 }

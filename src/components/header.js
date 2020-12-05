@@ -38,6 +38,7 @@ export const Header = ({locale}) => {
   const [themeKey, switchTheme] = useSwitchTheme()
   const [menuOpen, setMenuOpen] = useState(false)
   const menu = useMenu(locale)
+  console.log(menu)
   return (
     <View as="header">
       <View
@@ -214,7 +215,8 @@ const MenuItem = ({to, icon, label, subitems, onClick, css, ...props}) => {
   const theme = useContext(ThemeContext)
   const location = useLocation()
   const active = location.pathname.startsWith(to)
-  const exact = location.pathname === to
+  const exact = location.pathname.replace(/(.+)\/$/, "$1") === to
+  const selected = subitems?.length > 0 ? exact : active
   return (
     <View
       as="li"
@@ -228,7 +230,7 @@ const MenuItem = ({to, icon, label, subitems, onClick, css, ...props}) => {
       <View
         as={to && Link}
         to={to}
-        className={`${active ? "active" : ""} ${exact ? "exact" : ""}`}
+        className={`${active ? "active" : ""} ${selected ? "selected" : ""}`}
         css={{
           "&&": {
             display: "flex",
@@ -259,7 +261,7 @@ const MenuItem = ({to, icon, label, subitems, onClick, css, ...props}) => {
           "&.active": {
             boxShadow: theme.boxShadow,
             backgroundColor: "backgroundLight",
-            "&.exact::after": {
+            "&.selected::after": {
               content: '""',
               background: theme.colors.gradient,
               transitionDuration: theme.transition,
