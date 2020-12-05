@@ -297,6 +297,12 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-plugin-nprogress`,
+      options: {
+        color: colors.primary,
+      },
+    },
     "gatsby-plugin-offline",
     // "gatsby-plugin-webpack-bundle-analyser-v2",
   ],

@@ -52,7 +52,9 @@ export const LayoutPage = ({
 
   /* Meta */
   const {
-    site: {siteMetadata, siteUrl},
+    site: {
+      siteMetadata: {siteUrl},
+    },
     siteDefault,
   } = useStaticQuery(graphql`
     query LayoutPage {
