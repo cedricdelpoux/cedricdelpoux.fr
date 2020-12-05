@@ -71,12 +71,11 @@ export default ({
 }) => {
   const menu = useMenu(locale)
   const location = useLocation()
-
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
       const form = e.target
-      location.pathname
+
       fetch(location.pathname, {
         method: "POST",
         headers: {"Content-Type": "application/x-www-form-urlencoded"},

@@ -4,7 +4,6 @@ import {graphql, useStaticQuery} from "gatsby"
 import {useTrail} from "react-spring"
 import Img from "gatsby-image"
 import React, {useContext} from "react"
-import {useLocation} from "@reach/router"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -34,7 +33,6 @@ export const LayoutPage = ({
 }) => {
   const theme = useContext(ThemeContext)
   const childrenArray = flattenChildren(children)
-  const location = useLocation()
 
   /* Animations */
   const animationTitle = title ? 1 : 0
@@ -54,13 +52,14 @@ export const LayoutPage = ({
 
   /* Meta */
   const {
-    site: {siteMetadata},
+    site: {siteMetadata, siteURL},
     image,
   } = useStaticQuery(graphql`
     query LayoutPageQuery {
       site {
         siteMetadata {
           title
+          siteURL
         }
       }
       image: googlePhotosPhoto(description: {eq: "meta-image"}) {
@@ -77,7 +76,7 @@ export const LayoutPage = ({
 
   const metaImage = cover?.image || image?.photo
   const metaImageUrl = metaImage
-    ? location.origin + metaImage.childImageSharp.fixed.src
+    ? siteURL + metaImage.childImageSharp.fixed.src
     : ""
   const metaTitle = title || siteMetadata.title
   return (
@@ -153,7 +152,10 @@ export const LayoutPage = ({
           </View>
         )}
         {cover && (
-          <View css={{position: "relative", mb: 2, p: "2px"}} style={animations.shift()}>
+          <View
+            css={{position: "relative", mb: 2, p: "2px"}}
+            style={animations.shift()}
+          >
             <View
               css={{
                 position: "absolute",
@@ -169,7 +171,6 @@ export const LayoutPage = ({
               as={Img}
               fluid={cover.image.childImageSharp.fluid}
               css={{
-                
                 borderRadius: 3,
                 backgroundColor: "backgroundLight",
               }}

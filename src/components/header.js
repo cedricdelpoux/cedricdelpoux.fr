@@ -38,7 +38,6 @@ export const Header = ({locale}) => {
   const [themeKey, switchTheme] = useSwitchTheme()
   const [menuOpen, setMenuOpen] = useState(false)
   const menu = useMenu(locale)
-  console.log(menu)
   return (
     <View as="header">
       <View
