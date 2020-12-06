@@ -4,7 +4,7 @@ import {graphql, useStaticQuery} from "gatsby"
 import {useTrail} from "react-spring"
 import Img from "gatsby-image"
 import {useLocation} from "@reach/router"
-import React, {useContext, useEffect, useState} from "react"
+import React, {useContext, useState} from "react"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -12,7 +12,6 @@ import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {AnimateContext} from "../utils/animate-context"
 import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 
 function flattenChildren(children) {
