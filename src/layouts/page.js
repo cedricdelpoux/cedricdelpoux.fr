@@ -3,7 +3,8 @@ import {ThemeContext} from "css-system"
 import {graphql, useStaticQuery} from "gatsby"
 import {useTrail} from "react-spring"
 import Img from "gatsby-image"
-import React, {useContext} from "react"
+import {useLocation} from "@reach/router"
+import React, {useContext, useEffect, useState} from "react"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -11,6 +12,8 @@ import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {AnimateContext} from "../utils/animate-context"
+import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 
 function flattenChildren(children) {
   return React.Children.toArray(children).reduce((flatChildren, child) => {
@@ -32,25 +35,17 @@ export const LayoutPage = ({
   children,
 }) => {
   const theme = useContext(ThemeContext)
-  const childrenArray = flattenChildren(children)
 
-  /* Animations */
-  const animationTitle = title ? 1 : 0
-  const animationMetadata = metadata ? 1 : 0
-  const animationCover = cover ? 1 : 0
-  const animationHtml = html ? 1 : 0
-  const animationsCount =
-    childrenArray.length +
-    animationTitle +
-    animationMetadata +
-    animationCover +
-    animationHtml
-  const animations = useTrail(animationsCount, {
-    from: {opacity: 0, transform: "translate3d(0, -30px, 0)"},
-    to: {opacity: 1, transform: "translate3d(0, 0, 0)"},
-  })
+  // Animations
+  const location = useLocation()
+  const [animated, setAnimated] = useState(false)
+  useSsrLayoutEffect(() => {
+    if (location?.state?.previous) {
+      setAnimated(true)
+    }
+  }, [location])
 
-  /* Meta */
+  // Meta
   const {
     site: {
       siteMetadata: {siteUrl},
@@ -74,10 +69,10 @@ export const LayoutPage = ({
       }
     }
   `)
-
   const image = cover?.image || siteImage?.photo
   const imageUrl = image?.childImageSharp?.fixed?.src
   const metaImage = imageUrl && siteUrl + imageUrl
+
   return (
     <>
       {title && (
@@ -97,18 +92,7 @@ export const LayoutPage = ({
           <meta name="description" content={description} />
         </Helmet>
       )}
-      <View
-        css={{
-          flex: 1,
-          maxWidth: theme.breakpoints.m,
-          width: "100%",
-          mx: "auto",
-          px: 2,
-          my: 3,
-          gap: {_: 2, s: 3},
-          ...css,
-        }}
-      >
+      <Page animated={animated} css={css}>
         {title && (
           <Title
             as="h1"
@@ -121,7 +105,6 @@ export const LayoutPage = ({
               },
               order: "-2",
             }}
-            style={animations.shift()}
           >
             {title}
           </Title>
@@ -136,7 +119,6 @@ export const LayoutPage = ({
               gap: 2,
               order: "-1",
             }}
-            style={animations.shift()}
           >
             {metadata.map((item, i) => (
               <View
@@ -160,10 +142,7 @@ export const LayoutPage = ({
           </View>
         )}
         {cover && (
-          <View
-            css={{position: "relative", mb: 2, p: "2px"}}
-            style={animations.shift()}
-          >
+          <View css={{position: "relative", mb: 2, p: "2px"}}>
             <View
               css={{
                 position: "absolute",
@@ -186,17 +165,46 @@ export const LayoutPage = ({
             />
           </View>
         )}
-        {html && <Html html={html} style={animations.shift()} />}
-        {React.Children.map(childrenArray, (child, i) =>
-          React.cloneElement(child, {
-            key: i,
-            style: {
-              ...child.props.style,
-              ...animations[i],
-            },
-          })
-        )}
-      </View>
+        {html && <Html html={html} />}
+        {children}
+      </Page>
     </>
+  )
+}
+
+const Page = ({children, animated, css}) => {
+  const theme = useContext(ThemeContext)
+
+  /* Animations */
+  const childrenArray = flattenChildren(children)
+  const animationsCount = animated ? childrenArray.length : 0
+  const animations = useTrail(animationsCount, {
+    from: {opacity: 0, transform: "translate3d(0, -30px, 0)"},
+    to: {opacity: 1, transform: "translate3d(0, 0, 0)"},
+  })
+
+  return (
+    <View
+      css={{
+        flex: 1,
+        maxWidth: theme.breakpoints.m,
+        width: "100%",
+        mx: "auto",
+        px: 2,
+        my: 3,
+        gap: {_: 2, s: 3},
+        ...css,
+      }}
+    >
+      {React.Children.map(childrenArray, (child, i) =>
+        React.cloneElement(child, {
+          key: i,
+          style: {
+            ...(child?.props?.style || {}),
+            ...(animations[i] || {}),
+          },
+        })
+      )}
+    </View>
   )
 }

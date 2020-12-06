@@ -7,7 +7,7 @@ const {Footer} = require("../components/footer")
 const {Header} = require("../components/header")
 const {View} = require("../components/view")
 
-export default ({children, location, pageContext}) => {
+export default ({children, pageContext, path}) => {
   const theme = React.useContext(ThemeContext)
 
   useGlobalCss({
@@ -48,7 +48,7 @@ export default ({children, location, pageContext}) => {
     return <Blank>{children}</Blank>
   }
 
-  const locale = location.pathname.startsWith("/en") ? "en" : "fr"
+  const locale = path.startsWith("/en") ? "en" : "fr"
   return (
     <>
       <Helmet>
