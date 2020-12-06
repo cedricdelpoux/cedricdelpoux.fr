@@ -53,7 +53,6 @@ export const LayoutPage = ({
   /* Meta */
   const {
     site: {siteMetadata},
-    siteDefault,
   } = useStaticQuery(graphql`
     query LayoutPage {
       site {
@@ -62,33 +61,31 @@ export const LayoutPage = ({
           siteUrl
         }
       }
-      siteDefault: googlePhotosPhoto(description: {eq: "meta-image"}) {
-        photo {
-          childImageSharp {
-            fixed(width: 1024) {
-              src
-            }
-          }
-        }
-      }
     }
   `)
 
-  const metaImage = cover?.image || siteDefault?.photo
-  const metaImageUrl = metaImage
-    ? siteMetadata.siteUrl + metaImage.childImageSharp.fixed.src
+  const image = cover?.image
+    ? siteMetadata.siteUrl + cover.image.childImageSharp.fixed.src
     : ""
-  const metaTitle = title || siteMetadata.title
   return (
     <>
-      <Helmet>
-        <title>{metaTitle}</title>
-        <meta property="image" content={metaImageUrl} />
-        <meta property="og:image" content={metaImageUrl} />
-        <meta property="og:title" content={metaTitle} />
-        <meta property="og:site_name" content={siteMetadata.title} />
-        <meta name="description" content={description || ""} />
-      </Helmet>
+      {title && (
+        <Helmet>
+          <title>{title}</title>
+          <meta property="og:title" content={title} />
+        </Helmet>
+      )}
+      {image && (
+        <Helmet>
+          <meta property="image" content={image} />
+          <meta property="og:image" content={image} />
+        </Helmet>
+      )}
+      {description && (
+        <Helmet>
+          <meta name="description" content={description} />
+        </Helmet>
+      )}
       <View
         css={{
           flex: 1,

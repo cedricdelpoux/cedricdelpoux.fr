@@ -1,5 +1,6 @@
 require("@fortawesome/fontawesome-svg-core/styles.css")
 
+const {graphql, useStaticQuery} = require("gatsby")
 const {Helmet} = require("react-helmet")
 const {ThemeContext, useGlobalCss} = require("css-system")
 const React = require("react")
@@ -9,8 +10,36 @@ const {Footer} = require("../components/footer")
 const {Header} = require("../components/header")
 const {View} = require("../components/view")
 
+// See gatsby-plugin-offline
+const OFFLINE_URL = "/offline-plugin-app-shell-fallback"
+
 export default ({children, location, pageContext}) => {
   const theme = React.useContext(ThemeContext)
+
+  const {
+    site: {
+      siteMetadata: {title, siteUrl},
+    },
+    image,
+  } = useStaticQuery(graphql`
+    query LayoutIndex {
+      site {
+        siteMetadata {
+          title
+          siteUrl
+        }
+      }
+      image: googlePhotosPhoto(description: {eq: "meta-image"}) {
+        photo {
+          childImageSharp {
+            fixed(width: 1024) {
+              src
+            }
+          }
+        }
+      }
+    }
+  `)
 
   useGlobalCss({
     html: {
@@ -46,26 +75,32 @@ export default ({children, location, pageContext}) => {
     },
   })
 
-  if (location.pathname.startsWith("/offline-plugin-app-shell-fallback")) {
-    return null
-  }
-
   if (pageContext.layout === "blank") {
     return <Blank>{children}</Blank>
   }
 
+  const isOfflinePage = location.pathname.startsWith(OFFLINE_URL)
+  const shouldRenderChildren = isOfflinePage ? false : true
   const locale = location.pathname.startsWith("/en") ? "en" : "fr"
-
+  const imageUrl = image?.photo?.childImageSharp?.fixed?.src
+  const metaImage = imageUrl ? siteMetadata.siteUrl + imageUrl : ""
   return (
     <>
       <Helmet>
         <html lang={locale} />
         <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
-        <title>{"Cédric Delpoux"}</title>
+        <title>{title}</title>
         <meta charSet="utf-8" />
+        <meta property="og:site_name" content={title} />
         <meta property="og:locale" content={locale} />
         <meta property="og:type" content="website" />
       </Helmet>
+      {metaImage && (
+        <Helmet>
+          <meta property="image" content={metaImage} />
+          <meta property="og:image" content={metaImage} />
+        </Helmet>
+      )}
       <View
         as="svg"
         xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +146,7 @@ export default ({children, location, pageContext}) => {
         }}
       >
         <Header locale={locale} />
-        {children}
+        {shouldRenderChildren && children}
       </View>
       <Footer locale={locale} />
     </>

@@ -24,8 +24,6 @@ const {
 module.exports = {
   siteMetadata: {
     title: "Cédric Delpoux",
-    description:
-      "Site de Cédric Delpoux: sport, programmation, voyages et bien plus...",
     siteUrl: "https://cedricdelpoux.fr",
   },
   plugins: [
@@ -249,7 +247,6 @@ module.exports = {
             site {
               siteMetadata {
                 title
-                description
                 siteUrl
               }
             }
