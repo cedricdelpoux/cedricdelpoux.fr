@@ -1,15 +1,15 @@
-import {IntlProvider} from "react-intl"
-import React from "react"
+const {IntlProvider} = require("react-intl")
+const React = require("react")
 
-import messagesEn from "./src/translations/en.json"
-import messagesFr from "./src/translations/fr.json"
+const messagesEn = require("./src/translations/en.json")
+const messagesFr = require("./src/translations/fr.json")
 
 const messages = {
   fr: messagesFr,
   en: messagesEn,
 }
 
-export const wrapPageElement = ({element, props}) => {
+exports.wrapPageElement = ({element, props}) => {
   const locale = props.pageContext.locale || "fr"
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
