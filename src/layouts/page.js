@@ -171,7 +171,7 @@ export const LayoutPage = ({
                 borderRadius: 3,
                 backgroundColor: "backgroundLight",
               }}
-              alt={metaTitle}
+              alt={title}
             />
           </View>
         )}

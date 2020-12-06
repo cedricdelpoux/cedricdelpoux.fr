@@ -83,7 +83,7 @@ export default ({children, location, pageContext}) => {
   const shouldRenderChildren = isOfflinePage ? false : true
   const locale = location.pathname.startsWith("/en") ? "en" : "fr"
   const imageUrl = image?.photo?.childImageSharp?.fixed?.src
-  const metaImage = imageUrl ? siteMetadata.siteUrl + imageUrl : ""
+  const metaImage = imageUrl ? siteUrl + imageUrl : ""
   return (
     <>
       <Helmet>
