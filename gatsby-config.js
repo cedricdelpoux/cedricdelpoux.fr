@@ -22,6 +22,9 @@ const {
 } = require("./src/utils/node/transform-google-photos")
 
 module.exports = {
+  flags: {
+    FAST_DEV: true,
+  },
   siteMetadata: {
     title: "Cédric Delpoux",
     siteUrl: "https://cedricdelpoux.fr",
@@ -136,12 +139,12 @@ module.exports = {
                 : false,
           }
 
-          if (NODE_ENV === "development") {
-            const isPost = metadata.template === "post"
-            const draft = metadata.draft || isPost
+          // if (NODE_ENV === "development") {
+          const isPost = metadata.template === "post"
+          const draft = metadata.draft || isPost
 
-            Object.assign(newMetadata, {draft})
-          }
+          Object.assign(newMetadata, {draft})
+          // }
 
           return newMetadata
         },

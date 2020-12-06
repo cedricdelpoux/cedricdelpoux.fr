@@ -8,6 +8,7 @@ export const Icon = ({icon, onClick, css, gradient}) => (
     icon={icon}
     css={{
       "&&": {
+        height: "1em",
         fontSize: "20px",
         "& path:first-child": gradient && {
           fill: "url(#svg-gradient)",
