@@ -1,11 +1,11 @@
-const {Helmet} = require("react-helmet")
-const {ThemeContext, useGlobalCss} = require("css-system")
-const React = require("react")
+import {Helmet} from "react-helmet"
+import {ThemeContext, useGlobalCss} from "css-system"
+import React from "react"
 
-const {Blank} = require("./blank")
-const {Footer} = require("../components/footer")
-const {Header} = require("../components/header")
-const {View} = require("../components/view")
+import {Blank} from "./blank"
+import {Footer} from "../components/footer"
+import {Header} from "../components/header"
+import {View} from "../components/view"
 
 export default ({children, pageContext, path}) => {
   const theme = React.useContext(ThemeContext)

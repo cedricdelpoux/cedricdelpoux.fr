@@ -1,7 +1,6 @@
 import "prismjs/themes/prism.css"
 
 export const onClientEntry = () => {
-  // IntersectionObserver polyfill
   if (!(`IntersectionObserver` in window)) {
     import(`intersection-observer`)
   }
@@ -20,16 +19,7 @@ const messages = {
 export const wrapPageElement = ({element, props}) => {
   const locale = props.pageContext.locale || "fr"
   return (
-    <IntlProvider
-      locale={locale}
-      messages={messages[locale]}
-      onError={(err) => {
-        if (err.code === "MISSING_TRANSLATION") {
-          return
-        }
-        throw err
-      }}
-    >
+    <IntlProvider locale={locale} messages={messages[locale]}>
       {element}
     </IntlProvider>
   )
