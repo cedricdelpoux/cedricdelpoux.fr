@@ -14,16 +14,6 @@ import {Title} from "../components/title"
 import {View} from "../components/view"
 import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 
-function flattenChildren(children) {
-  return React.Children.toArray(children).reduce((flatChildren, child) => {
-    if (child.type === React.Fragment) {
-      return flatChildren.concat(flattenChildren(child.props.children))
-    }
-    flatChildren.push(child)
-    return flatChildren
-  }, [])
-}
-
 export const LayoutPage = ({
   css,
   title,
@@ -71,7 +61,6 @@ export const LayoutPage = ({
   const image = cover?.image || siteImage?.photo
   const imageUrl = image?.childImageSharp?.fixed?.src
   const metaImage = imageUrl && siteUrl + imageUrl
-
   return (
     <>
       {title && (
@@ -173,9 +162,9 @@ export const LayoutPage = ({
 
 const Page = ({children, animated, css}) => {
   const theme = useContext(ThemeContext)
+  const childrenArray = React.Children.toArray(children).filter(Boolean)
 
   /* Animations */
-  const childrenArray = flattenChildren(children)
   const animationsCount = animated ? childrenArray.length : 0
   const animations = useTrail(animationsCount, {
     from: {opacity: 0, transform: "translate3d(0, -30px, 0)"},
@@ -195,13 +184,9 @@ const Page = ({children, animated, css}) => {
         ...css,
       }}
     >
-      {React.Children.map(childrenArray, (child, i) =>
+      {childrenArray.map((child, i) =>
         React.cloneElement(child, {
-          key: i,
-          style: {
-            ...(child?.props?.style || {}),
-            ...(animations[i] || {}),
-          },
+          style: animations[i],
         })
       )}
     </View>

@@ -1,6 +1,7 @@
 require("dotenv").config()
 
 const {
+  MINIMAL,
   NODE_ENV,
   GITHUB_TOKEN,
   GOOGLE_ANALYTICS_ID,
@@ -72,7 +73,7 @@ module.exports = {
         stravaToken: STRAVA_TOKEN,
         activities: {
           after:
-            NODE_ENV === "development" &&
+            MINIMAL &&
             new Date(
               new Date().getFullYear(),
               new Date().getMonth() - 1,
@@ -100,7 +101,7 @@ module.exports = {
           "cedricdelpoux.fr/sport",
           "cedricdelpoux.fr/travel/iceland",
           "cedricdelpoux.fr/travel/france/reunion",
-          ...(NODE_ENV === "production"
+          ...(!MINIMAL
             ? [
                 "cedricdelpoux.fr/travel/france/corsica",
                 "cedricdelpoux.fr/travel/peru",
@@ -118,36 +119,8 @@ module.exports = {
             : []),
         ],
         albumsUpdate: (album) => transformGooglePhotosAlbum(album),
-        photosMaxWidth: NODE_ENV === "development" ? 512 : 1024,
+        photosMaxWidth: MINIMAL ? 512 : 1024,
         debug: true,
-      },
-    },
-    {
-      resolve: "gatsby-source-google-docs",
-      options: {
-        debug: true,
-        folder: GOOGLE_DOCS_FOLDER,
-        demoteHeadings: true,
-        imagesMaxWidth: NODE_ENV === "development" ? 512 : 1024,
-        updateMetadata: (metadata) => {
-          let newMetadata = {
-            ...metadata,
-            template: metadata.template || "page",
-            draft:
-              NODE_ENV === "development" && metadata.template === "post"
-                ? true
-                : false,
-          }
-
-          // if (NODE_ENV === "development") {
-          const isPost = metadata.template === "post"
-          const draft = metadata.draft || isPost
-
-          Object.assign(newMetadata, {draft})
-          // }
-
-          return newMetadata
-        },
       },
     },
     {
@@ -160,7 +133,31 @@ module.exports = {
         transform: transformMymaps,
       },
     },
+    {
+      resolve: "gatsby-source-google-docs",
+      options: {
+        debug: true,
+        folder: GOOGLE_DOCS_FOLDER,
+        demoteHeadings: true,
+        skipImages: MINIMAL ? true : false,
+        updateMetadata: (metadata) => {
+          let newMetadata = {
+            ...metadata,
+            template: metadata.template || "page",
+            draft: MINIMAL && metadata.template === "post" ? true : false,
+          }
 
+          if (MINIMAL) {
+            const isPost = metadata.template === "post"
+            const draft = metadata.draft || isPost
+
+            Object.assign(newMetadata, {draft})
+          }
+
+          return newMetadata
+        },
+      },
+    },
     {
       resolve: "gatsby-source-graphql",
       options: {
@@ -193,7 +190,7 @@ module.exports = {
             resolve: "gatsby-remark-images",
             options: {
               showCaptions: true,
-              maxWidth: 1000,
+              maxWidth: MINIMAL ? 512 : 1024,
               linkImagesToOriginal: false,
             },
           },

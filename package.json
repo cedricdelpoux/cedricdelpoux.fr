@@ -44,7 +44,7 @@
     "gatsby-remark-strava": "^1.2.0",
     "gatsby-remark-unwrap-images": "^1.0.2",
     "gatsby-source-filesystem": "^2.7.0",
-    "gatsby-source-google-docs": "^2.0.0-beta.35",
+    "gatsby-source-google-docs": "^2.0.0-beta.36",
     "gatsby-source-google-mymaps": "^1.0.0-beta.3",
     "gatsby-source-google-photos": "^2.4.1",
     "gatsby-source-graphql": "2.10.0",
@@ -88,7 +88,7 @@
   "scripts": {
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "dev": "GATSBY_EXPERIMENTAL_LAZY_DEVJS=true gatsby develop",
+    "dev": "gatsby develop",
     "lint": "eslint src/**/*.js"
   },
   "husky": {

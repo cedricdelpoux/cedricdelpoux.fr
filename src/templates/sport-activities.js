@@ -47,23 +47,21 @@ export default ({
   const maxSpeed = useMemo(() => getMaxSpeed(sportActivities), [
     sportActivities,
   ])
-  const minDist = useMemo(
-    () => getMinDistance(sportActivities),
-    [sportActivities]
-  )
-  const maxDist = useMemo(
-    () => getMaxDistance(sportActivities),
-    [sportActivities]
-  )
+  const minDist = useMemo(() => getMinDistance(sportActivities), [
+    sportActivities,
+  ])
+  const maxDist = useMemo(() => getMaxDistance(sportActivities), [
+    sportActivities,
+  ])
 
   const [filterDistance, setFilterDistance] = useState({
     min: minDist,
     max: maxDist,
   })
-  
+
   const [filterSpeed, setFilterSpeed] = useState({
-    min: (minSpeed),
-    max: (maxSpeed),
+    min: minSpeed,
+    max: maxSpeed,
   })
 
   useLayoutEffect(() => {
@@ -81,7 +79,7 @@ export default ({
   }, [minSpeed, maxSpeed])
 
   useLoadMore(() => setActivitiesCount(activitiesCount + COUNT_PER_PAGE))
-  
+
   const filteredActivities = useMemo(() => {
     return sportActivities.filter(
       ({activity}) =>
@@ -127,7 +125,7 @@ export default ({
           values={{count: filteredActivities.length}}
         />
       </Title>
-      <Masonry animated={false}>
+      <Masonry>
         {filteredActivities.slice(0, activitiesCount).map(({activity}) => (
           <PaperActivity key={activity.id} activity={activity} />
         ))}
