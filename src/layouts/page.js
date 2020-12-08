@@ -36,10 +36,10 @@ export const LayoutPage = ({
   }, [location])
 
   // Meta
-  const {siteUrl, siteImage} = useSiteMetadata()
-  const image = cover?.image || siteImage
-  const imageUrl = image?.childImageSharp?.fixed?.src
+  const {siteUrl} = useSiteMetadata()
+  const imageUrl = cover?.image?.childImageSharp?.fixed?.src
   const metaImage = imageUrl && siteUrl + imageUrl
+
   return (
     <>
       {title && (

@@ -6,6 +6,7 @@ import {Blank} from "./blank"
 import {Footer} from "../components/footer"
 import {Header} from "../components/header"
 import {View} from "../components/view"
+import {useSiteMetadata} from "../hooks/use-site-metadata"
 
 export default ({children, pageContext, path}) => {
   const theme = React.useContext(ThemeContext)
@@ -44,6 +45,10 @@ export default ({children, pageContext, path}) => {
     },
   })
 
+  const {siteUrl, siteImage, title} = useSiteMetadata()
+  const imageUrl = siteImage?.childImageSharp?.fixed?.src
+  const metaImage = imageUrl && siteUrl + imageUrl
+
   if (pageContext.layout === "blank") {
     return <Blank>{children}</Blank>
   }
@@ -54,12 +59,18 @@ export default ({children, pageContext, path}) => {
       <Helmet>
         <html lang={locale} />
         <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
-        <title>{"Cédric Delpoux"}</title>
+        <title>{title}</title>
         <meta charSet="utf-8" />
-        <meta property="og:site_name" content={"Cédric Delpoux"} />
+        <meta property="og:site_name" content={title} />
         <meta property="og:locale" content={locale} />
         <meta property="og:type" content="website" />
       </Helmet>
+      {metaImage && (
+        <Helmet>
+          <meta property="image" content={metaImage} />
+          <meta property="og:image" content={metaImage} />
+        </Helmet>
+      )}
       <View
         as="svg"
         xmlns="http://www.w3.org/2000/svg"

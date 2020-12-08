@@ -201,7 +201,7 @@ module.exports = {
 
     "gatsby-plugin-catch-links",
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: "gatsby-plugin-google-analytics",
       options: {
         trackingId: GOOGLE_ANALYTICS_ID,
         anonymize: true,
@@ -295,12 +295,10 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-nprogress`,
+      resolve: "gatsby-plugin-nprogress",
       options: {
         color: colors.primary,
       },
     },
-    "gatsby-plugin-offline",
-    // "gatsby-plugin-webpack-bundle-analyser-v2",
   ],
 }
