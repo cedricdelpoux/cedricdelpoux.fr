@@ -72,7 +72,7 @@ export default ({
           </Title>
           <Masonry>
             {projects.nodes.map((project) => (
-              <PaperProject key={project.fields.slug} project={project} />
+              <PaperProject key={project.slug} project={project} />
             ))}
           </Masonry>
         </>
@@ -83,7 +83,7 @@ export default ({
 
 export const pageQuery = graphql`
   query Code($path: String!, $locale: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         html
@@ -95,9 +95,7 @@ export const pageQuery = graphql`
       filter: {type: {eq: "project"}, locale: {eq: $locale}}
     ) {
       nodes {
-        fields {
-          slug
-        }
+        slug
         ...PaperProjectFragment
       }
     }

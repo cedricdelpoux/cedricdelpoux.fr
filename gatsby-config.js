@@ -140,21 +140,8 @@ module.exports = {
         folder: GOOGLE_DOCS_FOLDER,
         demoteHeadings: true,
         skipImages: MINIMAL ? true : false,
-        updateMetadata: (metadata) => {
-          let newMetadata = {
-            ...metadata,
-            template: metadata.template || "page",
-            draft: MINIMAL && metadata.template === "post" ? true : false,
-          }
-
-          if (MINIMAL) {
-            const isPost = metadata.template === "post"
-            const draft = metadata.draft || isPost
-
-            Object.assign(newMetadata, {draft})
-          }
-
-          return newMetadata
+        defaults: {
+          template: "page",
         },
       },
     },
@@ -260,8 +247,8 @@ module.exports = {
                   title: node.title,
                   description: node.childMarkdownRemark.excerpt,
                   date: node.date,
-                  url: site.siteMetadata.siteUrl + node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + node.fields.slug,
+                  url: site.siteMetadata.siteUrl + node.slug,
+                  guid: site.siteMetadata.siteUrl + node.slug,
                   custom_elements: [
                     {"content:encoded": node.childMarkdownRemark.html},
                   ],
@@ -277,7 +264,7 @@ module.exports = {
                   }
                 ) {
                   nodes {
-                    fields { slug }
+                    slug
                     name
                     date
                     childMarkdownRemark {

@@ -65,7 +65,7 @@ exports.createPages = async ({graphql, actions: {createPage}, reporter}) => {
       {
         allGoogleDocs {
           nodes {
-            path
+            slug
             template
             locale
             category
@@ -85,9 +85,9 @@ exports.createPages = async ({graphql, actions: {createPage}, reporter}) => {
     const {allGoogleDocs} = result.data
 
     if (allGoogleDocs) {
-      allGoogleDocs.nodes.forEach(({path, template, ...context}) => {
+      allGoogleDocs.nodes.forEach(({slug, template, ...context}) => {
         createPage({
-          path,
+          path: slug,
           component: resolve(`src/templates/${template}.js`),
           context,
         })

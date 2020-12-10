@@ -17,7 +17,7 @@ export default ({
   return (
     <LayoutPage title={title} description={excerpt} html={html}>
       <Masonry>
-        {countries.nodes.map(({fields: {slug}, country, ...rest}) => (
+        {countries.nodes.map(({slug, country, ...rest}) => (
           <PaperCountry key={country} country={country} to={slug} {...rest} />
         ))}
       </Masonry>
@@ -27,7 +27,7 @@ export default ({
 
 export const pageQuery = graphql`
   query TravelCountries($path: String!, $locale: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         html
@@ -38,9 +38,7 @@ export const pageQuery = graphql`
       filter: {locale: {eq: $locale}, template: {eq: "travel-country"}}
     ) {
       nodes {
-        fields {
-          slug
-        }
+        slug
         ...PaperCountryFragment
       }
     }

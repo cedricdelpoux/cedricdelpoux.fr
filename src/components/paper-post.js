@@ -9,7 +9,7 @@ import {View} from "./view"
 
 export const PaperPost = ({
   post: {
-    fields: {slug},
+    slug,
     date,
     name,
     cover,
@@ -46,9 +46,7 @@ export const PaperPost = ({
 
 export const query = graphql`
   fragment PaperPostFragment on GoogleDocs {
-    fields {
-      slug
-    }
+    slug
     name
     date(formatString: "Do MMM YYYY", locale: $locale)
     cover {

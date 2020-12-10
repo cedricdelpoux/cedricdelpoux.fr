@@ -14,9 +14,7 @@ export const useMenu = (locale = "fr") => {
           template
           category
           index
-          fields {
-            slug
-          }
+          slug
         }
       }
       en: allGoogleDocs(
@@ -29,9 +27,7 @@ export const useMenu = (locale = "fr") => {
           template
           category
           index
-          fields {
-            slug
-          }
+          slug
         }
       }
     }
@@ -46,7 +42,7 @@ export const useMenu = (locale = "fr") => {
           ...acc,
           [item.type || item.template]: {
             name: item.name,
-            path: item.fields.slug,
+            path: item.slug,
           },
         }),
         {}
@@ -63,11 +59,11 @@ export const useMenu = (locale = "fr") => {
             }
 
         if (item.index) {
-          items[item.category].root = {name: item.name, path: item.fields.slug}
+          items[item.category].root = {name: item.name, path: item.slug}
         } else {
           items[item.category].items.push({
             name: item.name,
-            path: item.fields.slug,
+            path: item.slug,
             order: item.order,
           })
         }

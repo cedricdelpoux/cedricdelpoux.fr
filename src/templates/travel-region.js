@@ -26,7 +26,7 @@ export default ({
     <LayoutPage title={title} description={excerpt} html={html}>
       <Flag country={country} css={{alignSelf: "center"}} />
       <Masonry>
-        {story && <PaperStory key={story.fields.slug} {...story} />}
+        {story && <PaperStory key={story.slug} {...story} />}
         {videos &&
           videos.nodes.length > 0 &&
           videos.nodes.map((node) => <PaperVideo key={node.id} {...node} />)}
@@ -41,9 +41,7 @@ export default ({
           ))}
         {posts &&
           posts.nodes.length > 0 &&
-          posts.nodes.map((node) => (
-            <PaperPost key={node.fields.slug} post={node} />
-          ))}
+          posts.nodes.map((node) => <PaperPost key={node.slug} post={node} />)}
       </Masonry>
     </LayoutPage>
   )
@@ -56,7 +54,7 @@ export const pageQuery = graphql`
     $region: String!
     $locale: String!
   ) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         html
@@ -73,9 +71,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        fields {
-          slug
-        }
+        slug
         ...PaperPostFragment
       }
     }

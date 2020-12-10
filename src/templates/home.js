@@ -106,7 +106,7 @@ export default ({
 
 export const pageQuery = graphql`
   query Home($path: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       childMarkdownRemark {
         html
         excerpt

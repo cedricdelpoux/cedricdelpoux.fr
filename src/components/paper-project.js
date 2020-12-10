@@ -6,14 +6,7 @@ import {Paper} from "./paper"
 import {Title} from "./title"
 import {View} from "./view"
 
-export const PaperProject = ({
-  project: {
-    name,
-    cover,
-    fields: {slug},
-  },
-  ...props
-}) => {
+export const PaperProject = ({project: {name, cover, slug}, ...props}) => {
   return (
     <Paper to={slug} css={{px: 0, gap: 2}} {...props}>
       <Title as="h2" css={{mx: 3}}>
@@ -38,9 +31,7 @@ export const PaperProject = ({
 
 export const query = graphql`
   fragment PaperProjectFragment on GoogleDocs {
-    fields {
-      slug
-    }
+    slug
     name
     cover {
       image {

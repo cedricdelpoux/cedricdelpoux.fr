@@ -319,7 +319,7 @@ const ActivitiesPopup = ({results, setResults}) => {
 
 export const pageQuery = graphql`
   query SportMap($path: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         excerpt

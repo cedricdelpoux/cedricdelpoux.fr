@@ -27,7 +27,7 @@ export default ({
 
 export const pageQuery = graphql`
   query TravelStories($path: String!, $locale: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         html
@@ -39,9 +39,7 @@ export const pageQuery = graphql`
       filter: {template: {eq: "travel-story"}, locale: {eq: $locale}}
     ) {
       nodes {
-        fields {
-          slug
-        }
+        id
         ...PaperStoryFragment
       }
     }

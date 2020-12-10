@@ -113,7 +113,7 @@ export default ({
 
 export const pageQuery = graphql`
   query Post($path: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       date(formatString: "Do MMMM YYYY", locale: "fr")
       cover {

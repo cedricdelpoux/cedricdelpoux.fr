@@ -19,7 +19,7 @@ export default ({
       {posts && posts.nodes.length > 0 && (
         <Masonry>
           {posts.nodes.map((post) => (
-            <PaperPost key={post.fields.slug} post={post} />
+            <PaperPost key={post.slug} post={post} />
           ))}
         </Masonry>
       )}
@@ -29,7 +29,7 @@ export default ({
 
 export const pageQuery = graphql`
   query Posts($path: String!, $locale: String!, $category: String) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         html
@@ -45,9 +45,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        fields {
-          slug
-        }
+        slug
         ...PaperPostFragment
       }
     }

@@ -6,7 +6,7 @@ import {Title} from "./title"
 import {View} from "./view"
 import {useMapbox} from "../hooks/use-mapbox"
 
-export const PaperStory = ({fields: {slug}, name, map, ...props}) => {
+export const PaperStory = ({slug, name, map, ...props}) => {
   const mapUrl = useMapbox(map.polyline)
   return (
     <Paper to={slug} css={{px: 0, pb: 0}} {...props}>
@@ -20,9 +20,7 @@ export const PaperStory = ({fields: {slug}, name, map, ...props}) => {
 
 export const query = graphql`
   fragment PaperStoryFragment on GoogleDocs {
-    fields {
-      slug
-    }
+    slug
     name
     map {
       polyline

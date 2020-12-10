@@ -30,9 +30,9 @@ export default ({
       <Flag country={country} css={{alignSelf: "center"}} />
       <Html html={html} />
       <Masonry>
-        {story && <PaperStory key={story.fields.slug} {...story} />}
+        {story && <PaperStory key={story.slug} {...story} />}
         {regions.nodes.length > 0 &&
-          regions.nodes.map(({region, fields: {slug}, ...rest}) => (
+          regions.nodes.map(({region, slug, ...rest}) => (
             <PaperCountry key={region} to={slug} country={region} {...rest} />
           ))}
         {videos &&
@@ -51,9 +51,7 @@ export default ({
           ))}
         {posts &&
           posts.nodes.length > 0 &&
-          posts.nodes.map((node) => (
-            <PaperPost key={node.fields.slug} post={node} />
-          ))}
+          posts.nodes.map((node) => <PaperPost key={node.slug} post={node} />)}
       </Masonry>
     </LayoutPage>
   )
@@ -61,7 +59,7 @@ export default ({
 
 export const pageQuery = graphql`
   query TravelCountry($path: String!, $country: String!, $locale: String!) {
-    googleDocs(fields: {slug: {eq: $path}}) {
+    googleDocs(slug: {eq: $path}) {
       name
       childMarkdownRemark {
         html
@@ -77,9 +75,7 @@ export const pageQuery = graphql`
     ) {
       nodes {
         region
-        fields {
-          slug
-        }
+        slug
         ...PaperCountryFragment
       }
     }
@@ -110,9 +106,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        fields {
-          slug
-        }
+        slug
         ...PaperPostFragment
       }
     }
