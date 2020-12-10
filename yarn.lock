@@ -8543,10 +8543,10 @@ gatsby-source-filesystem@^2.7.0:
     valid-url "^1.0.9"
     xstate "^4.14.0"
 
-gatsby-source-google-docs@^2.0.0-beta.38:
-  version "2.0.0-beta.38"
-  resolved "https://registry.yarnpkg.com/gatsby-source-google-docs/-/gatsby-source-google-docs-2.0.0-beta.38.tgz#b56ae0a80c44171258f4a3196b88c2a26ed451d2"
-  integrity sha512-i3wy+a2AZcMjpsJ0Fgbz79sxbqQGU+PdilJWLFQAPfMKQHK09fFQGdzkaUVRk59AQyaWOcuJ6heFL9drCfb2Iw==
+gatsby-source-google-docs@^2.0.0-beta.39:
+  version "2.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/gatsby-source-google-docs/-/gatsby-source-google-docs-2.0.0-beta.39.tgz#f408b876b2035874957811ebaa52b29d2dd61787"
+  integrity sha512-juLdTFmZLpHR4EulVDNVchbEVa66TqbQgTSiPfpK0i00+hFVrOohYrrQfVm7zg7QlcOosN7K9CL1xjpADIfXcQ==
   dependencies:
     "@forivall/wyt" "^2.0.2"
     gatsby-source-filesystem "^2.6.1"
