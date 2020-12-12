@@ -114,12 +114,13 @@ export const Heatmap = ({activities, css, calendarHeatmapProps, ...props}) => {
         onClose={() => setActiveDay(null)}
         css={{width: {_: "100vw !important", m: "75vw !important"}}}
       >
-        <Masonry>
-          {activeDay &&
-            activeDay.activities.map((activity) => (
+        {activeDay && activeDay.activities.length > 0 && (
+          <Masonry>
+            {activeDay.activities.map((activity) => (
               <PaperActivity key={activity.id} activity={activity} />
             ))}
-        </Masonry>
+          </Masonry>
+        )}
       </Sidebar>
     </View>
   )

@@ -8051,19 +8051,6 @@ gatsby-core-utils@^1.4.0:
     tmp "^0.2.1"
     xdg-basedir "^4.0.0"
 
-gatsby-core-utils@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-1.5.0.tgz#0834b561ab32b8b93db2ddb3ee695188f8d2eea9"
-  integrity sha512-hCt44m7I9Kmra/iVJwrmHXK8WFK9I1JwXQZquIVZ/JaG8UgqroxW1wpsY7ColbHGMATOmp13Efqn02VNPnms5Q==
-  dependencies:
-    ci-info "2.0.0"
-    configstore "^5.0.1"
-    fs-extra "^8.1.0"
-    node-object-hash "^2.0.0"
-    proper-lockfile "^4.1.1"
-    tmp "^0.2.1"
-    xdg-basedir "^4.0.0"
-
 gatsby-core-utils@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-1.6.0.tgz#ec719e1a1d409ce69f89883e4334922f3b5c720e"
@@ -8505,25 +8492,6 @@ gatsby-source-filesystem@^2.5.0:
     valid-url "^1.0.9"
     xstate "^4.13.0"
 
-gatsby-source-filesystem@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.6.1.tgz#28529fadbcbdd61a4257c8561200bfc1a8d5556c"
-  integrity sha512-XQvQewST3uH8bDjyLMv5srqc0Hh1eIzVkPLMXpcWoszlUX/MSCdY8+boZjLAx8YK0O65MLCr66sV9qFDBldjAw==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    better-queue "^3.8.10"
-    chokidar "^3.4.2"
-    file-type "^16.0.0"
-    fs-extra "^8.1.0"
-    gatsby-core-utils "^1.5.0"
-    got "^9.6.0"
-    md5-file "^5.0.0"
-    mime "^2.4.6"
-    pretty-bytes "^5.4.1"
-    progress "^2.0.3"
-    valid-url "^1.0.9"
-    xstate "^4.13.0"
-
 gatsby-source-filesystem@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.7.0.tgz#09da0ecfb85a6527858029d38b7bc2c68c9a91a3"
@@ -8543,15 +8511,15 @@ gatsby-source-filesystem@^2.7.0:
     valid-url "^1.0.9"
     xstate "^4.14.0"
 
-gatsby-source-google-docs@^2.0.0-beta.39:
-  version "2.0.0-beta.39"
-  resolved "https://registry.yarnpkg.com/gatsby-source-google-docs/-/gatsby-source-google-docs-2.0.0-beta.39.tgz#f408b876b2035874957811ebaa52b29d2dd61787"
-  integrity sha512-juLdTFmZLpHR4EulVDNVchbEVa66TqbQgTSiPfpK0i00+hFVrOohYrrQfVm7zg7QlcOosN7K9CL1xjpADIfXcQ==
+gatsby-source-google-docs@^2.0.0-beta.40:
+  version "2.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/gatsby-source-google-docs/-/gatsby-source-google-docs-2.0.0-beta.40.tgz#ba842d8f301a7628d7e15b8caffba6cf90c6aa99"
+  integrity sha512-AfwSkYkRVl6C1rn3XUVhW36CY3RwWOYh64S8AEqhTMKFvxcw9sTny6YazWBseWjKZVUdXD/AZlOw9dt6vCcvqw==
   dependencies:
     "@forivall/wyt" "^2.0.2"
-    gatsby-source-filesystem "^2.6.1"
+    gatsby-source-filesystem "^2.7.0"
     google-oauth2-env-vars "^1.2.0"
-    googleapis "65.0.0"
+    googleapis "66.0.0"
     json2md "^1.9.1"
     lodash "^4.17.20"
     yamljs "^0.3.0"
@@ -9173,10 +9141,10 @@ googleapis-common@^4.4.0, googleapis-common@^4.4.1:
     url-template "^2.0.8"
     uuid "^8.0.0"
 
-googleapis@65.0.0:
-  version "65.0.0"
-  resolved "https://registry.yarnpkg.com/googleapis/-/googleapis-65.0.0.tgz#de261460548bd4bb63b9ea3765415577d17f8c8c"
-  integrity sha512-dcfZVkML8H6mPAsph0hgfyRQYKJpw2XjKchAXx5YEfDYWU7021Mpzaf+ejNSipa3QmcfOLOcWg6sUr0I7M4jjQ==
+googleapis@66.0.0:
+  version "66.0.0"
+  resolved "https://registry.yarnpkg.com/googleapis/-/googleapis-66.0.0.tgz#008062d06b13954bd3a0425c17e8f8396e884957"
+  integrity sha512-jdEleRoyo/AeJZjKGC7Z2mHgochn2vR2JKqey6kydRkIBmCZxoQKLisRR4H8CRYZeEd6+c8Ns/LzS1S7qUjoFw==
   dependencies:
     google-auth-library "^6.0.0"
     googleapis-common "^4.4.1"

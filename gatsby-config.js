@@ -138,11 +138,9 @@ module.exports = {
       options: {
         debug: true,
         folder: GOOGLE_DOCS_FOLDER,
-        demoteHeadings: true,
         skipImages: MINIMAL ? true : false,
-        defaults: {
-          template: "page",
-        },
+        createPages: true,
+        pageContext: ["locale", "category", "country", "region"],
       },
     },
     {
