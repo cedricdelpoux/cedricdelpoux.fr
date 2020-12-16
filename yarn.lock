@@ -5849,10 +5849,10 @@ css-selector-tokenizer@^0.7.0:
     cssesc "^3.0.0"
     fastparse "^1.1.2"
 
-css-system@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/css-system/-/css-system-0.8.0.tgz#767ac0578c6664bb4728e291a5b00b7c6dde2144"
-  integrity sha512-MiHXx0dqZKqw2I6OwclnlseWRkE4Q9sN/l+yRsLxfB0ArT90usQ4Os+ypOYZ71rs0o+Bhv6kJHTwBr8CVdP3og==
+css-system@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/css-system/-/css-system-0.9.0.tgz#564e4d9edf1ff29d7db48b9aa3390d00f6822b70"
+  integrity sha512-RPXihdDhyr07+lN463/XrNKz79993n/e9YDccdSWH1m2jYAowT+s+c9BMeiSFRolV0/1qDTYJoaFZBGBYj4PDw==
   dependencies:
     hash-sum "^2.0.0"
 

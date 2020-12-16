@@ -16,7 +16,7 @@
     "@urbica/react-map-gl": "^1.14.2",
     "chroma-js": "^2.0.4",
     "city-reverse-geocoder": "^0.0.1",
-    "css-system": "^0.8.0",
+    "css-system": "^0.9.0",
     "date-fns": "^2.16.1",
     "gatsby": "^2.28.1",
     "gatsby-image": "^2.7.0",
