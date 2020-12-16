@@ -1,25 +1,25 @@
-import {FormattedMessage} from "react-intl"
 import {graphql} from "gatsby"
-import React, {useMemo, useLayoutEffect, useState} from "react"
+import React, {useLayoutEffect, useMemo, useState} from "react"
+import {FormattedMessage} from "react-intl"
 
-import {LayoutPage} from "../layouts/page"
+import InputRange from "../components/input-range"
 import {Masonry} from "../components/masonry"
 import {PaperActivity} from "../components/paper-activity"
 import {SwitcherSport} from "../components/switcher-sport"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {useLoadMore} from "../hooks/use-load-more"
+import {LayoutPage} from "../layouts/page"
 import {
-  getMinSpeed,
+  getMaxDistance,
   getMaxSpeed,
   getMinDistance,
-  getMaxDistance,
+  getMinSpeed,
 } from "../utils/activities"
 import {
-  kmPerHourToMetersPerSecond,
   kilometersToMeters,
+  kmPerHourToMetersPerSecond,
 } from "../utils/convertors"
-import {useLoadMore} from "../hooks/use-load-more"
-import InputRange from "../components/input-range"
 
 const COUNT_PER_PAGE = 9
 
@@ -148,6 +148,7 @@ export const pageQuery = graphql`
         activity: {
           type: {in: ["Run", "Ride"]}
           map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
         }
       }
       sort: {fields: [activity___start_date], order: DESC}

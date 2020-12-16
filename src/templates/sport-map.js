@@ -1,33 +1,33 @@
-import {FormattedMessage} from "react-intl"
-import {ThemeContext, useCss} from "css-system"
-import {graphql} from "gatsby"
 import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
 import MapGL, {
   Filter,
-  Layer,
-  Popup,
-  Source,
-  NavigationControl,
-  ScaleControl,
   FullscreenControl,
+  Layer,
+  NavigationControl,
+  Popup,
+  ScaleControl,
+  Source,
 } from "@urbica/react-map-gl"
+import {ThemeContext, useCss} from "css-system"
+import {graphql} from "gatsby"
 import React, {
-  useEffect,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react"
+import {FormattedMessage} from "react-intl"
 
 import {Button} from "../components/button"
-import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperActivity} from "../components/paper-activity"
 import {SelectGradient} from "../components/select"
-import {SwitcherSport} from "../components/switcher-sport"
 import {Sidebar} from "../components/sidebar"
+import {SwitcherSport} from "../components/switcher-sport"
 import {Text} from "../components/text"
 import {View} from "../components/view"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -330,6 +330,7 @@ export const pageQuery = graphql`
         activity: {
           type: {in: ["Run", "Ride", "Hike"]}
           map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
         }
       }
       sort: {fields: [activity___start_date], order: DESC}

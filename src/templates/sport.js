@@ -1,10 +1,9 @@
-import {FormattedMessage} from "react-intl"
 import {graphql} from "gatsby"
 import React, {useMemo, useState} from "react"
+import {FormattedMessage} from "react-intl"
 
 import {Button} from "../components/button"
 import {Heatmap} from "../components/heatmap"
-import {LayoutPage} from "../layouts/page"
 import {Link} from "../components/link"
 import {Masonry} from "../components/masonry"
 import {PaperActivity} from "../components/paper-activity"
@@ -13,6 +12,7 @@ import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
 import {useMenu} from "../hooks/use-menu"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -102,7 +102,11 @@ export const pageQuery = graphql`
     }
     latestRuns: allStravaActivity(
       filter: {
-        activity: {type: {eq: "Run"}, map: {summary_polyline: {ne: null}}}
+        activity: {
+          type: {eq: "Run"}
+          map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
+        }
       }
       sort: {fields: [activity___start_date], order: DESC}
       limit: 1000
@@ -114,7 +118,11 @@ export const pageQuery = graphql`
 
     latestRides: allStravaActivity(
       filter: {
-        activity: {type: {eq: "Ride"}, map: {summary_polyline: {ne: null}}}
+        activity: {
+          type: {eq: "Ride"}
+          map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
+        }
       }
       sort: {fields: [activity___start_date], order: DESC}
       limit: 1000
@@ -126,7 +134,11 @@ export const pageQuery = graphql`
 
     fastestRuns: allStravaActivity(
       filter: {
-        activity: {type: {eq: "Run"}, map: {summary_polyline: {ne: null}}}
+        activity: {
+          type: {eq: "Run"}
+          map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
+        }
       }
       sort: {fields: [activity___average_speed], order: DESC}
       limit: 1
@@ -138,7 +150,11 @@ export const pageQuery = graphql`
 
     fastestRides: allStravaActivity(
       filter: {
-        activity: {type: {eq: "Ride"}, map: {summary_polyline: {ne: null}}}
+        activity: {
+          type: {eq: "Ride"}
+          map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
+        }
       }
       sort: {fields: [activity___average_speed], order: DESC}
       limit: 1
@@ -149,7 +165,11 @@ export const pageQuery = graphql`
     }
     longestRuns: allStravaActivity(
       filter: {
-        activity: {type: {eq: "Run"}, map: {summary_polyline: {ne: null}}}
+        activity: {
+          type: {eq: "Run"}
+          map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
+        }
       }
       sort: {fields: [activity___distance], order: DESC}
       limit: 1
@@ -161,7 +181,11 @@ export const pageQuery = graphql`
 
     longestRides: allStravaActivity(
       filter: {
-        activity: {type: {eq: "Ride"}, map: {summary_polyline: {ne: null}}}
+        activity: {
+          type: {eq: "Ride"}
+          map: {summary_polyline: {ne: null}}
+          visibility: {eq: "everyone"}
+        }
       }
       sort: {fields: [activity___distance], order: DESC}
       limit: 1
