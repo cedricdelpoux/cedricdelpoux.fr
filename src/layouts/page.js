@@ -1,10 +1,9 @@
-import {Helmet} from "react-helmet"
-import {ThemeContext} from "css-system"
-import {graphql, useStaticQuery} from "gatsby"
-import {useTrail} from "react-spring"
-import Img from "gatsby-image"
 import {useLocation} from "@reach/router"
+import {ThemeContext} from "css-system"
+import Img from "gatsby-image"
 import React, {useContext, useState} from "react"
+import {Helmet} from "react-helmet"
+import {useTrail} from "react-spring"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -12,8 +11,8 @@ import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 import {useSiteMetadata} from "../hooks/use-site-metadata"
+import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 
 export const LayoutPage = ({
   css,
@@ -152,7 +151,6 @@ export const LayoutPage = ({
 }
 
 const Animated = ({children, animated, css}) => {
-  const theme = useContext(ThemeContext)
   const childrenArray = React.Children.toArray(children).filter(Boolean)
   const animationsCount = animated ? childrenArray.length : 0
   const animations = useTrail(animationsCount, {

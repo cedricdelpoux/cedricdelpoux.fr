@@ -13,20 +13,17 @@ export const Html = ({html, css, fluid, ...props}) => {
       css={{
         flex: 1,
         fontSize: {_: 3, s: 4},
-        gap: 2,
+        mx: "auto",
+        width: fluid ? "100%" : {m: 680},
+        maxWidth: "100%",
         "& > *:first-child": {
           mt: 0,
         },
-        "& > *:not([class^=gatsby-resp-image]):not(table):not(h1):not(h2):not(h3):not(h4):not(h5)": {
-          mx: "auto",
-          width: fluid ? "100%" : {m: 680},
-          maxWidth: "100%",
-        },
         "& > [class^=gatsby-resp-image]": {
-          width: "100%",
-          maxWidth: theme.breakpoints.m,
-          margin: "0 auto",
+          m: 0,
+          mb: 0,
           "& > figcaption": {
+            mt: 1,
             textAlign: "center",
             fontStyle: "italic",
           },
@@ -89,6 +86,9 @@ export const Html = ({html, css, fluid, ...props}) => {
         },
         "& > p > iframe": {
           maxWidth: "100%",
+        },
+        "&& > * + *": {
+          mt: 2,
         },
         ...css,
       }}
