@@ -20,6 +20,7 @@ export const Html = ({html, css, fluid, ...props}) => {
           mt: 0,
         },
         "& > [class^=gatsby-resp-image]": {
+          width: "100%",
           m: 0,
           mb: 0,
           "& > figcaption": {
