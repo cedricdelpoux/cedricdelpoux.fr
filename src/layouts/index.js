@@ -1,12 +1,12 @@
-import {Helmet} from "react-helmet"
 import {ThemeContext, useGlobalCss} from "css-system"
 import React from "react"
+import {Helmet} from "react-helmet"
 
-import {Blank} from "./blank"
 import {Footer} from "../components/footer"
 import {Header} from "../components/header"
 import {View} from "../components/view"
 import {useSiteMetadata} from "../hooks/use-site-metadata"
+import {Blank} from "./blank"
 
 export default ({children, pageContext, path}) => {
   const theme = React.useContext(ThemeContext)
@@ -36,7 +36,6 @@ export default ({children, pageContext, path}) => {
       backgroundColor: `${theme.colors.background} !important`,
     },
     ".medium-zoom-image": {
-      borderRadius: 2,
       outline: "none",
     },
     "::selection": {

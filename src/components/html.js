@@ -20,6 +20,8 @@ export const Html = ({html, css, fluid, ...props}) => {
           mt: 0,
         },
         "& > [class^=gatsby-resp-image]": {
+          borderRadius: 2,
+          overflow: "hidden",
           width: "100%",
           m: 0,
           mb: 0,
@@ -48,7 +50,7 @@ export const Html = ({html, css, fluid, ...props}) => {
           backgroundImage: "inherit",
         },
         "& > table": {
-          display: {_: "block", m: "table"},
+          display: {_: "block", s: "table"},
           overflow: "scroll",
           borderRadius: 3,
           "& th, & td": {
