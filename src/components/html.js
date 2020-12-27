@@ -48,7 +48,7 @@ export const Html = ({html, css, fluid, ...props}) => {
           backgroundImage: "inherit",
         },
         "& > table": {
-          display: "block",
+          display: {_: "block", m: "table"},
           overflow: "scroll",
           borderRadius: 3,
           "& th, & td": {
