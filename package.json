@@ -43,7 +43,7 @@
     "gatsby-remark-strava": "^1.2.0",
     "gatsby-remark-unwrap-images": "^1.0.2",
     "gatsby-source-filesystem": "^2.7.0",
-    "gatsby-source-google-docs": "^2.0.0-beta.40",
+    "gatsby-source-google-docs": "^2.0.0-beta.41",
     "gatsby-source-google-mymaps": "^1.0.0-beta.3",
     "gatsby-source-google-photos": "^2.4.1",
     "gatsby-source-graphql": "2.10.0",
