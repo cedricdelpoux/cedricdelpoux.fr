@@ -25,6 +25,7 @@ const {
 module.exports = {
   flags: {
     FAST_DEV: true,
+    DEV_SSR: true,
   },
   siteMetadata: {
     title: "Cédric Delpoux",
@@ -98,7 +99,6 @@ module.exports = {
       options: {
         albumsTitles: [
           "cedricdelpoux.fr",
-          "cedricdelpoux.fr/sport",
           "cedricdelpoux.fr/travel/iceland",
           "cedricdelpoux.fr/travel/france/reunion",
           ...(!MINIMAL
