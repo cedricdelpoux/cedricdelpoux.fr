@@ -8,9 +8,8 @@ import {View} from "../components/view"
 import {useSiteMetadata} from "../hooks/use-site-metadata"
 import {Blank} from "./blank"
 
-export default ({children, pageContext, path}) => {
+export default ({children, pageContext, location}) => {
   const theme = React.useContext(ThemeContext)
-
   useGlobalCss({
     html: {
       scrollBehavior: "smooth",
@@ -52,7 +51,7 @@ export default ({children, pageContext, path}) => {
     return <Blank>{children}</Blank>
   }
 
-  const locale = path.startsWith("/en") ? "en" : "fr"
+  const locale = location.pathname.startsWith("/en") ? "en" : "fr"
   return (
     <>
       <Helmet>

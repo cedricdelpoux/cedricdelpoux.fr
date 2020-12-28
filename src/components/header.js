@@ -1,4 +1,4 @@
-import {ThemeContext} from "css-system"
+import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
 import {
   faAddressCard,
   faBars,
@@ -11,10 +11,12 @@ import {
   faLightbulbOn,
 } from "@fortawesome/pro-light-svg-icons"
 import {useLocation} from "@reach/router"
-import {useIntl} from "react-intl"
-import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
+import {ThemeContext} from "css-system"
 import React, {useContext, useState} from "react"
+import {useIntl} from "react-intl"
 
+import {useMenu} from "../hooks/use-menu"
+import IconCed from "../icons/ced.svg"
 import {Button} from "./button"
 import {Flag} from "./flag"
 import {Icon} from "./icon"
@@ -22,8 +24,6 @@ import {Link} from "./link"
 import {Sidebar} from "./sidebar"
 import {Text} from "./text"
 import {View} from "./view"
-import {useMenu} from "../hooks/use-menu"
-import IconCed from "../icons/ced.svg"
 
 const CATEGORIES_ICONS = {
   code: faCode,
