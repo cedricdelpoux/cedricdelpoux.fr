@@ -26,6 +26,9 @@ module.exports = {
   flags: {
     FAST_DEV: true,
     DEV_SSR: true,
+    PARALLEL_SOURCING: true,
+    QUERY_ON_DEMAND: true,
+    LAZY_IMAGES: true,
   },
   siteMetadata: {
     title: "Cédric Delpoux",
