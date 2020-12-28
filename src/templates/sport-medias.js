@@ -1,10 +1,10 @@
 import {graphql} from "gatsby"
 import React from "react"
 
-import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperPhoto} from "../components/paper-photo"
 import {PaperVideo} from "../components/paper-video"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -22,7 +22,7 @@ export default ({
         {videos.nodes.map((node) => (
           <PaperVideo key={node.id} {...node} />
         ))}
-        {album.photos.map((node) => (
+        {album?.photos.map((node) => (
           <PaperPhoto
             key={node.id}
             photo={node.photo}

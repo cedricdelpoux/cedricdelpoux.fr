@@ -103,6 +103,7 @@ module.exports = {
           "cedricdelpoux.fr/travel/france/reunion",
           ...(!MINIMAL
             ? [
+                "cedricdelpoux.fr/sport",
                 "cedricdelpoux.fr/travel/france/corsica",
                 "cedricdelpoux.fr/travel/peru",
                 "cedricdelpoux.fr/travel/jordan",
