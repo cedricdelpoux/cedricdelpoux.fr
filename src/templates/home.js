@@ -4,15 +4,15 @@ import React from "react"
 import {AnimationCode} from "../components/animation-code"
 import {AnimationSport} from "../components/animation-sport"
 import {AnimationTravel} from "../components/animation-travel"
+import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
-import {CedricCircle} from "../components/cedric-circle"
 import {Flag} from "../components/flag"
 import {Html} from "../components/html"
-import {LayoutPage} from "../layouts/page"
 import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {View} from "../components/view"
 import {useMenu} from "../hooks/use-menu"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -47,7 +47,7 @@ export default ({
             <Text>{"Français"}</Text>
           </Button>
         )}
-        <CedricCircle />
+        <Avatar />
         <Button as={Link} to={menu.items.about.path}>
           <Text>{menu.items.about.name}</Text>
         </Button>

@@ -1,10 +1,10 @@
 import {graphql} from "gatsby"
 import React from "react"
 
-import {CedricCircle} from "../components/cedric-circle"
+import {Avatar} from "../components/avatar"
 import {Html} from "../components/html"
-import {LayoutPage} from "../layouts/page"
 import {View} from "../components/view"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -17,7 +17,7 @@ export default ({
   return (
     <LayoutPage title={title} description={excerpt}>
       <View css={{alignItems: "center"}}>
-        <CedricCircle />
+        <Avatar />
       </View>
       <Html html={html} />
     </LayoutPage>

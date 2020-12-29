@@ -5,10 +5,12 @@ import React, {useContext} from "react"
 
 import {View} from "./view"
 
-export const CedricCircle = ({css, ...props}) => {
+const CIRCLE_OFFSET = 34
+
+export const Avatar = ({css, ...props}) => {
   const theme = useContext(ThemeContext)
   const data = useStaticQuery(graphql`
-    query CedricCircleQuery {
+    query AvatarQuery {
       avatar: googlePhotosPhoto(
         description: {eq: "Cédric Delpoux sur fond transparent"}
       ) {
@@ -40,12 +42,9 @@ export const CedricCircle = ({css, ...props}) => {
           borderRadius: "50%",
           width: "100%",
           paddingBottom: "100%",
-          bottom: "-34px",
+          bottom: `-${CIRCLE_OFFSET}px`,
           left: "50%",
           transform: "translateX(-50%)",
-          boxShadow: theme.boxShadow,
-          transitionDuration: theme.transition,
-          transitionProperty: "box-shadow",
         }}
       />
       <View
@@ -70,10 +69,20 @@ export const CedricCircle = ({css, ...props}) => {
           transitionProperty: "background",
           transitionDuration: theme.transition,
           top: "100%",
-          height: "50px",
+          height: `${CIRCLE_OFFSET}px`,
           left: "50%",
           transform: "translateX(-50%)",
-          width: "100%",
+          width: "66.66%", // 100*2/3
+          "&::before": {
+            content: '""',
+            height: "4px",
+            width: "100%",
+            position: "absolute",
+            top: "-4px",
+            transform: "translateX(-50%)",
+            left: "50%",
+            background: theme.colors.gradient,
+          },
         }}
       />
     </View>
