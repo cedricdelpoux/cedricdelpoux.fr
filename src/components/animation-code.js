@@ -1,11 +1,9 @@
 import {ThemeContext, useKeyframes} from "css-system"
 import React, {useContext} from "react"
 
+import {getColorWithOpacity} from "../utils/colors"
 import {Text} from "./text"
 import {View} from "./view"
-import {getColorWithOpacity} from "../utils/colors"
-
-const typingStep = 50
 
 const TextLine = ({css, children, ...props}) => {
   return (
@@ -16,7 +14,6 @@ const TextLine = ({css, children, ...props}) => {
         borderRight: "4px solid transparent",
         width: "0",
         gap: 1,
-        pr: 2,
         ...css,
       }}
       {...props}
@@ -27,20 +24,134 @@ const TextLine = ({css, children, ...props}) => {
 }
 
 const Line = ({css, children, ...props}) => {
-  const typing = useKeyframes({
-    from: {
-      width: 0,
+  const typing1 = useKeyframes({
+    "0%": {
+      width: "0%",
+      borderColor: "secondary",
     },
-    to: {
+    "20%": {
       width: "100%",
+      borderColor: "secondary",
     },
-  })
-  const blinkCaret = useKeyframes({
-    from: {
+    "21%": {
       borderColor: "transparent",
     },
-    to: {
-      borderColor: "primary",
+    "100%": {
+      width: "100%",
+      borderColor: "transparent",
+    },
+  })
+  const typing2 = useKeyframes({
+    "0%": {
+      width: "0%",
+      borderColor: "transparent",
+    },
+    "20%": {
+      borderColor: "transparent",
+    },
+    "21%": {
+      width: "0%",
+      borderColor: "secondary",
+    },
+    "42%": {
+      width: "100%",
+      borderColor: "secondary",
+    },
+    "43%": {
+      borderColor: "transparent",
+    },
+    "100%": {
+      width: "100%",
+      borderColor: "transparent",
+    },
+  })
+  const typing3 = useKeyframes({
+    "0%": {
+      width: "0%",
+      borderColor: "transparent",
+    },
+    "42%": {
+      borderColor: "transparent",
+    },
+    "43%": {
+      width: "0%",
+      borderColor: "secondary",
+    },
+    "63%": {
+      width: "100%",
+      borderColor: "secondary",
+    },
+    "64%": {
+      borderColor: "transparent",
+    },
+    "100%": {
+      width: "100%",
+      borderColor: "transparent",
+    },
+  })
+  const typing4 = useKeyframes({
+    "0%": {
+      width: "0%",
+      borderColor: "transparent",
+    },
+    "63%": {
+      borderColor: "transparent",
+    },
+    "64%": {
+      width: "0%",
+      borderColor: "secondary",
+    },
+    "85%": {
+      width: "100%",
+      borderColor: "secondary",
+    },
+    "86%": {
+      borderColor: "transparent",
+    },
+    "100%": {
+      width: "100%",
+      borderColor: "transparent",
+    },
+  })
+  const typing5 = useKeyframes({
+    "0%": {
+      width: "0%",
+      borderColor: "transparent",
+    },
+    "85%": {
+      borderColor: "transparent",
+    },
+    "86%": {
+      width: "0%",
+      borderColor: "secondary",
+    },
+    "92%": {
+      width: "100%",
+      borderColor: "secondary",
+    },
+    "93%": {
+      borderColor: "transparent",
+    },
+    "100%": {
+      width: "100%",
+      borderColor: "transparent",
+    },
+  })
+  const typing6 = useKeyframes({
+    "0%": {
+      width: "0%",
+      borderColor: "transparent",
+    },
+    "92%": {
+      borderColor: "transparent",
+    },
+    "93%": {
+      width: "0%",
+      borderColor: "secondary",
+    },
+    "100%": {
+      width: "100%",
+      borderColor: "secondary",
     },
   })
 
@@ -48,25 +159,26 @@ const Line = ({css, children, ...props}) => {
     <Text
       css={{
         "& > *": {
-          animation: `${typing} 3s steps(${typingStep}, end) forwards, ${blinkCaret} 2s steps(4)`,
+          animationIterationCount: "infinite",
+          animationDuration: "10s",
         },
         "&:nth-of-type(1) > *": {
-          animationDelay: "0s",
+          animationName: typing1,
         },
         "&:nth-of-type(2) > *": {
-          animationDelay: "2s",
+          animationName: typing2,
         },
         "&:nth-of-type(3) > *": {
-          animationDelay: "4s",
+          animationName: typing3,
         },
         "&:nth-of-type(4) > *": {
-          animationDelay: "6s",
+          animationName: typing4,
         },
         "&:nth-of-type(5) > *": {
-          animationDelay: "8s",
+          animationName: typing5,
         },
         "&:nth-of-type(6) > *": {
-          animationDelay: "10s",
+          animationName: typing6,
         },
         ...css,
       }}
