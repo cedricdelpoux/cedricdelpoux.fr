@@ -1,11 +1,11 @@
-import {faStar} from "@fortawesome/pro-light-svg-icons"
 import {faGithub} from "@fortawesome/free-brands-svg-icons"
+import {faStar} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
 import React, {useMemo} from "react"
 
-import {LayoutPage} from "../layouts/page"
-import {Masonry} from "../components/masonry"
+import {Grid} from "../components/grid"
 import {PaperRepository} from "../components/paper-repository"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -40,13 +40,13 @@ export default ({
         },
       ]}
     >
-      <Masonry>
+      <Grid>
         {github.viewer.repositories.nodes
           .filter((repository) => repository.stargazers.totalCount > 0)
           .map((repository) => (
             <PaperRepository key={repository.id} repository={repository} />
           ))}
-      </Masonry>
+      </Grid>
     </LayoutPage>
   )
 }

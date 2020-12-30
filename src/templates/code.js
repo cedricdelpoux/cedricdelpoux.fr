@@ -3,7 +3,7 @@ import {graphql} from "gatsby"
 import React from "react"
 
 import {LayoutPage} from "../layouts/page"
-import {Masonry} from "../components/masonry"
+import {Grid} from "../components/grid"
 import {PaperProject} from "../components/paper-project"
 import {Title} from "../components/title"
 import {View} from "../components/view"
@@ -70,11 +70,11 @@ export default ({
           <Title as="h2">
             <FormattedMessage id="code.projects" />
           </Title>
-          <Masonry>
+          <Grid>
             {projects.nodes.map((project) => (
               <PaperProject key={project.slug} project={project} />
             ))}
-          </Masonry>
+          </Grid>
         </>
       )}
     </LayoutPage>

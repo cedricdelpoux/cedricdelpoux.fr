@@ -1,9 +1,9 @@
 import {graphql} from "gatsby"
 import React from "react"
 
-import {LayoutPage} from "../layouts/page"
-import {Masonry} from "../components/masonry"
+import {Grid} from "../components/grid"
 import {PaperStory} from "../components/paper-story"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
@@ -16,11 +16,11 @@ export default ({
 }) => {
   return (
     <LayoutPage title={title} description={excerpt} html={html}>
-      <Masonry>
+      <Grid>
         {stories.nodes.map((node) => (
           <PaperStory key={node.id} {...node} />
         ))}
-      </Masonry>
+      </Grid>
     </LayoutPage>
   )
 }

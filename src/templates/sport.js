@@ -3,9 +3,9 @@ import React, {useMemo, useState} from "react"
 import {FormattedMessage} from "react-intl"
 
 import {Button} from "../components/button"
+import {Grid} from "../components/grid"
 import {Heatmap} from "../components/heatmap"
 import {Link} from "../components/link"
-import {Masonry} from "../components/masonry"
 import {PaperActivity} from "../components/paper-activity"
 import {SwitcherSport} from "../components/switcher-sport"
 import {Text} from "../components/text"
@@ -60,7 +60,7 @@ export default ({
         <FormattedMessage id={`sport.types.${sport.toLowerCase()}`} />
       </Title>
       <Heatmap activities={activities} />
-      <Masonry>
+      <Grid>
         <View css={{gap: 2}}>
           <Title as="h3">
             <FormattedMessage id="sport.index.latest-activity" />
@@ -79,7 +79,7 @@ export default ({
           </Title>
           <PaperActivity activity={longestActivity.activity} />
         </View>
-      </Masonry>
+      </Grid>
       <View css={{alignSelf: "center"}}>
         <Button as={Link} to={menu.categories.sport.items[0].path}>
           <Text>

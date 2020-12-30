@@ -1,9 +1,9 @@
 import {graphql} from "gatsby"
 import React from "react"
 
-import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperCountry} from "../components/paper-country"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {

@@ -20,7 +20,7 @@ import React, {
 import {FormattedMessage} from "react-intl"
 
 import {Button} from "../components/button"
-import {Masonry} from "../components/masonry"
+import {Grid} from "../components/grid"
 import {PaperActivity} from "../components/paper-activity"
 import {SelectGradient} from "../components/select"
 import {Sidebar} from "../components/sidebar"
@@ -229,13 +229,13 @@ export default ({
         onClose={() => setResults(null)}
         css={{width: {_: "100vw !important", m: "75vw !important"}}}
       >
-        <Masonry>
+        <Grid>
           {results &&
             results.activities &&
             results.activities.map((activity) => (
               <PaperActivity key={activity.id} activity={activity} />
             ))}
-        </Masonry>
+        </Grid>
       </Sidebar>
     </LayoutPage>
   )

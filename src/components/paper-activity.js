@@ -1,4 +1,3 @@
-import {ThemeContext} from "css-system"
 import {
   faBiking,
   faCalendar,
@@ -7,20 +6,38 @@ import {
   faRunning,
   faStopwatch,
 } from "@fortawesome/pro-light-svg-icons"
+import {ThemeContext} from "css-system"
 import {graphql} from "gatsby"
 import React, {useContext} from "react"
 
-import {Grid, GridItem} from "./grid"
-import {Icon} from "./icon"
-import {Paper} from "./paper"
-import {Text} from "./text"
-import {View} from "./view"
+import {useMapbox} from "../hooks/use-mapbox"
 import {
   metersPerSecondTokmPerHour,
   metersToKilometers,
 } from "../utils/convertors"
 import {secondsToHms} from "../utils/formattors"
-import {useMapbox} from "../hooks/use-mapbox"
+import {Icon} from "./icon"
+import {Paper} from "./paper"
+import {Text} from "./text"
+import {View} from "./view"
+
+const Grid = ({css, children, ...props}) => (
+  <View
+    css={{
+      display: "grid",
+      ...css,
+    }}
+    {...props}
+  >
+    {children}
+  </View>
+)
+
+const GridItem = ({css, children, ...props}) => (
+  <View css={{p: 2, alignItems: "center", gap: 1, ...css}} {...props}>
+    {children}
+  </View>
+)
 
 export const PaperActivity = ({
   activity: {

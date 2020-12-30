@@ -1,20 +1,20 @@
 import React from "react"
+
 import {View} from "./view"
 
-export const Grid = ({css, children, ...props}) => (
-  <View
-    css={{
-      display: "grid",
-      ...css,
-    }}
-    {...props}
-  >
-    {children}
-  </View>
-)
-
-export const GridItem = ({css, children, ...props}) => (
-  <View css={{p: 2, alignItems: "center", gap: 1, ...css}} {...props}>
-    {children}
-  </View>
-)
+export const Grid = ({children, css, ...props}) => {
+  return (
+    <View
+      css={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px,1fr))",
+        columnGap: 2,
+        rowGap: 2,
+        ...css,
+      }}
+      {...props}
+    >
+      {children}
+    </View>
+  )
+}

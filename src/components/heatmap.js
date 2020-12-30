@@ -1,16 +1,16 @@
-import {ThemeContext} from "css-system"
-import {graphql} from "gatsby"
 import Loadable from "@loadable/component"
-import React, {useContext, useState} from "react"
+import {ThemeContext} from "css-system"
 import startOfWeek from "date-fns/startOfWeek"
 import subWeeks from "date-fns/subWeeks"
+import {graphql} from "gatsby"
+import React, {useContext, useState} from "react"
 
-import {Masonry} from "./masonry"
+import {generateColorsRange, getColorFromRange} from "../utils/colors"
+import {metersToKilometers} from "../utils/convertors"
+import {Grid} from "./grid"
 import {PaperActivity} from "./paper-activity"
 import {Sidebar} from "./sidebar"
 import {View} from "./view"
-import {generateColorsRange, getColorFromRange} from "../utils/colors"
-import {metersToKilometers} from "../utils/convertors"
 
 const CalendarHeatmap = Loadable(() => import("react-calendar-heatmap"))
 
@@ -115,11 +115,11 @@ export const Heatmap = ({activities, css, calendarHeatmapProps, ...props}) => {
         css={{width: {_: "100vw !important", m: "75vw !important"}}}
       >
         {activeDay && activeDay.activities.length > 0 && (
-          <Masonry>
+          <Grid>
             {activeDay.activities.map((activity) => (
               <PaperActivity key={activity.id} activity={activity} />
             ))}
-          </Masonry>
+          </Grid>
         )}
       </Sidebar>
     </View>

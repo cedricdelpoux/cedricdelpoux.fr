@@ -2,8 +2,8 @@ import {graphql} from "gatsby"
 import React, {useLayoutEffect, useMemo, useState} from "react"
 import {FormattedMessage} from "react-intl"
 
+import {Grid} from "../components/grid"
 import InputRange from "../components/input-range"
-import {Masonry} from "../components/masonry"
 import {PaperActivity} from "../components/paper-activity"
 import {SwitcherSport} from "../components/switcher-sport"
 import {Title} from "../components/title"
@@ -125,11 +125,11 @@ export default ({
           values={{count: filteredActivities.length}}
         />
       </Title>
-      <Masonry>
+      <Grid>
         {filteredActivities.slice(0, activitiesCount).map(({activity}) => (
           <PaperActivity key={activity.id} activity={activity} />
         ))}
-      </Masonry>
+      </Grid>
     </LayoutPage>
   )
 }
