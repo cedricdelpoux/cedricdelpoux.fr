@@ -338,6 +338,12 @@ export const pageQuery = graphql`
       nodes {
         ...PaperActivityFragment
         activity {
+          map {
+            geoJSON {
+              type
+              coordinates
+            }
+          }
           start_latlng
         }
       }
