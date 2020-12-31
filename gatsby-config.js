@@ -182,6 +182,8 @@ module.exports = {
               linkImagesToOriginal: false,
             },
           },
+          "gatsby-remark-embed-youtube",
+          "gatsby-remark-responsive-iframe",
           "gatsby-remark-prismjs",
         ],
       },
