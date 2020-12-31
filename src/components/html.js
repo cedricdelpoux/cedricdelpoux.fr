@@ -50,7 +50,7 @@ export const Html = ({html, css, fluid, ...props}) => {
           backgroundImage: "inherit",
         },
         "& > table": {
-          display: {_: "block", s: "table"},
+          display: "block",
           overflow: "scroll",
           borderRadius: 3,
           "& th, & td": {
