@@ -175,6 +175,12 @@ module.exports = {
             },
           },
           {
+            resolve: "gatsby-remark-youtube",
+            options: {
+              debug: true,
+            },
+          },
+          {
             resolve: "gatsby-remark-images",
             options: {
               showCaptions: true,
@@ -182,8 +188,6 @@ module.exports = {
               linkImagesToOriginal: false,
             },
           },
-          "gatsby-remark-embed-youtube",
-          "gatsby-remark-responsive-iframe",
           "gatsby-remark-prismjs",
         ],
       },
