@@ -8367,6 +8367,14 @@ gatsby-remark-copy-linked-files@^2.6.0:
     probe-image-size "^5.0.0"
     unist-util-visit "^1.4.1"
 
+gatsby-remark-gifs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-gifs/-/gatsby-remark-gifs-1.0.0.tgz#c23e389ddebdf43cc40951d5cf9137167e1d0684"
+  integrity sha512-8kg9LlDZ15tCHODnlULV6mW2JIJtnj3swGjaEL8uCTsqanJLznNS/r8ja7PMRYwXmY6+2GEixl7zr1gNTtV/xg==
+  dependencies:
+    is-relative-url "^3.0.0"
+    unist-util-visit "^2.0.3"
+
 gatsby-remark-images-medium-zoom@^1.5.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/gatsby-remark-images-medium-zoom/-/gatsby-remark-images-medium-zoom-1.7.0.tgz#b9a55ebf29a4a15f9e7da7a8f4d0dfbe47aa5717"

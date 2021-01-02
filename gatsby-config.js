@@ -184,10 +184,11 @@ module.exports = {
             resolve: "gatsby-remark-images",
             options: {
               showCaptions: true,
-              maxWidth: MINIMAL ? 512 : 1024,
+              maxWidth: 1024,
               linkImagesToOriginal: false,
             },
           },
+          "gatsby-remark-gifs",
           "gatsby-remark-prismjs",
         ],
       },
