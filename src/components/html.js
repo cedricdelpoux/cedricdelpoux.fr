@@ -89,6 +89,7 @@ export const Html = ({html, css, fluid, ...props}) => {
         },
         "& > p > iframe": {
           maxWidth: "100%",
+          borderRadius: 2,
         },
         "&& > * + *": {
           mt: 2,
