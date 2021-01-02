@@ -53,18 +53,25 @@ export const Html = ({html, css, fluid, ...props}) => {
           display: "block",
           overflow: "scroll",
           borderRadius: 3,
-          "& th, & td": {
-            p: 1,
-          },
           "& > thead": {
             background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 30%, ${theme.colors.primary} 100%)`,
             color: "#fff",
             textAlign: "left",
+            "& > tr > th": {
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              fontWeight: "normal",
+              p: 1,
+            },
           },
           "& > tbody": {
             backgroundColor: "backgroundLight",
             transitionDuration: theme.transition,
             transitionProperty: "background",
+            "& > tr > td": {
+              p: 1,
+            },
           },
         },
         "& .anchor > svg > path:first-child": {
