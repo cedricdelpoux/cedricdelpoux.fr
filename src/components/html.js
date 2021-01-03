@@ -19,8 +19,10 @@ export const Html = ({html, css, fluid, ...props}) => {
         "& > *:first-child": {
           mt: 0,
         },
-        "& > [class^=gatsby-resp-image]": {
+        "& img": {
           borderRadius: 2,
+        },
+        "& > [class^=gatsby-resp-image]": {
           overflow: "hidden",
           width: "100%",
           m: 0,
