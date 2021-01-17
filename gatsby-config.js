@@ -158,9 +158,9 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-transformer-remark",
+      resolve: "gatsby-plugin-mdx",
       options: {
-        plugins: [
+        gatsbyRemarkPlugins: [
           "gatsby-remark-unwrap-images",
           "gatsby-remark-copy-linked-files",
           "gatsby-remark-autolink-headers",
@@ -253,13 +253,11 @@ module.exports = {
               return posts.nodes.map((node) => {
                 return {
                   title: node.title,
-                  description: node.childMarkdownRemark.excerpt,
+                  description: node.childMdx.excerpt,
                   date: node.date,
                   url: site.siteMetadata.siteUrl + node.slug,
                   guid: site.siteMetadata.siteUrl + node.slug,
-                  custom_elements: [
-                    {"content:encoded": node.childMarkdownRemark.html},
-                  ],
+                  custom_elements: [{"content:encoded": node.childMdx.html}],
                 }
               })
             },
@@ -275,7 +273,7 @@ module.exports = {
                     slug
                     name
                     date
-                    childMarkdownRemark {
+                    childMdx {
                       excerpt
                       html
                     }

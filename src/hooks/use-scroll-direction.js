@@ -10,6 +10,10 @@ export const useScrollDirection = ({
   const scrollDirectionRef = useRef(initialDirection)
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return
+    }
+
     const threshold = thresholdPixels || 0
     let lastScrollY = window.pageYOffset
     let ticking = false

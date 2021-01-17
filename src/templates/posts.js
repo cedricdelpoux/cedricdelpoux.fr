@@ -9,13 +9,13 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     posts,
   },
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       {posts && posts.nodes.length > 0 && (
         <Grid>
           {posts.nodes.map((post) => (
@@ -31,8 +31,8 @@ export const pageQuery = graphql`
   query Posts($path: String!, $locale: String!, $category: String) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

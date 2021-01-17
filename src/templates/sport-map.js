@@ -33,7 +33,7 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     activities,
     stravaAthlete: {
@@ -108,7 +108,7 @@ export default ({
   return (
     <LayoutPage
       title={title}
-      html={html}
+      body={body}
       description={excerpt}
       css={{
         maxWidth: "100%",
@@ -321,7 +321,7 @@ export const pageQuery = graphql`
   query SportMap($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
+      childMdx {
         excerpt
       }
     }

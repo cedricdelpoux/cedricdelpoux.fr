@@ -10,7 +10,7 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
   },
 }) => {
@@ -19,7 +19,7 @@ export default ({
       <View css={{alignItems: "center"}}>
         <Avatar />
       </View>
-      <Html html={html} />
+      <Html body={body} />
     </LayoutPage>
   )
 }
@@ -28,8 +28,8 @@ export const pageQuery = graphql`
   query About($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

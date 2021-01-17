@@ -13,7 +13,7 @@ export const PaperPost = ({
     date,
     name,
     cover,
-    childMarkdownRemark: {timeToRead, excerpt},
+    childMdx: {timeToRead, excerpt},
   },
   ...props
 }) => {
@@ -58,7 +58,7 @@ export const query = graphql`
         }
       }
     }
-    childMarkdownRemark {
+    childMdx {
       excerpt
       timeToRead
     }

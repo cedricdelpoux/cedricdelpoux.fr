@@ -1,5 +1,6 @@
 import React from "react"
 import {animated} from "react-spring"
+
 import {Text} from "./text"
 
 export const Title = ({
@@ -31,6 +32,13 @@ export const Title = ({
           height: "0.15em",
           borderRadius: 999,
           backgroundImage: "inherit",
+        },
+        "& > a.anchor": {
+          position: "absolute",
+          left: "-30px",
+          "& > svg > path:first-child": {
+            fill: "currentColor",
+          },
         },
         ...css,
       }}

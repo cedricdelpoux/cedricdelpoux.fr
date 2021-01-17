@@ -3,20 +3,20 @@ import React from "react"
 
 import {Flag} from "../components/flag"
 import {Html} from "../components/html"
-import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperCountry} from "../components/paper-country"
 import {PaperPhoto} from "../components/paper-photo"
 import {PaperPost} from "../components/paper-post"
-import {PaperVideo} from "../components/paper-video"
 import {PaperStory} from "../components/paper-story"
+import {PaperVideo} from "../components/paper-video"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   pageContext: {country},
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     regions,
     story,
@@ -28,7 +28,7 @@ export default ({
   return (
     <LayoutPage title={title} description={excerpt}>
       <Flag country={country} css={{alignSelf: "center"}} />
-      <Html html={html} />
+      <Html body={body} />
       <Masonry>
         {story && <PaperStory key={story.slug} {...story} />}
         {regions.nodes.length > 0 &&
@@ -61,8 +61,8 @@ export const pageQuery = graphql`
   query TravelCountry($path: String!, $country: String!, $locale: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

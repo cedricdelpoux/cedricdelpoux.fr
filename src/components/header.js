@@ -15,6 +15,7 @@ import {ThemeContext} from "css-system"
 import React, {useContext, useState} from "react"
 import {useIntl} from "react-intl"
 
+import {PageContext} from "../contexts/page-context"
 import {useMenu} from "../hooks/use-menu"
 import IconCed from "../icons/ced.svg"
 import {Button} from "./button"
@@ -32,8 +33,9 @@ const CATEGORIES_ICONS = {
 }
 const MENU_ITEM_HEIGHT = "48px"
 
-export const Header = ({locale}) => {
+export const Header = () => {
   const theme = useContext(ThemeContext)
+  const {locale} = useContext(PageContext)
   const intl = useIntl()
   const [themeKey, switchTheme] = useSwitchTheme()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -189,14 +191,16 @@ export const Header = ({locale}) => {
             })}
           </Text>
         </View>
-        <View
-          as={Link}
-          to={menu.items.about.path}
-          css={{flexDirection: "row", alignItems: "center", gap: 1}}
-        >
-          <Icon icon={faAddressCard} gradient />
-          <Text>{menu.items.about.name}</Text>
-        </View>
+        {menu?.items?.about && (
+          <View
+            as={Link}
+            to={menu.items.about.path}
+            css={{flexDirection: "row", alignItems: "center", gap: 1}}
+          >
+            <Icon icon={faAddressCard} gradient />
+            <Text>{menu.items.about.name}</Text>
+          </View>
+        )}
         <View
           as={Link}
           to={menu.items.contact.path}

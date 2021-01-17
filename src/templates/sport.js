@@ -18,7 +18,7 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     fastestRuns,
     fastestRides,
@@ -48,7 +48,7 @@ export default ({
     [sport]
   )
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <SwitcherSport
         value={sport}
         onChange={() =>
@@ -95,8 +95,8 @@ export const pageQuery = graphql`
   query Sport($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

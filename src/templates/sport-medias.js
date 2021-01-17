@@ -10,14 +10,14 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     album,
     videos,
   },
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <Masonry>
         {videos.nodes.map((node) => (
           <PaperVideo key={node.id} {...node} />
@@ -38,8 +38,8 @@ export const pageQuery = graphql`
   query SportMedias($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

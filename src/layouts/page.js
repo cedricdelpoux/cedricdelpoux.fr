@@ -20,7 +20,7 @@ export const LayoutPage = ({
   description,
   metadata,
   cover,
-  html,
+  body,
   children,
 }) => {
   const theme = useContext(ThemeContext)
@@ -143,7 +143,7 @@ export const LayoutPage = ({
             />
           </View>
         )}
-        {html && <Html html={html} />}
+        {body && <Html body={body} />}
         {children}
       </Animated>
     </>

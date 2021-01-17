@@ -10,12 +10,12 @@ export default ({
     stories,
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
   },
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <Grid>
         {stories.nodes.map((node) => (
           <PaperStory key={node.id} {...node} />
@@ -29,8 +29,8 @@ export const pageQuery = graphql`
   query TravelStories($path: String!, $locale: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

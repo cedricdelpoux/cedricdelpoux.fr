@@ -10,12 +10,12 @@ export default ({
     countries,
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
   },
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <Masonry>
         {countries.nodes.map(({slug, country, ...rest}) => (
           <PaperCountry key={country} country={country} to={slug} {...rest} />
@@ -29,8 +29,8 @@ export const pageQuery = graphql`
   query TravelCountries($path: String!, $locale: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

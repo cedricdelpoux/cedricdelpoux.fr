@@ -1,27 +1,27 @@
 import "mapbox-gl/dist/mapbox-gl.css"
 
-import {ThemeContext, useGlobalCss} from "css-system"
-import {graphql} from "gatsby"
 import MapGL, {
   Layer,
-  Source,
   Marker,
   NavigationControl,
   ScaleControl,
+  Source,
 } from "@urbica/react-map-gl"
-import {Scrollama, Step} from "react-scrollama"
-import React, {useCallback, useContext, useMemo, useState} from "react"
+import {ThemeContext, useGlobalCss} from "css-system"
+import {graphql} from "gatsby"
+import React, {useContext, useEffect, useMemo, useState} from "react"
+import scrollama from "scrollama"
 
 import {Html} from "../components/html"
-import {LayoutPage} from "../layouts/page"
 import {View} from "../components/view"
+import {LayoutPage} from "../layouts/page"
 import {getColorsScale} from "../utils/colors"
 
 export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
       map: {route, points},
     },
   },
@@ -38,32 +38,19 @@ export default ({
     [theme]
   )
 
-  const chapters = useMemo(() => {
-    const chapters = html.split(/(?=<h2)/)
-    return points.map((point, index) => {
-      return {
-        id: index,
-        html: chapters[index] || "",
-        point,
-      }
-    })
-  }, [points, html])
-  const [currentChapter, setCurrentChapter] = useState(chapters[0])
+  const [currentPoint, setCurrentPoint] = useState(points[0])
 
-  const onStepEnter = useCallback(
-    ({data: chapter}) => {
-      setCurrentChapter(chapter)
-    },
-    [route]
-  )
+  const [longitude, latitude] = useMemo(() => {
+    return route[currentPoint.routeIndex]
+  }, [route, currentPoint])
 
-  const {latitude, longitude} = useMemo(() => {
-    const point = route[currentChapter.point.routeIndex]
-    return {
-      latitude: point[1],
-      longitude: point[0],
-    }
-  }, [route, currentChapter])
+  useEffect(() => {
+    scrollama()
+      .setup({
+        step: Array.from(document.getElementsByTagName("h2")),
+      })
+      .onStepEnter(({index}) => setCurrentPoint(points[index]))
+  }, [points, setCurrentPoint])
 
   return (
     <LayoutPage
@@ -88,15 +75,7 @@ export default ({
             gap: 3,
           }}
         >
-          <Scrollama onStepEnter={onStepEnter}>
-            {chapters.map((chapter, index) => (
-              <Step key={index} data={chapter}>
-                <View>
-                  <Html html={chapter.html} />
-                </View>
-              </Step>
-            ))}
-          </Scrollama>
+          <Html body={body} />
         </View>
         <View
           css={{
@@ -104,7 +83,7 @@ export default ({
             height: {_: "30vh", s: "100vh"},
             position: "sticky",
             top: {s: 0},
-            bottom: 0,          
+            bottom: 0,
           }}
         >
           <MapGL
@@ -130,7 +109,7 @@ export default ({
                 type: "Feature",
                 geometry: {
                   type: "LineString",
-                  coordinates: route.slice(0, currentChapter.point.routeIndex),
+                  coordinates: route.slice(0, currentPoint.routeIndex),
                 },
               }}
               lineMetrics
@@ -164,14 +143,15 @@ export default ({
                 ],
               }}
             />
-            {chapters
-              .filter((chapter) => chapter.id <= currentChapter.id)
-              .map((chapter) => {
+            {points
+              .filter((point) => point.routeIndex <= currentPoint.routeIndex)
+              .map((point) => {
+                const active = point.routeIndex === currentPoint.routeIndex
                 return (
                   <Marker
-                    key={chapter.id}
-                    longitude={chapter.point.longitude}
-                    latitude={chapter.point.latitude}
+                    key={point.routeIndex}
+                    longitude={point.longitude}
+                    latitude={point.latitude}
                   >
                     <View
                       css={{
@@ -179,8 +159,8 @@ export default ({
                         borderRadius: "50%",
                       }}
                       style={{
-                        width: chapter.id === currentChapter.id ? 30 : 20,
-                        height: chapter.id === currentChapter.id ? 30 : 20,
+                        width: active ? 30 : 20,
+                        height: active ? 30 : 20,
                       }}
                     />
                   </Marker>
@@ -207,8 +187,8 @@ export const pageQuery = graphql`
           routeIndex
         }
       }
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

@@ -1,17 +1,16 @@
 import {faPaperPlane} from "@fortawesome/pro-light-svg-icons"
 import {useLocation} from "@reach/router"
 import {ThemeContext} from "css-system"
-import {graphql} from "gatsby"
 import {navigate} from "gatsby-link"
 import React, {useCallback, useContext} from "react"
 import {FormattedMessage} from "react-intl"
 import {animated} from "react-spring"
 
-import {Button} from "../components/button"
-import {Text} from "../components/text"
-import {View} from "../components/view"
+import {PageContext} from "../contexts/page-context"
 import {useMenu} from "../hooks/use-menu"
-import {LayoutPage} from "../layouts/page"
+import {Button} from "./button"
+import {Text} from "./text"
+import {View} from "./view"
 
 const Label = ({css, children, ...props}) => (
   <View
@@ -60,15 +59,8 @@ const encode = (data) =>
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
     .join("&")
 
-export default ({
-  data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
-    },
-  },
-  pageContext: {locale},
-}) => {
+export const ContactForm = () => {
+  const {locale} = useContext(PageContext)
   const menu = useMenu(locale)
   const location = useLocation()
   const handleSubmit = useCallback(
@@ -93,62 +85,48 @@ export default ({
   )
 
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
-      <View
-        as={animated.form}
-        method="post"
-        action={menu.items["contact-success"].path}
-        css={{
-          alignSelf: "center",
-          width: {_: "100%", s: "400px"},
-          gap: 2,
-          fontSize: "4",
-        }}
-        name="contact"
-        data-netlify="true"
-        onSubmit={handleSubmit}
-      >
-        <input type="hidden" name="form-name" value="contact" />
-        <Label>
-          <Text gradient css={{fontWeight: "bold"}}>
-            <FormattedMessage id="contact.form.email" />
-          </Text>
-          <Input type="email" name="email" />
-        </Label>
-        <Label>
-          <Text gradient css={{fontWeight: "bold"}}>
-            <FormattedMessage id="contact.form.name" />
-          </Text>
-          <Input name="name" />
-        </Label>
-        <Label>
-          <Text gradient css={{fontWeight: "bold"}}>
-            <FormattedMessage id="contact.form.message" />
-          </Text>
-          <Input
-            as="textarea"
-            name="message"
-            css={{resize: "none", height: 200}}
-          />
-        </Label>
-        <Button type="submit" css={{alignSelf: "center"}} icon={faPaperPlane}>
-          <Text>
-            <FormattedMessage id="actions.send" />
-          </Text>
-        </Button>
-      </View>
-    </LayoutPage>
+    <View
+      as={animated.form}
+      method="post"
+      action={menu.items["contact-success"].path}
+      css={{
+        alignSelf: "center",
+        width: {_: "100%", s: "400px"},
+        gap: 2,
+        fontSize: "4",
+      }}
+      name="contact"
+      data-netlify="true"
+      onSubmit={handleSubmit}
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <Label>
+        <Text gradient css={{fontWeight: "bold"}}>
+          <FormattedMessage id="contact.form.email" />
+        </Text>
+        <Input type="email" name="email" />
+      </Label>
+      <Label>
+        <Text gradient css={{fontWeight: "bold"}}>
+          <FormattedMessage id="contact.form.name" />
+        </Text>
+        <Input name="name" />
+      </Label>
+      <Label>
+        <Text gradient css={{fontWeight: "bold"}}>
+          <FormattedMessage id="contact.form.message" />
+        </Text>
+        <Input
+          as="textarea"
+          name="message"
+          css={{resize: "none", height: 200}}
+        />
+      </Label>
+      <Button type="submit" css={{alignSelf: "center"}} icon={faPaperPlane}>
+        <Text>
+          <FormattedMessage id="actions.send" />
+        </Text>
+      </Button>
+    </View>
   )
 }
-
-export const pageQuery = graphql`
-  query Contact($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
-      }
-    }
-  }
-`

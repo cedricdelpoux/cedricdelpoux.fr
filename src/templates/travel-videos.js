@@ -10,12 +10,12 @@ export default ({
     videos,
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
   },
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <Grid>
         {videos.nodes
           .filter((node) => !node.region)
@@ -31,8 +31,8 @@ export const pageQuery = graphql`
   query TravelVideos($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

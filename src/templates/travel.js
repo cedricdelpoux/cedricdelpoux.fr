@@ -1,21 +1,21 @@
-import {FormattedMessage} from "react-intl"
 import {graphql} from "gatsby"
 import React from "react"
+import {FormattedMessage} from "react-intl"
 
 import {AnimationTravel} from "../components/animation-travel"
 import {Button} from "../components/button"
-import {Link} from "../components/link"
 import {Html} from "../components/html"
+import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {View} from "../components/view"
-import {LayoutPage} from "../layouts/page"
 import {useMenu} from "../hooks/use-menu"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
   },
   pageContext: {locale},
@@ -26,7 +26,7 @@ export default ({
       <View css={{alignSelf: "center"}}>
         <AnimationTravel />
       </View>
-      <Html html={html} />
+      <Html body={body} />
       <View css={{alignSelf: "center"}}>
         <Button as={Link} to={menu.categories.travel.items[0].path}>
           <Text>
@@ -42,8 +42,8 @@ export const pageQuery = graphql`
   query Travel($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

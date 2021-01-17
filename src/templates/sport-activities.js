@@ -27,7 +27,7 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     activities,
   },
@@ -91,7 +91,7 @@ export default ({
   }, [sportActivities, filterDistance, filterSpeed, filterSport])
 
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <View
         css={{
           flexDirection: {_: "column", s: "row"},
@@ -138,8 +138,8 @@ export const pageQuery = graphql`
   query SportActivities($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

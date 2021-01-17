@@ -1,26 +1,26 @@
-import {FormattedMessage} from "react-intl"
-import {Helmet} from "react-helmet"
 import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
+import Loadable from "@loadable/component"
 import {graphql} from "gatsby"
 import React from "react"
+import {Helmet} from "react-helmet"
+import {FormattedMessage} from "react-intl"
 import {
   EmailIcon,
   EmailShareButton,
   FacebookIcon,
   FacebookShareButton,
+  PocketIcon,
+  PocketShareButton,
   TwitterIcon,
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
-  PocketShareButton,
-  PocketIcon,
 } from "react-share"
-import Loadable from "@loadable/component"
 
 import {Html} from "../components/html"
-import {LayoutPage} from "../layouts/page"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {LayoutPage} from "../layouts/page"
 
 const ReactDisqusComments = Loadable(() => import("react-disqus-comments"))
 
@@ -30,7 +30,7 @@ export default ({
       date,
       name: title,
       cover,
-      childMarkdownRemark: {excerpt, timeToRead, html},
+      childMdx: {excerpt, timeToRead, body},
     },
   },
   location,
@@ -49,7 +49,7 @@ export default ({
         <meta property="og:type" content="article" />
       </Helmet>
       {/*<Toc tableOfContents={tableOfContents} />*/}
-      <Html html={html} />
+      <Html body={body} />
       {location && (
         <>
           <Title
@@ -128,8 +128,8 @@ export const pageQuery = graphql`
           }
         }
       }
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         timeToRead
         excerpt
       }

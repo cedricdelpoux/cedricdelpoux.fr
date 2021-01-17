@@ -1,12 +1,13 @@
 import {ThemeContext} from "css-system"
+import {MDXRenderer} from "gatsby-plugin-mdx"
 import React, {useContext} from "react"
 
 import {View} from "./view"
 
-export const Html = ({html, css, fluid, ...props}) => {
+export const Html = ({body, css, fluid, ...props}) => {
   const theme = useContext(ThemeContext)
 
-  if (!html) return null
+  if (!body) return null
 
   return (
     <View
@@ -33,24 +34,6 @@ export const Html = ({html, css, fluid, ...props}) => {
             fontStyle: "italic",
           },
         },
-        "& > h1, & > h2, & > h3, & > h4, & > h5": {
-          alignSelf: "center",
-          background: theme.colors.gradient,
-          color: "text",
-          "-webkit-background-clip": "text",
-          "-webkit-text-fill-color": "transparent",
-          lineHeight: "1.8em",
-        },
-        "& > h1::after, & > h2::after, & > h3::after, & > h4::after, & > h5::after": {
-          content: '""',
-          display: "block",
-          mx: "auto",
-          mt: 2,
-          width: "2em",
-          height: ".15em",
-          borderRadius: 999,
-          backgroundImage: "inherit",
-        },
         "& > table": {
           display: "block",
           overflow: "scroll",
@@ -76,10 +59,7 @@ export const Html = ({html, css, fluid, ...props}) => {
             },
           },
         },
-        "& .anchor > svg > path:first-child": {
-          fill: "url(#svg-gradient)",
-        },
-        "& a:not(.anchor)": {
+        "& a": {
           position: "relative",
           color: "inherit",
           textDecoration: "none",
@@ -105,8 +85,9 @@ export const Html = ({html, css, fluid, ...props}) => {
         },
         ...css,
       }}
-      dangerouslySetInnerHTML={{__html: html}}
       {...props}
-    />
+    >
+      <MDXRenderer>{body}</MDXRenderer>
+    </View>
   )
 }

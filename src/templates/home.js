@@ -17,7 +17,7 @@ import {LayoutPage} from "../layouts/page"
 export default ({
   data: {
     googleDocs: {
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
   },
   pageContext: {locale},
@@ -52,7 +52,7 @@ export default ({
           <Text>{menu.items.about.name}</Text>
         </Button>
       </View>
-      <Html html={html} fluid />
+      <Html body={body} fluid />
       <View
         css={{
           flexDirection: {_: "column", m: "row"},
@@ -107,8 +107,8 @@ export default ({
 export const pageQuery = graphql`
   query Home($path: String!) {
     googleDocs(slug: {eq: $path}) {
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

@@ -11,7 +11,7 @@ export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     github,
   },
@@ -26,7 +26,7 @@ export default ({
     <LayoutPage
       title={title}
       description={excerpt}
-      html={html}
+      body={body}
       metadata={[
         {
           icon: faGithub,
@@ -55,8 +55,8 @@ export const pageQuery = graphql`
   query CodeOpenSource($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }

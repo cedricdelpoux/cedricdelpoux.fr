@@ -1,18 +1,18 @@
-import {FormattedMessage} from "react-intl"
 import {faBriefcase, faSchool} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
 import React, {useMemo} from "react"
+import {FormattedMessage} from "react-intl"
 
-import {LayoutPage} from "../layouts/page"
 import {Timeline, TimelineItem} from "../components/timeline"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {LayoutPage} from "../layouts/page"
 
 export default ({
   data: {
     googleDocs: {
       name: title,
-      childMarkdownRemark: {html, excerpt},
+      childMdx: {body, excerpt},
     },
     github,
   },
@@ -27,7 +27,7 @@ export default ({
   }, [locale, github])
 
   return (
-    <LayoutPage title={title} description={excerpt} html={html}>
+    <LayoutPage title={title} description={excerpt} body={body}>
       <Timeline>
         {resume.work.map((work) => {
           return (
@@ -79,8 +79,8 @@ export const pageQuery = graphql`
   query CodeCareer($path: String!) {
     googleDocs(slug: {eq: $path}) {
       name
-      childMarkdownRemark {
-        html
+      childMdx {
+        body
         excerpt
       }
     }
