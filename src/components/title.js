@@ -34,11 +34,15 @@ export const Title = ({
           backgroundImage: "inherit",
         },
         "& > a.anchor": {
+          visibility: "hidden",
           position: "absolute",
           left: "-30px",
           "& > svg > path:first-child": {
             fill: "currentColor",
           },
+        },
+        "&:hover > a.anchor": {
+          visibility: "visible",
         },
         ...css,
       }}
