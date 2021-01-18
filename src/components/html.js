@@ -35,6 +35,7 @@ export const Html = ({body, css, fluid, ...props}) => {
           },
         },
         "& > table": {
+          alignSelf: {m: "center"},
           display: "block",
           overflow: "scroll",
           borderRadius: 3,
@@ -47,6 +48,7 @@ export const Html = ({body, css, fluid, ...props}) => {
               p: 1,
               "& > *": {
                 display: "block",
+                textAlign: "center",
               },
             },
           },
