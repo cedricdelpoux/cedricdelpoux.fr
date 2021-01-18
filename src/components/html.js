@@ -20,7 +20,7 @@ export const Html = ({body, css, fluid, ...props}) => {
         "& > *:first-child": {
           mt: 0,
         },
-        "& img": {
+        "& img, & > [class^=gatsby-resp-image]": {
           borderRadius: 2,
         },
         "& > [class^=gatsby-resp-image]": {
