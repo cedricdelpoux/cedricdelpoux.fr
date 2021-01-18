@@ -43,11 +43,11 @@ export const Html = ({body, css, fluid, ...props}) => {
             color: "#fff",
             textAlign: "left",
             "& > tr > th": {
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
               fontWeight: "normal",
               p: 1,
+              "& > *": {
+                display: "block",
+              },
             },
           },
           "& > tbody": {
