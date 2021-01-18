@@ -17,17 +17,12 @@ export const Html = ({body, css, fluid, ...props}) => {
         mx: "auto",
         width: fluid ? "100%" : {m: 680},
         maxWidth: "100%",
-        "& > *:first-child": {
-          mt: 0,
-        },
         "& img, & > [class^=gatsby-resp-image]": {
           borderRadius: 2,
         },
         "& > [class^=gatsby-resp-image]": {
           overflow: "hidden",
           width: "100%",
-          m: 0,
-          mb: 0,
           "& > figcaption": {
             mt: 1,
             textAlign: "center",
@@ -92,8 +87,14 @@ export const Html = ({body, css, fluid, ...props}) => {
           maxWidth: "100%",
           borderRadius: 2,
         },
-        "&& > * + *": {
+        "& > *": {
+          m: 0,
+        },
+        "& > * + *": {
           mt: 2,
+        },
+        "& > h1, & > h2, & > h3, & > h4, & > h5, & > h6": {
+          mt: 3,
         },
         ...css,
       }}
