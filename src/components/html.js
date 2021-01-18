@@ -73,8 +73,18 @@ export const Html = ({body, css, fluid, ...props}) => {
             backgroundSize: "100% 100%",
           },
         },
-        "& > ul ": {
-          listStyleImage: "gradient",
+        "& > ul li": {
+          listStyleType: "none",
+          "&::before": {
+            content: "''",
+            display: "inline-block",
+            background: theme.colors.gradient,
+            height: "8px",
+            width: "8px",
+            borderRadius: "50%",
+            mr: 1,
+            mb: "2px",
+          },
         },
         "& > p > iframe": {
           maxWidth: "100%",
