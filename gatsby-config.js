@@ -163,7 +163,6 @@ module.exports = {
         gatsbyRemarkPlugins: [
           "gatsby-remark-unwrap-images",
           "gatsby-remark-copy-linked-files",
-          "gatsby-remark-autolink-headers",
           "gatsby-remark-images-medium-zoom",
           {
             resolve: "gatsby-remark-strava",
