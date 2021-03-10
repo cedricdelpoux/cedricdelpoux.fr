@@ -8,10 +8,10 @@ import {
 } from "@fortawesome/free-brands-svg-icons"
 import {ThemeContext} from "css-system"
 import {navigate} from "gatsby"
+import {GoogleDocsContext} from "gatsby-source-google-docs"
 import React, {useCallback, useContext} from "react"
 import {useIntl} from "react-intl"
 
-import {PageContext} from "../contexts/page-context"
 import {useMenu} from "../hooks/use-menu"
 import {Icon} from "./icon"
 import {Link} from "./link"
@@ -22,7 +22,7 @@ import {View} from "./view"
 export const Footer = () => {
   const intl = useIntl()
   const theme = useContext(ThemeContext)
-  const {locale} = useContext(PageContext)
+  const {locale} = useContext(GoogleDocsContext)
   const [themeKey, switchTheme] = useSwitchTheme()
   const handleLocaleChange = useCallback((e) => {
     const newLocale = e.target.value

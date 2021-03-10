@@ -12,10 +12,10 @@ import {
 } from "@fortawesome/pro-light-svg-icons"
 import {useLocation} from "@reach/router"
 import {ThemeContext} from "css-system"
+import {GoogleDocsContext} from "gatsby-source-google-docs"
 import React, {useContext, useState} from "react"
 import {useIntl} from "react-intl"
 
-import {PageContext} from "../contexts/page-context"
 import {useMenu} from "../hooks/use-menu"
 import IconCed from "../icons/ced.svg"
 import {Button} from "./button"
@@ -35,7 +35,7 @@ const MENU_ITEM_HEIGHT = "48px"
 
 export const Header = () => {
   const theme = useContext(ThemeContext)
-  const {locale} = useContext(PageContext)
+  const {locale} = useContext(GoogleDocsContext)
   const intl = useIntl()
   const [themeKey, switchTheme] = useSwitchTheme()
   const [menuOpen, setMenuOpen] = useState(false)

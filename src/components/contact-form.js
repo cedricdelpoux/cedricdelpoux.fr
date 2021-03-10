@@ -2,11 +2,11 @@ import {faPaperPlane} from "@fortawesome/pro-light-svg-icons"
 import {useLocation} from "@reach/router"
 import {ThemeContext} from "css-system"
 import {navigate} from "gatsby-link"
+import {GoogleDocsContext} from "gatsby-source-google-docs"
 import React, {useCallback, useContext} from "react"
 import {FormattedMessage} from "react-intl"
 import {animated} from "react-spring"
 
-import {PageContext} from "../contexts/page-context"
 import {useMenu} from "../hooks/use-menu"
 import {Button} from "./button"
 import {Text} from "./text"
@@ -60,7 +60,7 @@ const encode = (data) =>
     .join("&")
 
 export const ContactForm = () => {
-  const {locale} = useContext(PageContext)
+  const {locale} = useContext(GoogleDocsContext)
   const menu = useMenu(locale)
   const location = useLocation()
   const handleSubmit = useCallback(

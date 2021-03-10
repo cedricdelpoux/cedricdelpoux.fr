@@ -24,7 +24,7 @@ import {LayoutPage} from "../layouts/page"
 
 const ReactDisqusComments = Loadable(() => import("react-disqus-comments"))
 
-export default ({
+const Post = ({
   data: {
     googleDocs: {
       date,
@@ -111,6 +111,8 @@ export default ({
   )
 }
 
+export default Post
+
 export const pageQuery = graphql`
   query Post($path: String!) {
     googleDocs(slug: {eq: $path}) {
@@ -119,12 +121,7 @@ export const pageQuery = graphql`
       cover {
         image {
           childImageSharp {
-            fixed {
-              src
-            }
-            fluid(maxWidth: 2048) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
       }

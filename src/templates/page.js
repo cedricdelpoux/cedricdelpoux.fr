@@ -3,7 +3,7 @@ import React from "react"
 
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const Page = ({
   data: {
     googleDocs: {
       name: title,
@@ -13,6 +13,8 @@ export default ({
 }) => {
   return <LayoutPage title={title} description={excerpt} body={body} />
 }
+
+export default Page
 
 export const pageQuery = graphql`
   query Page($path: String!) {

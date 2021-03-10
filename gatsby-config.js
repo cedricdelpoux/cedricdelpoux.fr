@@ -23,13 +23,6 @@ const {
 } = require("./src/utils/node/transform-google-photos")
 
 module.exports = {
-  flags: {
-    FAST_DEV: true,
-    DEV_SSR: true,
-    PARALLEL_SOURCING: true,
-    QUERY_ON_DEMAND: true,
-    LAZY_IMAGES: true,
-  },
   siteMetadata: {
     title: "Cédric Delpoux",
     siteUrl: "https://cedricdelpoux.fr",
@@ -63,6 +56,7 @@ module.exports = {
         },
       },
     },
+    "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-plugin-react-helmet",

@@ -6,7 +6,7 @@ import {PaperPhoto} from "../components/paper-photo"
 import {PaperVideo} from "../components/paper-video"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const SportMedias = ({
   data: {
     googleDocs: {
       name: title,
@@ -34,6 +34,8 @@ export default ({
   )
 }
 
+export default SportMedias
+
 export const pageQuery = graphql`
   query SportMedias($path: String!) {
     googleDocs(slug: {eq: $path}) {
@@ -57,9 +59,7 @@ export const pageQuery = graphql`
         id
         photo {
           childImageSharp {
-            fluid(maxWidth: 1024) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
       }

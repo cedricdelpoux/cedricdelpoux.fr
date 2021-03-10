@@ -22,8 +22,8 @@ export const Heatmap = ({activities, css, calendarHeatmapProps, ...props}) => {
   const theme = useContext(ThemeContext)
   const [activeDay, setActiveDay] = useState(null)
   const activitiesByDate = activities
-    .filter(({activity}) => new Date(activity.start_date) > startDate)
-    .reduce((acc, {activity}) => {
+    .filter((activity) => new Date(activity.start_date) > startDate)
+    .reduce((acc, activity) => {
       const date = activity.start_date.slice(0, 10)
       if (!acc[date]) {
         acc[date] = {
@@ -117,7 +117,7 @@ export const Heatmap = ({activities, css, calendarHeatmapProps, ...props}) => {
         {activeDay && activeDay.activities.length > 0 && (
           <Grid>
             {activeDay.activities.map((activity) => (
-              <PaperActivity key={activity.id} activity={activity} />
+              <PaperActivity key={activity.id} {...activity} />
             ))}
           </Grid>
         )}
@@ -128,12 +128,10 @@ export const Heatmap = ({activities, css, calendarHeatmapProps, ...props}) => {
 
 export const query = graphql`
   fragment ActivityHeatmapFragment on StravaActivity {
-    activity {
-      id
-      name
-      type
-      start_date
-      distance
-    }
+    id
+    name
+    type
+    start_date
+    distance
   }
 `

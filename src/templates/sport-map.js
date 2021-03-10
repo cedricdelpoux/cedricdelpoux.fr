@@ -29,16 +29,14 @@ import {Text} from "../components/text"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const SportMap = ({
   data: {
     googleDocs: {
       name: title,
       childMdx: {body, excerpt},
     },
     activities,
-    stravaAthlete: {
-      athlete: {activitiesCounts},
-    },
+    stravaAthlete: {activitiesCounts},
   },
 }) => {
   const theme = useContext(ThemeContext)
@@ -50,6 +48,7 @@ export default ({
     () => [activitiesCounts.cities[type], activitiesCounts.countries[type]],
     [type, activitiesCounts]
   )
+
   const [city, setCity] = useState(citiesCounts[0])
   const [country, setCountry] = useState(countriesCounts[0])
   const [viewState, setViewState] = useState({
@@ -179,7 +178,7 @@ export default ({
                 type="geojson"
                 data={{
                   type: "FeatureCollection",
-                  features: activities.nodes.map(({activity}) => ({
+                  features: activities.nodes.map((activity) => ({
                     type: "Feature",
                     properties: {
                       activity,
@@ -233,7 +232,7 @@ export default ({
           {results &&
             results.activities &&
             results.activities.map((activity) => (
-              <PaperActivity key={activity.id} activity={activity} />
+              <PaperActivity key={activity.id} {...activity} />
             ))}
         </Grid>
       </Sidebar>
@@ -317,6 +316,8 @@ const ActivitiesPopup = ({results, setResults}) => {
   )
 }
 
+export default SportMap
+
 export const pageQuery = graphql`
   query SportMap($path: String!) {
     googleDocs(slug: {eq: $path}) {
@@ -327,62 +328,54 @@ export const pageQuery = graphql`
     }
     activities: allStravaActivity(
       filter: {
-        activity: {
-          type: {in: ["Run", "Ride", "Hike"]}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {in: ["Run", "Ride", "Hike"]}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___start_date], order: DESC}
+      sort: {fields: [start_date], order: DESC}
     ) {
       nodes {
         ...PaperActivityFragment
-        activity {
-          map {
-            geoJSON {
-              type
-              coordinates
-            }
+        map {
+          geoJSON {
+            type
+            coordinates
           }
-          start_latlng
         }
+        start_latlng
       }
     }
-    stravaAthlete(
-      athlete: {firstname: {eq: "Cédric"}, lastname: {eq: "Delpoux"}}
-    ) {
-      athlete {
-        activitiesCounts {
-          cities {
-            Ride {
-              name
-              count
-              country
-              latitude
-              longitude
-            }
-            Run {
-              count
-              name
-              country
-              latitude
-              longitude
-            }
+    stravaAthlete(firstname: {eq: "Cédric"}, lastname: {eq: "Delpoux"}) {
+      activitiesCounts {
+        cities {
+          Ride {
+            name
+            count
+            country
+            latitude
+            longitude
           }
-          countries {
-            Ride {
-              count
-              name
-            }
-            Run {
-              count
-              name
-            }
+          Run {
+            count
+            name
+            country
+            latitude
+            longitude
           }
-          types {
-            Run
-            Ride
+        }
+        countries {
+          Ride {
+            count
+            name
           }
+          Run {
+            count
+            name
+          }
+        }
+        types {
+          Run
+          Ride
         }
       }
     }

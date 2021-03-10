@@ -23,7 +23,7 @@ import {
 
 const COUNT_PER_PAGE = 9
 
-export default ({
+const SportActivities = ({
   data: {
     googleDocs: {
       name: title,
@@ -36,8 +36,7 @@ export default ({
   const [filterSport, setFilterSport] = useState("Run")
 
   const sportActivities = useMemo(
-    () =>
-      activities.nodes.filter(({activity}) => activity.type === filterSport),
+    () => activities.nodes.filter((activity) => activity.type === filterSport),
     [activities, filterSport]
   )
 
@@ -82,11 +81,11 @@ export default ({
 
   const filteredActivities = useMemo(() => {
     return sportActivities.filter(
-      ({activity}) =>
-        activity.distance >= kilometersToMeters(filterDistance.min) &&
-        activity.distance <= kilometersToMeters(filterDistance.max) &&
-        activity.average_speed >= kmPerHourToMetersPerSecond(filterSpeed.min) &&
-        activity.average_speed <= kmPerHourToMetersPerSecond(filterSpeed.max)
+      ({distance, average_speed}) =>
+        distance >= kilometersToMeters(filterDistance.min) &&
+        distance <= kilometersToMeters(filterDistance.max) &&
+        average_speed >= kmPerHourToMetersPerSecond(filterSpeed.min) &&
+        average_speed <= kmPerHourToMetersPerSecond(filterSpeed.max)
     )
   }, [sportActivities, filterDistance, filterSpeed, filterSport])
 
@@ -126,13 +125,15 @@ export default ({
         />
       </Title>
       <Grid>
-        {filteredActivities.slice(0, activitiesCount).map(({activity}) => (
-          <PaperActivity key={activity.id} activity={activity} />
+        {filteredActivities.slice(0, activitiesCount).map((activity) => (
+          <PaperActivity key={activity.id} {...activity} />
         ))}
       </Grid>
     </LayoutPage>
   )
 }
+
+export default SportActivities
 
 export const pageQuery = graphql`
   query SportActivities($path: String!) {
@@ -145,13 +146,11 @@ export const pageQuery = graphql`
     }
     activities: allStravaActivity(
       filter: {
-        activity: {
-          type: {in: ["Run", "Ride"]}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {in: ["Run", "Ride"]}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___start_date], order: DESC}
+      sort: {fields: [start_date], order: DESC}
     ) {
       nodes {
         ...PaperActivityFragment

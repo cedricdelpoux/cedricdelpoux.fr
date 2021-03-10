@@ -1,4 +1,4 @@
-import {useStaticQuery, graphql} from "gatsby"
+import {graphql, useStaticQuery} from "gatsby"
 
 export const useSiteMetadata = () => {
   const {
@@ -6,7 +6,7 @@ export const useSiteMetadata = () => {
     siteImage,
   } = useStaticQuery(
     graphql`
-      query {
+      {
         site {
           siteMetadata {
             title
@@ -16,9 +16,7 @@ export const useSiteMetadata = () => {
         siteImage: googlePhotosPhoto(description: {eq: "meta-image"}) {
           photo {
             childImageSharp {
-              fixed(width: 1024) {
-                src
-              }
+              gatsbyImageData(width: 1024, layout: FIXED)
             }
           }
         }

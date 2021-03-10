@@ -1,6 +1,6 @@
 import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
-import Img from "gatsby-image"
+import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React from "react"
 
 import {Paper, PaperMetadata} from "./paper"
@@ -36,7 +36,7 @@ export const PaperPost = ({
           height="200px"
           css={{position: "relative", mt: 2, background: "rgba(0,0,0,0.2)"}}
         >
-          <View as={Img} fluid={cover.image.childImageSharp.fluid} alt={name} />
+          <View as={GatsbyImage} image={getImage(cover.image)} alt={name} />
         </View>
       )}
       <View css={{mx: 3, mt: 2}}>{excerpt}</View>
@@ -52,9 +52,7 @@ export const query = graphql`
     cover {
       image {
         childImageSharp {
-          fluid(maxWidth: 500) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
+          gatsbyImageData(width: 500)
         }
       }
     }

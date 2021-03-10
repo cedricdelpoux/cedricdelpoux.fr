@@ -6,7 +6,7 @@ import {Html} from "../components/html"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const About = ({
   data: {
     googleDocs: {
       name: title,
@@ -23,6 +23,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default About
 
 export const pageQuery = graphql`
   query About($path: String!) {

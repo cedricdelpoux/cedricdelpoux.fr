@@ -11,7 +11,7 @@ import {View} from "../components/view"
 import {useMenu} from "../hooks/use-menu"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const Travel = ({
   data: {
     googleDocs: {
       name: title,
@@ -37,6 +37,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default Travel
 
 export const pageQuery = graphql`
   query Travel($path: String!) {

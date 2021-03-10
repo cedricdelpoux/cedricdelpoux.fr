@@ -1,6 +1,6 @@
 import {ThemeContext} from "css-system"
 import {graphql, useStaticQuery} from "gatsby"
-import Img from "gatsby-image"
+import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React, {useContext} from "react"
 
 import {View} from "./view"
@@ -17,9 +17,7 @@ export const Avatar = ({css, ...props}) => {
         description
         photo {
           childImageSharp {
-            fixed(width: 200) {
-              ...GatsbyImageSharpFixed_withWebp
-            }
+            gatsbyImageData(width: 200, layout: FIXED)
           }
         }
       }
@@ -61,7 +59,7 @@ export const Avatar = ({css, ...props}) => {
           transitionProperty: "background",
         }}
       />
-      <Img fixed={data.avatar.photo.childImageSharp.fixed} />
+      <GatsbyImage image={getImage(data.avatar.photo)} />
       <View
         css={{
           position: "absolute",

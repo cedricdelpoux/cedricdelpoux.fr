@@ -8,7 +8,7 @@ import {Title} from "../components/title"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const CodeCareer = ({
   data: {
     googleDocs: {
       name: title,
@@ -74,6 +74,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default CodeCareer
 
 export const pageQuery = graphql`
   query CodeCareer($path: String!) {

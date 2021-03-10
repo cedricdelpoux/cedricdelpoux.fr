@@ -60,7 +60,7 @@ const encode = (data) =>
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
     .join("&")
 
-export default ({
+const Contact = ({
   data: {
     googleDocs: {
       name: title,
@@ -140,6 +140,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default Contact
 
 export const pageQuery = graphql`
   query Contact($path: String!) {

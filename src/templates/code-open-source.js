@@ -7,7 +7,7 @@ import {Grid} from "../components/grid"
 import {PaperRepository} from "../components/paper-repository"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const CodeOpenSource = ({
   data: {
     googleDocs: {
       name: title,
@@ -50,6 +50,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default CodeOpenSource
 
 export const pageQuery = graphql`
   query CodeOpenSource($path: String!) {

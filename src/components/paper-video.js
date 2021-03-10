@@ -1,8 +1,8 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faEye, faThumbsUp} from "@fortawesome/pro-light-svg-icons"
 import {faYoutube} from "@fortawesome/free-brands-svg-icons"
+import {faEye, faThumbsUp} from "@fortawesome/pro-light-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {graphql} from "gatsby"
-import Img from "gatsby-image"
+import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React, {useState} from "react"
 
 import {Paper, PaperMetadata} from "./paper"
@@ -72,14 +72,8 @@ export const PaperVideo = ({id, title, cover, statistics}) => {
           <>
             <View
               key="cover"
-              as={Img}
-              fluid={cover.childImageSharp.fluid}
-              css={{
-                width: "100%",
-                position: "absolute !important",
-                top: "50%",
-                transform: "translateY(-50%)",
-              }}
+              as={GatsbyImage}
+              image={getImage(cover)}
               alt={title}
             />
             <View
@@ -111,9 +105,7 @@ export const query = graphql`
     title
     cover {
       childImageSharp {
-        fluid(maxWidth: 500) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
+        gatsbyImageData(width: 500)
       }
     }
     statistics {

@@ -5,7 +5,7 @@ import {Grid} from "../components/grid"
 import {PaperStory} from "../components/paper-story"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const TravelStories = ({
   data: {
     stories,
     googleDocs: {
@@ -24,6 +24,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default TravelStories
 
 export const pageQuery = graphql`
   query TravelStories($path: String!, $locale: String!) {

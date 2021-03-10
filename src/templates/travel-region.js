@@ -9,7 +9,7 @@ import {PaperStory} from "../components/paper-story"
 import {PaperVideo} from "../components/paper-video"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const TravelRegion = ({
   pageContext: {country, region},
   data: {
     googleDocs: {
@@ -46,6 +46,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default TravelRegion
 
 export const pageQuery = graphql`
   query TravelRegion(
@@ -96,9 +98,7 @@ export const pageQuery = graphql`
         id
         photo {
           childImageSharp {
-            fluid(maxWidth: 1024) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
       }

@@ -11,7 +11,7 @@ import {PaperStory} from "../components/paper-story"
 import {PaperVideo} from "../components/paper-video"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const TravelCountry = ({
   pageContext: {country},
   data: {
     googleDocs: {
@@ -56,6 +56,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default TravelCountry
 
 export const pageQuery = graphql`
   query TravelCountry($path: String!, $country: String!, $locale: String!) {
@@ -115,9 +117,7 @@ export const pageQuery = graphql`
         id
         photo {
           childImageSharp {
-            fluid(maxWidth: 1024) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
       }

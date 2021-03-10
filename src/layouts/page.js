@@ -1,6 +1,7 @@
 import {useLocation} from "@reach/router"
 import {ThemeContext} from "css-system"
-import Img from "gatsby-image"
+import {GatsbyImage} from "gatsby-plugin-image"
+import {getImage, getSrc} from "gatsby-plugin-image"
 import React, {useContext, useState} from "react"
 import {Helmet} from "react-helmet"
 import {useTrail} from "react-spring"
@@ -36,7 +37,7 @@ export const LayoutPage = ({
 
   // Meta
   const {siteUrl} = useSiteMetadata()
-  const imageUrl = cover?.image?.childImageSharp?.fixed?.src
+  const imageUrl = cover && getSrc(cover.image)
   const metaImage = imageUrl && siteUrl + imageUrl
 
   return (
@@ -119,7 +120,7 @@ export const LayoutPage = ({
             ))}
           </View>
         )}
-        {cover && (
+        {cover?.image && (
           <View css={{position: "relative", mb: 2, p: "2px"}}>
             <View
               css={{
@@ -133,8 +134,8 @@ export const LayoutPage = ({
               }}
             />
             <View
-              as={Img}
-              fluid={cover.image.childImageSharp.fluid}
+              as={GatsbyImage}
+              image={getImage(cover.image)}
               css={{
                 borderRadius: 3,
                 backgroundColor: "backgroundLight",

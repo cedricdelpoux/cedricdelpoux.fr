@@ -17,7 +17,7 @@ import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 import {getColorsScale} from "../utils/colors"
 
-export default ({
+const TravelStory = ({
   data: {
     googleDocs: {
       name: title,
@@ -174,6 +174,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default TravelStory
 
 export const pageQuery = graphql`
   query TravelStory($country: String!) {

@@ -14,7 +14,7 @@ import {View} from "../components/view"
 import {useMenu} from "../hooks/use-menu"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const Sport = ({
   data: {
     googleDocs: {
       name: title,
@@ -65,19 +65,19 @@ export default ({
           <Title as="h3">
             <FormattedMessage id="sport.index.latest-activity" />
           </Title>
-          <PaperActivity activity={latestActivity.activity} />
+          <PaperActivity {...latestActivity} />
         </View>
         <View css={{gap: 2}}>
           <Title as="h3">
             <FormattedMessage id="sport.index.fastest-activity" />
           </Title>
-          <PaperActivity activity={fastestActivity.activity} />
+          <PaperActivity {...fastestActivity} />
         </View>
         <View css={{gap: 2}}>
           <Title as="h3">
             <FormattedMessage id="sport.index.longest-activity" />
           </Title>
-          <PaperActivity activity={longestActivity.activity} />
+          <PaperActivity {...longestActivity} />
         </View>
       </Grid>
       <View css={{alignSelf: "center"}}>
@@ -91,6 +91,8 @@ export default ({
   )
 }
 
+export default Sport
+
 export const pageQuery = graphql`
   query Sport($path: String!) {
     googleDocs(slug: {eq: $path}) {
@@ -102,45 +104,37 @@ export const pageQuery = graphql`
     }
     latestRuns: allStravaActivity(
       filter: {
-        activity: {
-          type: {eq: "Run"}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {eq: "Run"}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___start_date], order: DESC}
+      sort: {fields: [start_date], order: DESC}
       limit: 1000
     ) {
       nodes {
         ...PaperActivityFragment
       }
     }
-
     latestRides: allStravaActivity(
       filter: {
-        activity: {
-          type: {eq: "Ride"}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {eq: "Ride"}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___start_date], order: DESC}
+      sort: {fields: [start_date], order: DESC}
       limit: 1000
     ) {
       nodes {
         ...PaperActivityFragment
       }
     }
-
     fastestRuns: allStravaActivity(
       filter: {
-        activity: {
-          type: {eq: "Run"}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {eq: "Run"}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___average_speed], order: DESC}
+      sort: {fields: [average_speed], order: DESC}
       limit: 1
     ) {
       nodes {
@@ -150,13 +144,11 @@ export const pageQuery = graphql`
 
     fastestRides: allStravaActivity(
       filter: {
-        activity: {
-          type: {eq: "Ride"}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {eq: "Ride"}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___average_speed], order: DESC}
+      sort: {fields: [average_speed], order: DESC}
       limit: 1
     ) {
       nodes {
@@ -165,29 +157,24 @@ export const pageQuery = graphql`
     }
     longestRuns: allStravaActivity(
       filter: {
-        activity: {
-          type: {eq: "Run"}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {eq: "Run"}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___distance], order: DESC}
+      sort: {fields: [distance], order: DESC}
       limit: 1
     ) {
       nodes {
         ...PaperActivityFragment
       }
     }
-
     longestRides: allStravaActivity(
       filter: {
-        activity: {
-          type: {eq: "Ride"}
-          map: {summary_polyline: {ne: null}}
-          visibility: {eq: "everyone"}
-        }
+        type: {eq: "Ride"}
+        map: {summary_polyline: {ne: null}}
+        visibility: {eq: "everyone"}
       }
-      sort: {fields: [activity___distance], order: DESC}
+      sort: {fields: [distance], order: DESC}
       limit: 1
     ) {
       nodes {

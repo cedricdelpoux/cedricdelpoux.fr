@@ -1,6 +1,6 @@
-import {faCalendar, faImages, faFilm} from "@fortawesome/pro-light-svg-icons"
+import {faCalendar, faFilm, faImages} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
-import Img from "gatsby-image"
+import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React from "react"
 
 import {Flag} from "./flag"
@@ -26,8 +26,8 @@ export const PaperCountry = ({name, country, album, videos, ...props}) => (
     />
     {album?.cover && (
       <View
-        as={Img}
-        fluid={album.cover.photo.childImageSharp.fluid}
+        as={GatsbyImage}
+        image={getImage(album.cover.photo)}
         alt={`${country} cover`}
         css={{mb: -3}}
       />
@@ -44,9 +44,7 @@ export const query = graphql`
       cover {
         photo {
           childImageSharp {
-            fluid(maxWidth: 500) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
+            gatsbyImageData(width: 500)
           }
         }
       }

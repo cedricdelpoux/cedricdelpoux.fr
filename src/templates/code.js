@@ -5,7 +5,7 @@ import {Grid} from "../components/grid"
 import {PaperProject} from "../components/paper-project"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const Code = ({
   data: {
     googleDocs: {
       name: title,
@@ -26,6 +26,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default Code
 
 export const pageQuery = graphql`
   query Code($path: String!, $locale: String!) {

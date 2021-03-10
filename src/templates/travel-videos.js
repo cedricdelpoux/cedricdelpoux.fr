@@ -5,7 +5,7 @@ import {Grid} from "../components/grid"
 import {PaperVideo} from "../components/paper-video"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const TravelVideos = ({
   data: {
     videos,
     googleDocs: {
@@ -26,6 +26,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default TravelVideos
 
 export const pageQuery = graphql`
   query TravelVideos($path: String!) {

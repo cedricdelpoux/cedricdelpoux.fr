@@ -40,15 +40,13 @@ const GridItem = ({css, children, ...props}) => (
 )
 
 export const PaperActivity = ({
-  activity: {
-    id,
-    type,
-    average_speed,
-    start_date_formatted,
-    moving_time,
-    distance,
-    map: {summary_polyline},
-  },
+  id,
+  type,
+  average_speed,
+  start_date_formatted,
+  moving_time,
+  distance,
+  map: {summary_polyline},
   ...props
 }) => {
   const theme = useContext(ThemeContext)
@@ -179,17 +177,15 @@ export const PaperActivity = ({
 
 export const query = graphql`
   fragment PaperActivityFragment on StravaActivity {
-    activity {
-      id
-      type
-      start_date
-      start_date_formatted: start_date(formatString: "DD MMM YY")
-      moving_time
-      distance
-      average_speed
-      map {
-        summary_polyline
-      }
+    id
+    type
+    start_date
+    start_date_formatted: start_date(formatString: "DD MMM YY")
+    moving_time
+    distance
+    average_speed
+    map {
+      summary_polyline
     }
   }
 `

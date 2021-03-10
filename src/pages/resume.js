@@ -1,6 +1,6 @@
 import {faAt, faBrowser, faPhone} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
-import Img from "gatsby-image"
+import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React, {useContext, useMemo} from "react"
 
 import {Icon} from "../components/icon"
@@ -11,7 +11,7 @@ import {View} from "../components/view"
 
 var {ThemeContext, useGlobalCss} = require("css-system")
 
-export default ({data}) => {
+const PageResume = ({data}) => {
   const theme = useContext(ThemeContext)
 
   useGlobalCss({
@@ -130,8 +130,8 @@ export default ({data}) => {
                 },
               }}
             >
-              <Img
-                fluid={data.avatar.photo.childImageSharp.fluid}
+              <GatsbyImage
+                image={getImage(data.avatar.photo)}
                 alt="Resume avatar"
               />
             </View>
@@ -387,6 +387,8 @@ const Personal = ({
   </View>
 )
 
+export default PageResume
+
 export const pageQuery = graphql`
   query ResumeQuery {
     avatar: googlePhotosPhoto(
@@ -395,13 +397,10 @@ export const pageQuery = graphql`
       description
       photo {
         childImageSharp {
-          fluid(maxWidth: 200, quality: 100) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
+          gatsbyImageData(width: 200, layout: FIXED)
         }
       }
     }
-
     github {
       viewer {
         gist(name: "fc7bdb427dd574dbebcac85ad5c94792") {

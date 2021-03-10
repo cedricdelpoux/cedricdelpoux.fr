@@ -1,5 +1,5 @@
 import {graphql} from "gatsby"
-import Img from "gatsby-image"
+import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React from "react"
 
 import {Paper} from "./paper"
@@ -22,7 +22,7 @@ export const PaperProject = ({project: {name, cover, slug}, ...props}) => {
             background: "rgba(0,0,0,0.2)",
           }}
         >
-          <View as={Img} fluid={cover.image.childImageSharp.fluid} alt={name} />
+          <View as={GatsbyImage} image={getImage(cover.image)} alt={name} />
         </View>
       )}
     </Paper>
@@ -36,9 +36,7 @@ export const query = graphql`
     cover {
       image {
         childImageSharp {
-          fluid(maxWidth: 500) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
+          gatsbyImageData(width: 500)
         }
       }
     }

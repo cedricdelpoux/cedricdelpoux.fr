@@ -14,7 +14,7 @@ import {View} from "../components/view"
 import {useMenu} from "../hooks/use-menu"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const Home = ({
   data: {
     googleDocs: {
       childMdx: {body, excerpt},
@@ -103,6 +103,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default Home
 
 export const pageQuery = graphql`
   query Home($path: String!) {

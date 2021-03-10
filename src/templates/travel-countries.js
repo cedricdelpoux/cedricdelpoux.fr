@@ -5,7 +5,7 @@ import {Masonry} from "../components/masonry"
 import {PaperCountry} from "../components/paper-country"
 import {LayoutPage} from "../layouts/page"
 
-export default ({
+const TravelCountries = ({
   data: {
     countries,
     googleDocs: {
@@ -24,6 +24,8 @@ export default ({
     </LayoutPage>
   )
 }
+
+export default TravelCountries
 
 export const pageQuery = graphql`
   query TravelCountries($path: String!, $locale: String!) {
