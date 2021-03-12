@@ -17,7 +17,7 @@ export const Avatar = ({css, ...props}) => {
         description
         photo {
           childImageSharp {
-            gatsbyImageData(width: 200, layout: FIXED)
+            gatsbyImageData(width: 200, layout: FIXED, placeholder: BLURRED)
           }
         }
       }

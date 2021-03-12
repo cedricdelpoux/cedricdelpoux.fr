@@ -44,7 +44,7 @@ export const query = graphql`
       cover {
         photo {
           childImageSharp {
-            gatsbyImageData(width: 500)
+            gatsbyImageData(width: 500, placeholder: BLURRED)
           }
         }
       }

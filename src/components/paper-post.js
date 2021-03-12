@@ -52,7 +52,7 @@ export const query = graphql`
     cover {
       image {
         childImageSharp {
-          gatsbyImageData(width: 500)
+          gatsbyImageData(width: 500, placeholder: BLURRED)
         }
       }
     }
