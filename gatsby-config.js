@@ -62,6 +62,17 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-layout",
     {
+      resolve: "gatsby-source-google-mymaps",
+      options: {
+        ids: [
+          "1mQBBrUWGSjjvetsWwZvozaiMlOBChuW2", // Iceland
+          "1bWY-eIw_8zH-ZNfNaxyVNO5rqg9v_9yt", // Pyrenees
+        ],
+        name: "travel",
+        transform: transformMymaps,
+      },
+    },
+    {
       resolve: "gatsby-source-strava",
       options: {
         debug: true,
@@ -120,16 +131,7 @@ module.exports = {
         debug: true,
       },
     },
-    {
-      resolve: "gatsby-source-google-mymaps",
-      options: {
-        ids: [
-          "1mQBBrUWGSjjvetsWwZvozaiMlOBChuW2", // Iceland
-        ],
-        name: "travel",
-        transform: transformMymaps,
-      },
-    },
+
     {
       resolve: "gatsby-source-google-docs",
       options: {

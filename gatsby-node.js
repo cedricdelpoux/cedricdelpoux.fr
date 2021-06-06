@@ -50,6 +50,13 @@ exports.onCreateNode = async ({node, cache}) => {
       node.polyline = polyline
       node.map___NODE = map
     }
+
+    if (node.template === "sport-story" && node.mymaps) {
+      const polyline = await cache.get("polyline-" + node.mymaps)
+      const map = await cache.get("mymaps-" + node.mymaps)
+      node.polyline = polyline
+      node.map___NODE = map
+    }
   }
 }
 

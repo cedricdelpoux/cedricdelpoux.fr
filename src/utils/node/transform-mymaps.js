@@ -3,22 +3,24 @@ const mapboxPolyline = require("@mapbox/polyline")
 
 exports.transformMymaps = (node) => {
   // Route
-  const route = node.layers.reduce(
-    (acc, layer) => [
-      ...acc,
-      ...layer.lineStrings.reduce(
-        (acc, lineString) => [
-          ...acc,
-          ...lineString.coordinates.map(({latitude, longitude}) => [
-            longitude,
-            latitude,
-          ]),
-        ],
-        []
-      ),
-    ],
-    []
-  )
+  const route = node.layers
+    .sort((a, b) => a.name - b.name)
+    .reduce(
+      (acc, layer) => [
+        ...acc,
+        ...layer.lineStrings.reduce(
+          (acc, lineString) => [
+            ...acc,
+            ...lineString.coordinates.map(({latitude, longitude}) => [
+              longitude,
+              latitude,
+            ]),
+          ],
+          []
+        ),
+      ],
+      []
+    )
 
   // Polyline
   const routeGeoJSON = {
