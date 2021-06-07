@@ -65,7 +65,7 @@ module.exports = {
       resolve: "gatsby-source-google-mymaps",
       options: {
         ids: [
-          "1mQBBrUWGSjjvetsWwZvozaiMlOBChuW2", // Iceland
+          "1ulgu9lNgtBR0XeNVETN-dIfR2tRAis8q", // Iceland
           "1bWY-eIw_8zH-ZNfNaxyVNO5rqg9v_9yt", // Pyrenees
         ],
         name: "travel",
