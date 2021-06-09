@@ -183,7 +183,7 @@ module.exports = {
               linkImagesToOriginal: false,
             },
           },
-          "gatsby-remark-gifs",
+          "gatsby-remark-gifs-to-videos",
           "gatsby-remark-prismjs",
         ],
       },
