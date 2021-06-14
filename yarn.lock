@@ -9793,10 +9793,10 @@ gatsby-remark-copy-linked-files@^4.3.0:
     probe-image-size "^6.0.0"
     unist-util-visit "^2.0.3"
 
-gatsby-remark-gifs-to-videos@^1.0.0-beta.3:
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-gifs-to-videos/-/gatsby-remark-gifs-to-videos-1.0.0-beta.3.tgz#b0a36a668627d8bb2f16b7cb66b89d5d9cfa8976"
-  integrity sha512-/EJMwn4WcJpwSL7n44SAX5Kr66io/RjFFyHhgWy6bLfrkr6KANgZeaGay+sXrDPcQcXkHD8DNLrZgz9rlz8+3g==
+gatsby-remark-gifs-to-videos@^1.0.0-beta.4:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-gifs-to-videos/-/gatsby-remark-gifs-to-videos-1.0.0-beta.4.tgz#298bf59ddc3bc163d5ffea2942ecf0179116575a"
+  integrity sha512-nE+IJGh+5jHHdcayDhH+cK6xvjPZDpTTl07wzqyximay/mf/xf+Z2j2xZ7dGOpH7gDZ1t0ZfFp4ntdzLv3dP7A==
   dependencies:
     "@ffmpeg-installer/ffmpeg" "^1.0.20"
     "@ffprobe-installer/ffprobe" "^1.1.0"
