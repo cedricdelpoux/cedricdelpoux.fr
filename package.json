@@ -46,7 +46,7 @@
     "gatsby-remark-unwrap-images": "^1.0.2",
     "gatsby-remark-youtube": "^1.0.1",
     "gatsby-source-filesystem": "^3.6.0",
-    "gatsby-source-google-docs": "^2.1.0",
+    "gatsby-source-google-docs": "^2.1.1",
     "gatsby-source-google-mymaps": "^1.0.0-beta.5",
     "gatsby-source-google-photos": "^2.4.4",
     "gatsby-source-graphql": "3.6.0",
