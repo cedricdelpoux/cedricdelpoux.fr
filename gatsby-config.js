@@ -183,7 +183,15 @@ module.exports = {
               linkImagesToOriginal: false,
             },
           },
-          "gatsby-remark-gifs-to-videos",
+          {
+            resolve: "gatsby-remark-gifs-to-videos",
+            options: {
+              autoplay: false,
+              loop: false,
+              controls: true,
+              preload: "metadata",
+            },
+          },
           "gatsby-remark-prismjs",
         ],
       },
