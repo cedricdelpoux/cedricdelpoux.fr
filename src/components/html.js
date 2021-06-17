@@ -17,7 +17,7 @@ export const Html = ({body, css, fluid, ...props}) => {
         mx: "auto",
         width: fluid ? "100%" : {m: 680},
         maxWidth: "100%",
-        "& img, & > [class^=gatsby-resp-image]": {
+        "& img, & > [class^=gatsby-resp-image], & > p > iframe, & video": {
           borderRadius: 2,
         },
         "& > [class^=gatsby-resp-image]": {
@@ -85,7 +85,6 @@ export const Html = ({body, css, fluid, ...props}) => {
         },
         "& > p > iframe": {
           maxWidth: "100%",
-          borderRadius: 2,
         },
         "& > *": {
           m: 0,
