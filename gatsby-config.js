@@ -113,6 +113,7 @@ module.exports = {
                 "cedricdelpoux.fr/sport",
                 "cedricdelpoux.fr/travel/austria",
                 "cedricdelpoux.fr/travel/bosnia",
+                "cedricdelpoux.fr/france/bretagne",
                 "cedricdelpoux.fr/travel/croatia",
                 "cedricdelpoux.fr/travel/france/corsica",
                 "cedricdelpoux.fr/travel/hungary",
