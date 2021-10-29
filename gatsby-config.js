@@ -84,7 +84,7 @@ module.exports = {
             MINIMAL &&
             new Date(
               new Date().getFullYear(),
-              new Date().getMonth() - 1,
+              new Date().getMonth() - 12,
               new Date().getDate()
             ).getTime() / 1000,
           extend: ({activity}) => transformStravaActivity(activity),
@@ -186,15 +186,15 @@ module.exports = {
               linkImagesToOriginal: false,
             },
           },
-          {
-            resolve: "gatsby-remark-gifs-to-videos",
-            options: {
-              autoplay: false,
-              loop: false,
-              controls: true,
-              preload: "metadata",
-            },
-          },
+          // {
+          //   resolve: "gatsby-remark-gifs-to-videos",
+          //   options: {
+          //     autoplay: false,
+          //     loop: false,
+          //     controls: true,
+          //     preload: "metadata",
+          //   },
+          // },
           "gatsby-remark-prismjs",
         ],
       },
