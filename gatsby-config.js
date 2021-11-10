@@ -145,14 +145,40 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-graphql",
+      resolve: "gatsby-source-github-api",
       options: {
         typeName: "GitHub",
         fieldName: "github",
-        url: "https://api.github.com/graphql",
-        headers: {
-          Authorization: `bearer ${GITHUB_TOKEN}`,
-        },
+        token: GITHUB_TOKEN,
+        graphQLQuery: `
+          query {
+            viewer {
+              gist(name: "fc7bdb427dd574dbebcac85ad5c94792") {
+                files {
+                  name
+                  text
+                }
+              }
+              repositories(
+                first: 30
+                privacy: PUBLIC
+                ownerAffiliations: OWNER
+                orderBy: {field: STARGAZERS, direction: DESC}
+              ) {
+                nodes {
+                  id
+                  url
+                  name
+                  description
+                  stargazers {
+                    totalCount
+                  }
+                  forkCount
+                }
+              }
+            }
+          }
+        `,
       },
     },
     {

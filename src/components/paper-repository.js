@@ -1,6 +1,5 @@
 import {faCodeBranch, faStar} from "@fortawesome/pro-light-svg-icons"
 import React from "react"
-import {graphql} from "gatsby"
 
 import {Paper, PaperMetadata} from "./paper"
 import {Title} from "./title"
@@ -34,16 +33,3 @@ export const PaperRepository = ({
     </Paper>
   )
 }
-
-export const query = graphql`
-  fragment PaperRepositoryFragment on GitHub_Repository {
-    id
-    url
-    name
-    description
-    stargazers {
-      totalCount
-    }
-    forkCount
-  }
-`

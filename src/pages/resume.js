@@ -11,7 +11,16 @@ import {View} from "../components/view"
 
 var {ThemeContext, useGlobalCss} = require("css-system")
 
-const PageResume = ({data}) => {
+const PageResume = ({
+  data: {
+    avatar,
+    githubData: {
+      data: {
+        viewer: {gist: githubGist},
+      },
+    },
+  },
+}) => {
   const theme = useContext(ThemeContext)
 
   useGlobalCss({
@@ -63,8 +72,8 @@ const PageResume = ({data}) => {
     // },
   })
   const jsonResume = useMemo(
-    () => JSON.parse(data.github.viewer.gist.files[0].text),
-    [data]
+    () => JSON.parse(githubGist.files[0].text),
+    [githubGist]
   )
   return (
     <>
@@ -99,7 +108,7 @@ const PageResume = ({data}) => {
             borderRadius: 0,
           }}
         >
-          {data.avatar && (
+          {avatar && (
             <View
               css={{
                 alignSelf: "flex-end",
@@ -113,7 +122,7 @@ const PageResume = ({data}) => {
                   borderRadius: "50%",
                   width: "130%",
                   paddingBottom: "130%",
-                  bottom: "-13%",
+                  bottom: "-11%",
                   left: "50%",
                   transform: "translateX(-50%)",
                   clipPath: "polygon(0 0, 100% 0, 100% 85%, 0 85%)",
@@ -130,10 +139,7 @@ const PageResume = ({data}) => {
                 },
               }}
             >
-              <GatsbyImage
-                image={getImage(data.avatar.photo)}
-                alt="Resume avatar"
-              />
+              <GatsbyImage image={getImage(avatar.photo)} alt="Resume avatar" />
             </View>
           )}
           <Personal jsonResume={jsonResume} />
@@ -401,12 +407,14 @@ export const pageQuery = graphql`
         }
       }
     }
-    github {
-      viewer {
-        gist(name: "fc7bdb427dd574dbebcac85ad5c94792") {
-          files {
-            name
-            text
+    githubData {
+      data {
+        viewer {
+          gist {
+            files {
+              name
+              text
+            }
           }
         }
       }

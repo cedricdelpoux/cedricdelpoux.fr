@@ -13,15 +13,17 @@ const CodeOpenSource = ({
       name: title,
       childMdx: {body, excerpt},
     },
-    github,
+    githubData: {
+      data: {viewer: githubViewer},
+    },
   },
 }) => {
   const starsCount = useMemo(() => {
-    return github.viewer.repositories.nodes.reduce(
+    return githubViewer.repositories.nodes.reduce(
       (count, node) => count + node.stargazers.totalCount,
       0
     )
-  }, [github])
+  }, [githubViewer])
   return (
     <LayoutPage
       title={title}
@@ -41,7 +43,7 @@ const CodeOpenSource = ({
       ]}
     >
       <Grid>
-        {github.viewer.repositories.nodes
+        {githubViewer.repositories.nodes
           .filter((repository) => repository.stargazers.totalCount > 0)
           .map((repository) => (
             <PaperRepository key={repository.id} repository={repository} />
@@ -62,17 +64,20 @@ export const pageQuery = graphql`
         excerpt
       }
     }
-    github {
-      viewer {
-        repositories(
-          first: 30
-          privacy: PUBLIC
-          ownerAffiliations: OWNER
-          orderBy: {field: STARGAZERS, direction: DESC}
-        ) {
-          nodes {
-            id
-            ...PaperRepositoryFragment
+    githubData {
+      data {
+        viewer {
+          repositories {
+            nodes {
+              id
+              url
+              name
+              description
+              stargazers {
+                totalCount
+              }
+              forkCount
+            }
           }
         }
       }
