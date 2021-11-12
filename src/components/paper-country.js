@@ -27,7 +27,7 @@ export const PaperCountry = ({name, country, album, videos, ...props}) => (
     {album?.cover && (
       <View
         as={GatsbyImage}
-        image={getImage(album.cover.photo)}
+        image={getImage(album.cover.file)}
         alt={`${country} cover`}
         css={{mb: -3}}
       />
@@ -42,7 +42,7 @@ export const query = graphql`
     album {
       relativeDate: latestDate(fromNow: true, locale: $locale)
       cover {
-        photo {
+        file {
           childImageSharp {
             gatsbyImageData(width: 500, placeholder: BLURRED)
           }

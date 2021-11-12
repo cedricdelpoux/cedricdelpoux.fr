@@ -25,7 +25,7 @@ const SportMedias = ({
         {album?.photos.map((node) => (
           <PaperPhoto
             key={node.id}
-            photo={node.photo}
+            photo={node.file}
             alt={`Sport photo ${node.id}`}
           />
         ))}
@@ -57,7 +57,7 @@ export const pageQuery = graphql`
     album: googlePhotosAlbum(category: {eq: "sport"}) {
       photos {
         id
-        photo {
+        file {
           childImageSharp {
             gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
           }

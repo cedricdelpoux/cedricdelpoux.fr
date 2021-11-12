@@ -14,7 +14,7 @@ export const useSiteMetadata = () => {
           }
         }
         siteImage: googlePhotosPhoto(description: {eq: "meta-image"}) {
-          photo {
+          file {
             childImageSharp {
               gatsbyImageData(width: 1024, layout: FIXED, placeholder: BLURRED)
             }
@@ -25,6 +25,6 @@ export const useSiteMetadata = () => {
   )
   return {
     ...siteMetadata,
-    siteImage: siteImage?.photo,
+    siteImage: siteImage?.file,
   }
 }

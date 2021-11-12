@@ -15,7 +15,7 @@ export const Avatar = ({css, ...props}) => {
         description: {eq: "Cédric Delpoux sur fond transparent"}
       ) {
         description
-        photo {
+        file {
           childImageSharp {
             gatsbyImageData(width: 200, layout: FIXED, placeholder: BLURRED)
           }
@@ -59,7 +59,7 @@ export const Avatar = ({css, ...props}) => {
           transitionProperty: "background",
         }}
       />
-      <GatsbyImage image={getImage(data.avatar.photo)} />
+      <GatsbyImage image={getImage(data.avatar.file)} />
       <View
         css={{
           position: "absolute",

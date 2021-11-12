@@ -35,7 +35,7 @@ const TravelRegion = ({
           album.photos.map((node) => (
             <PaperPhoto
               key={node.id}
-              photo={node.photo}
+              photo={node.file}
               alt={`${region} photo ${node.id}`}
             />
           ))}
@@ -96,7 +96,7 @@ export const pageQuery = graphql`
     album: googlePhotosAlbum(country: {eq: $country}, region: {eq: $region}) {
       photos {
         id
-        photo {
+        file {
           childImageSharp {
             gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
           }

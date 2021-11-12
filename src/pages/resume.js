@@ -139,7 +139,7 @@ const PageResume = ({
                 },
               }}
             >
-              <GatsbyImage image={getImage(avatar.photo)} alt="Resume avatar" />
+              <GatsbyImage image={getImage(avatar.file)} alt="Resume avatar" />
             </View>
           )}
           <Personal jsonResume={jsonResume} />
@@ -401,7 +401,7 @@ export const pageQuery = graphql`
       description: {eq: "Cédric Delpoux sur fond transparent"}
     ) {
       description
-      photo {
+      file {
         childImageSharp {
           gatsbyImageData(width: 200, layout: FIXED, placeholder: BLURRED)
         }

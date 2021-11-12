@@ -1,6 +1,4 @@
-const {resolve} = require("path")
-
-exports.onCreateNode = async ({node, cache}) => {
+exports.onCreateNode = async ({node, cache, actions: {createNodeField}}) => {
   if (node.internal.type === "GoogleMyMaps") {
     await cache.set("mymaps-" + node.name, node.id)
     await cache.set("polyline-" + node.name, node.polyline)
@@ -33,31 +31,40 @@ exports.onCreateNode = async ({node, cache}) => {
     if (node.template === "travel-region" && node.region) {
       const album = await cache.get("album-" + node.region)
       const videos = await cache.get("videos-" + node.region)
-      node.album___NODE = album
-      node.videos___NODE = videos
+
+      createNodeField({node, name: "albumId", value: album})
+      createNodeField({node, name: "videosIds", value: videos})
     }
 
     if (node.template === "travel-country" && node.country) {
       const album = await cache.get("album-" + node.country)
       const videos = await cache.get("videos-" + node.country)
-      node.album___NODE = album
-      node.videos___NODE = videos
+
+      createNodeField({node, name: "albumId", value: album})
+      createNodeField({node, name: "videosIds", value: videos})
     }
 
     if (node.template === "travel-story" && node.country) {
       const polyline = await cache.get("polyline-" + node.country)
       const map = await cache.get("mymaps-" + node.country)
+      console.log("map", node.country, map)
       node.polyline = polyline
-      node.map___NODE = map
-    }
 
-    if (node.template === "sport-story" && node.mymaps) {
-      const polyline = await cache.get("polyline-" + node.mymaps)
-      const map = await cache.get("mymaps-" + node.mymaps)
-      node.polyline = polyline
-      node.map___NODE = map
+      createNodeField({node, name: "mapId", value: map})
     }
   }
+}
+
+exports.createSchemaCustomization = ({actions}) => {
+  const {createTypes} = actions
+
+  createTypes(`
+    type GoogleDocs implements Node {
+      map: GoogleMyMaps @link(from: "fields.mapId")
+      album: GooglePhotosAlbum @link(from: "fields.albumId")
+      videos: [YoutubeVideo] @link(from: "fields.videosIds")
+    }
+  `)
 }
 
 exports.onCreatePage = ({page}) => {
