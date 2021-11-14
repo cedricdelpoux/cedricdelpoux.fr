@@ -122,12 +122,7 @@ const SportMap = ({
           alignItems: "center",
         }}
       >
-        <SwitcherSport
-          value={type}
-          onChange={() =>
-            setType((oldSport) => (oldSport === "Run" ? "Ride" : "Run"))
-          }
-        />
+        <SwitcherSport onChange={setType} />
         <SelectGradient
           onChange={(e) => handleCountryChange(e.target.value)}
           value={country.name}

@@ -63,7 +63,6 @@
     "react-dom": "^17.0.2",
     "react-helmet": "^6.0.0",
     "react-intl": "^5.21.1",
-    "react-neumorphic-toggle": "^1.0.1",
     "react-range": "^1.8.11",
     "react-share": "^4.4.0",
     "react-spring": "^9.3.0",

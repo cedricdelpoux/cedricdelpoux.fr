@@ -13268,11 +13268,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-neumorphic-toggle@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/react-neumorphic-toggle/-/react-neumorphic-toggle-1.0.1.tgz"
-  integrity sha512-/gn90qBCfFFODpM60eRIqZ/8DKa6za8kjk7j5ZXvKuFoCuz/c8q+3kR4Uzn32Tfawn2ytZgGWF9gKcFObh7yjw==
-
 react-range@^1.8.11:
   version "1.8.11"
   resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.8.11.tgz#7d9ae1e4a263108566897acee2dde8d5b78901e1"

@@ -40,18 +40,22 @@ const SportActivities = ({
     [activities, filterSport]
   )
 
-  const minSpeed = useMemo(() => getMinSpeed(sportActivities), [
-    sportActivities,
-  ])
-  const maxSpeed = useMemo(() => getMaxSpeed(sportActivities), [
-    sportActivities,
-  ])
-  const minDist = useMemo(() => getMinDistance(sportActivities), [
-    sportActivities,
-  ])
-  const maxDist = useMemo(() => getMaxDistance(sportActivities), [
-    sportActivities,
-  ])
+  const minSpeed = useMemo(
+    () => getMinSpeed(sportActivities),
+    [sportActivities]
+  )
+  const maxSpeed = useMemo(
+    () => getMaxSpeed(sportActivities),
+    [sportActivities]
+  )
+  const minDist = useMemo(
+    () => getMinDistance(sportActivities),
+    [sportActivities]
+  )
+  const maxDist = useMemo(
+    () => getMaxDistance(sportActivities),
+    [sportActivities]
+  )
 
   const [filterDistance, setFilterDistance] = useState({
     min: minDist,
@@ -105,10 +109,9 @@ const SportActivities = ({
           unit="km"
         />
         <SwitcherSport
-          value={filterSport}
-          onChange={() => {
+          onChange={(sport) => {
             setActivitiesCount(COUNT_PER_PAGE)
-            setFilterSport((oldSport) => (oldSport === "Run" ? "Ride" : "Run"))
+            setFilterSport(sport)
           }}
         />
         <InputRange

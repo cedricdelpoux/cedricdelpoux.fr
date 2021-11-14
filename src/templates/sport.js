@@ -49,13 +49,7 @@ const Sport = ({
   )
   return (
     <LayoutPage title={title} description={excerpt} body={body}>
-      <SwitcherSport
-        value={sport}
-        onChange={() =>
-          setSport((oldSport) => (oldSport === "Run" ? "Ride" : "Run"))
-        }
-        css={{alignSelf: "center"}}
-      />
+      <SwitcherSport onChange={setSport} css={{alignSelf: "center"}} />
       <Title as="h2">
         <FormattedMessage id={`sport.types.${sport.toLowerCase()}`} />
       </Title>
