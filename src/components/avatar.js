@@ -59,7 +59,7 @@ export const Avatar = ({css, ...props}) => {
           transitionProperty: "background",
         }}
       />
-      <GatsbyImage image={getImage(data.avatar.file)} />
+      <GatsbyImage image={getImage(data.avatar.file)} alt="Cédric Delpoux" />
       <View
         css={{
           position: "absolute",
