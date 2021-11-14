@@ -1,5 +1,5 @@
+import {animated} from "@react-spring/web"
 import {ThemeContext, createPrimitive, useGap} from "css-system"
-import {animated} from "react-spring"
 import {useContext} from "react"
 
 export const View = createPrimitive(animated.div, ({css, ...props}) => {

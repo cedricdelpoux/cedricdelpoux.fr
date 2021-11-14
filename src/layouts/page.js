@@ -1,10 +1,10 @@
 import {useLocation} from "@reach/router"
+import {useTrail} from "@react-spring/web"
 import {ThemeContext} from "css-system"
 import {GatsbyImage} from "gatsby-plugin-image"
 import {getImage, getSrc} from "gatsby-plugin-image"
 import React, {useContext, useState} from "react"
 import {Helmet} from "react-helmet"
-import {useTrail} from "react-spring"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"

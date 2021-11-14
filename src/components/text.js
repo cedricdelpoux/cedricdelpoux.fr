@@ -1,5 +1,5 @@
-import {animated} from "react-spring"
-import {createPrimitive, ThemeContext} from "css-system"
+import {animated} from "@react-spring/web"
+import {ThemeContext, createPrimitive} from "css-system"
 import {useContext} from "react"
 
 export const Text = createPrimitive(

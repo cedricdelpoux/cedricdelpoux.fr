@@ -1,7 +1,8 @@
 import {faAngleRight} from "@fortawesome/pro-light-svg-icons"
+import {animated} from "@react-spring/web"
 import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
-import {animated} from "react-spring"
+
 import {Icon} from "./icon"
 import {View} from "./view"
 

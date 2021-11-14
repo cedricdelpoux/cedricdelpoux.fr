@@ -1,5 +1,5 @@
+import {animated} from "@react-spring/web"
 import React from "react"
-import {animated} from "react-spring"
 
 import {Text} from "./text"
 

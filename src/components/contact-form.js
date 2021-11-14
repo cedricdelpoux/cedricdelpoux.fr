@@ -1,11 +1,11 @@
 import {faPaperPlane} from "@fortawesome/pro-light-svg-icons"
 import {useLocation} from "@reach/router"
+import {animated} from "@react-spring/web"
 import {ThemeContext} from "css-system"
 import {navigate} from "gatsby-link"
 import {GoogleDocsContext} from "gatsby-source-google-docs"
 import React, {useCallback, useContext} from "react"
 import {FormattedMessage} from "react-intl"
-import {animated} from "react-spring"
 
 import {useMenu} from "../hooks/use-menu"
 import {Button} from "./button"

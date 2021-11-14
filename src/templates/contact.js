@@ -1,11 +1,11 @@
 import {faPaperPlane} from "@fortawesome/pro-light-svg-icons"
 import {useLocation} from "@reach/router"
+import {animated} from "@react-spring/web"
 import {ThemeContext} from "css-system"
 import {graphql} from "gatsby"
 import {navigate} from "gatsby-link"
 import React, {useCallback, useContext} from "react"
 import {FormattedMessage} from "react-intl"
-import {animated} from "react-spring"
 
 import {Button} from "../components/button"
 import {Text} from "../components/text"
