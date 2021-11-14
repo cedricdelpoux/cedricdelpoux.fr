@@ -4,7 +4,7 @@
   "description": "Cédric Delpoux website",
   "author": "Cédric Delpoux <cedric.delpoux@gmail.com>",
   "dependencies": {
-    "@css-system/gatsby-plugin-css-system": "^0.5.8",
+    "@css-system/gatsby-plugin-css-system": "^0.6.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/pro-light-svg-icons": "^5.15.4",
@@ -46,7 +46,7 @@
     "gatsby-remark-youtube": "^1.1.1",
     "gatsby-source-filesystem": "^4.1.0",
     "gatsby-source-github-api": "^1.0.0",
-    "gatsby-source-google-docs": "^2.1.2",
+    "gatsby-source-google-docs": "^2.2.0",
     "gatsby-source-google-mymaps": "^1.0.0",
     "gatsby-source-google-photos": "^3.0.0",
     "gatsby-source-strava": "^2.1.1",
