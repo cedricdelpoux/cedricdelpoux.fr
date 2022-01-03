@@ -51,7 +51,7 @@
     "gatsby-source-google-mymaps": "^1.0.0",
     "gatsby-source-google-photos": "^3.0.0",
     "gatsby-source-strava": "^2.1.1",
-    "gatsby-source-youtube": "^2.4.0",
+    "gatsby-source-youtube": "^2.5.0",
     "gatsby-transformer-remark": "^5.2.0",
     "gatsby-transformer-sharp": "^4.2.0",
     "intersection-observer": "^0.12.0",
