@@ -1,5 +1,6 @@
 .cache
 .env
+.netlify
 .tags
 .yalc
 node_modules
