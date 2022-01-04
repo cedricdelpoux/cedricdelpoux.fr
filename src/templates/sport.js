@@ -4,7 +4,6 @@ import {FormattedMessage} from "react-intl"
 
 import {Button} from "../components/button"
 import {Grid} from "../components/grid"
-import {Heatmap} from "../components/heatmap"
 import {Link} from "../components/link"
 import {PaperActivity} from "../components/paper-activity"
 import {SwitcherSport} from "../components/switcher-sport"
@@ -31,10 +30,6 @@ const Sport = ({
 }) => {
   const menu = useMenu(locale)
   const [sport, setSport] = useState("Run")
-  const activities = useMemo(
-    () => (sport === "Run" ? latestRuns.nodes : latestRides.nodes),
-    [sport]
-  )
   const fastestActivity = useMemo(
     () => (sport === "Run" ? fastestRuns.nodes[0] : fastestRides.nodes[0]),
     [sport]
@@ -53,7 +48,6 @@ const Sport = ({
       <Title as="h2">
         <FormattedMessage id={`sport.types.${sport.toLowerCase()}`} />
       </Title>
-      <Heatmap activities={activities} />
       <Grid>
         <View css={{gap: 2}}>
           <Title as="h3">
@@ -75,7 +69,7 @@ const Sport = ({
         </View>
       </Grid>
       <View css={{alignSelf: "center"}}>
-        <Button as={Link} to={menu.categories.sport.items[0].path}>
+        <Button as={Link} to={menu.categories.sport.items[1].path}>
           <Text>
             <FormattedMessage id="actions.see-more" />
           </Text>
@@ -103,7 +97,7 @@ export const pageQuery = graphql`
         visibility: {eq: "everyone"}
       }
       sort: {fields: [start_date], order: DESC}
-      limit: 1000
+      limit: 1
     ) {
       nodes {
         ...PaperActivityFragment
@@ -116,7 +110,7 @@ export const pageQuery = graphql`
         visibility: {eq: "everyone"}
       }
       sort: {fields: [start_date], order: DESC}
-      limit: 1000
+      limit: 1
     ) {
       nodes {
         ...PaperActivityFragment
@@ -135,7 +129,6 @@ export const pageQuery = graphql`
         ...PaperActivityFragment
       }
     }
-
     fastestRides: allStravaActivity(
       filter: {
         type: {eq: "Ride"}
