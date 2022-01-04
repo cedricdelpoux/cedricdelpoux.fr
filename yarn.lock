@@ -8435,10 +8435,10 @@ gatsby-source-google-photos@^3.0.0:
     google-oauth2-env-vars "^1.3.0"
     googlephotos "^0.3.4"
 
-gatsby-source-strava@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/gatsby-source-strava/-/gatsby-source-strava-2.1.1.tgz#ba0669d76a0c8406b3ff39b62039a10c3802b022"
-  integrity sha512-1fSqnTz6lRGXaUoJUaVmH3Xuny+rHAt7LIYlo29hkcyVAoPenpYe4AkAA1QGSgfZ9Od8to1Odeqa7bCJ6gK41A==
+gatsby-source-strava@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-strava/-/gatsby-source-strava-2.2.0.tgz#86d83a4753e7d991d5c0d20fe1bf6d7be5688926"
+  integrity sha512-+itKEPmBjniPc2IFs+s2sZofKxMRIILVgBFN1oaQBB1ciVHL0D5ZNxEmZLJMlUNCn+H6ShC+UASqz+MWAsxe6g==
   dependencies:
     express "^4.17.1"
     glob "^7.2.0"

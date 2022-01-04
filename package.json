@@ -50,7 +50,7 @@
     "gatsby-source-google-docs": "^2.2.0",
     "gatsby-source-google-mymaps": "^1.0.0",
     "gatsby-source-google-photos": "^3.0.0",
-    "gatsby-source-strava": "^2.1.1",
+    "gatsby-source-strava": "^2.2.0",
     "gatsby-source-youtube": "^2.5.0",
     "gatsby-transformer-remark": "^5.4.0",
     "gatsby-transformer-sharp": "^4.4.0",
@@ -84,7 +84,7 @@
     "prettier": "^2.5.1"
   },
   "scripts": {
-    "build": "gatsby build",
+    "build": "gatsby build --log-pages",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
     "lint": "eslint ./*.js src/**/*.js",
