@@ -67,7 +67,7 @@
     "react-range": "^1.8.11",
     "react-share": "^4.4.0",
     "react-vertical-timeline-component": "^3.5.2",
-    "scrollama": "^2.2.3",
+    "scrollama": "^3.0.3",
     "wobblecode-flat-flags": "^1.0.1"
   },
   "devDependencies": {
