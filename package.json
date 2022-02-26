@@ -56,7 +56,7 @@
     "gatsby-transformer-sharp": "^3.6.0",
     "intersection-observer": "^0.12.0",
     "mapbox-gl": "^2.6.1",
-    "prismjs": "^1.25.0",
+    "prismjs": "^1.27.0",
     "react": "^17.0.2",
     "react-aria-offcanvas": "^1.4.3",
     "react-calendar-heatmap": "^1.8.0",
