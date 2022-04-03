@@ -74,6 +74,7 @@ const transformMymaps = (node) => {
 exports.googleMymapsOptions = {
   ids: [
     "1ulgu9lNgtBR0XeNVETN-dIfR2tRAis8q", // Iceland
+    "1DovAsh6Wc5Z_YJzvAJVTP57zuKCtfnNX", // Italy
     "1bWY-eIw_8zH-ZNfNaxyVNO5rqg9v_9yt", // Pyrenees
   ],
   name: "travel",
