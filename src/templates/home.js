@@ -62,6 +62,7 @@ const Home = ({
       >
         <View
           css={{
+            flex: 1,
             alignItems: "center",
             gap: 3,
           }}
@@ -75,6 +76,7 @@ const Home = ({
         </View>
         <View
           css={{
+            flex: 1,
             alignItems: "center",
             gap: 3,
           }}
@@ -88,6 +90,7 @@ const Home = ({
         </View>
         <View
           css={{
+            flex: 1,
             alignItems: "center",
             gap: 3,
           }}
