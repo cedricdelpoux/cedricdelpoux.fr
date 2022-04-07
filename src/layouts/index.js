@@ -8,9 +8,9 @@ import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
 import {ContactForm} from "../components/contact-form"
 import {Footer} from "../components/footer"
-import {Grid} from "../components/grid"
 import {Header} from "../components/header"
 import {Link} from "../components/link"
+import {Masonry} from "../components/masonry"
 import {Technologies} from "../components/technologies"
 import {Title} from "../components/title"
 import {View} from "../components/view"
@@ -68,7 +68,7 @@ export default ({children, pageContext}) => {
         Button,
         Link,
         ContactForm,
-        Grid,
+        Grid: Masonry,
         Technologies,
         // a: Link,
         h1: (props) => <Title as="h1" {...props} />,
