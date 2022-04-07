@@ -75,6 +75,7 @@ exports.googleMymapsOptions = {
   ids: [
     "1ulgu9lNgtBR0XeNVETN-dIfR2tRAis8q", // Iceland
     "1DovAsh6Wc5Z_YJzvAJVTP57zuKCtfnNX", // Italy
+    "1ivT4zEx-Wh0NMrSFXokUe-DX0CnPrX7E", // New Zealand
     "1bWY-eIw_8zH-ZNfNaxyVNO5rqg9v_9yt", // Pyrenees
   ],
   name: "travel",
