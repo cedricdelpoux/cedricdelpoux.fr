@@ -23,8 +23,8 @@ exports.mdxOptions = {
       options: {
         showCaptions: true,
         maxWidth: 680,
-        withWebp: true,
         linkImagesToOriginal: false,
+        wrapperStyle: "overflow:hidden; width:100%;",
       },
     },
     // {

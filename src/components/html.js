@@ -22,8 +22,6 @@ export const Html = ({body, css, fluid, ...props}) => {
             borderRadius: 2,
           },
         "& > [class^=gatsby-resp-image]": {
-          overflow: "hidden",
-          width: "100%",
           "& > figcaption": {
             mt: 1,
             textAlign: "center",
