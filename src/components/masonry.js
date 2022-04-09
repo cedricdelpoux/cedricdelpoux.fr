@@ -1,23 +1,27 @@
-import React from "react"
+import {ThemeContext} from "css-system"
+import React, {useContext} from "react"
+import ReactMasonry, {ResponsiveMasonry} from "react-responsive-masonry"
 
 import {View} from "./view"
 
-export const Masonry = ({children, css, ...props}) => {
+export const Masonry = ({children, ...props}) => {
+  const theme = useContext(ThemeContext)
+
   return (
     <View
-      css={{
-        display: "block",
-        columnCount: {_: 1, s: 2, m: 3},
-        columnGap: 2,
-        ...css,
+      as={ResponsiveMasonry}
+      columnsCountBreakPoints={{
+        0: 1,
+        [theme.breakpointsInt.s]: 2,
+        [theme.breakpointsInt.m]: 3,
       }}
       {...props}
     >
-      {React.Children.toArray(children).map((child, i) => (
-        <View key={i} css={{breakInside: "avoid", mb: 2}}>
-          {child}
-        </View>
-      ))}
+      <ReactMasonry gutter={theme.space[2]}>
+        {React.Children.toArray(children).map((child, i) => (
+          <View key={i}>{child}</View>
+        ))}
+      </ReactMasonry>
     </View>
   )
 }

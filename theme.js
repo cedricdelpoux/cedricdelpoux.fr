@@ -9,7 +9,6 @@ const baseTheme = {
   breakpoints: {
     s: `${breakpointsInt.s}px`,
     m: `${breakpointsInt.m}px`,
-    l: `${breakpointsInt.l}px`,
   },
   fontSizes: [10, 12, 14, 16, 20, 24, 32, 48],
   space: [0, 8, 16, 32, 64],
