@@ -38,6 +38,7 @@ export const pageQuery = graphql`
     }
     countries: allGoogleDocs(
       filter: {locale: {eq: $locale}, template: {eq: "travel-country"}}
+      sort: {fields: album___latestDate, order: DESC}
     ) {
       nodes {
         slug
