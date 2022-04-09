@@ -17,7 +17,7 @@ import {
 } from "../utils/convertors"
 import {secondsToHms} from "../utils/formattors"
 import {Icon} from "./icon"
-import {Paper} from "./paper"
+import {Paper, PaperIcon} from "./paper"
 import {Text} from "./text"
 import {View} from "./view"
 
@@ -64,22 +64,14 @@ export const PaperActivity = ({
         css={{objectFit: "cover", height: "300px"}}
         alt={`Activity map ${id}`}
       />
-      <View
+      <PaperIcon
+        icon={type === "Ride" ? faBiking : faRunning}
         css={{
           position: "absolute",
           top: 2,
           right: 2,
-          fontSize: 3,
-          borderRadius: "50%",
-          width: 40,
-          height: 40,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "background",
         }}
-      >
-        <Icon icon={type === "Ride" ? faBiking : faRunning} gradient />
-      </View>
+      />
       <Grid
         css={{
           gridTemplateColumns: "repeat(2, minmax(0, 1fr))",

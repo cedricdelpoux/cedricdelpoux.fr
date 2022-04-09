@@ -1,8 +1,8 @@
 import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
 
-import {Link} from "./link"
 import {Icon} from "./icon"
+import {Link} from "./link"
 import {Text} from "./text"
 import {View} from "./view"
 
@@ -68,5 +68,22 @@ export const PaperMetadata = ({items}) => (
           </View>
         )
     )}
+  </View>
+)
+
+export const PaperIcon = ({icon, css}) => (
+  <View
+    css={{
+      fontSize: 3,
+      borderRadius: "50%",
+      width: 40,
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "background",
+      ...css,
+    }}
+  >
+    <Icon icon={icon} gradient />
   </View>
 )

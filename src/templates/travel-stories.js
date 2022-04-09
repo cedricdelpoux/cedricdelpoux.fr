@@ -18,7 +18,7 @@ const TravelStories = ({
     <LayoutPage title={title} description={excerpt} body={body}>
       <Grid>
         {stories.nodes.map((node) => (
-          <PaperStory key={node.id} {...node} />
+          <PaperStory key={node.id} {...node} flag />
         ))}
       </Grid>
     </LayoutPage>
