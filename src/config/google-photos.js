@@ -18,6 +18,7 @@ exports.googlePhotosOptions = {
           "cedricdelpoux.fr/travel/netherlands",
           "cedricdelpoux.fr/travel/new-zealand",
           "cedricdelpoux.fr/travel/peru",
+          "cedricdelpoux.fr/travel/singapore",
           "cedricdelpoux.fr/travel/spain/tenerife",
           "cedricdelpoux.fr/travel/united-kingdom",
         ]

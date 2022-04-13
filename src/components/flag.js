@@ -13,6 +13,7 @@ import FlagJO from "wobblecode-flat-flags/images/png-47/JO.png"
 import FlagNL from "wobblecode-flat-flags/images/png-47/NL.png"
 import FlagNZ from "wobblecode-flat-flags/images/png-47/NZ.png"
 import FlagPE from "wobblecode-flat-flags/images/png-47/PE.png"
+import FlagSG from "wobblecode-flat-flags/images/png-47/SG.png"
 
 import {View} from "./view"
 
@@ -30,6 +31,7 @@ const flags = {
   jordan: FlagJO,
   netherlands: FlagNL,
   peru: FlagPE,
+  singapore: FlagSG,
   spain: FlagES,
 }
 
