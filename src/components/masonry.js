@@ -17,7 +17,7 @@ export const Masonry = ({children, ...props}) => {
       }}
       {...props}
     >
-      <ReactMasonry gutter={theme.space[2]}>
+      <ReactMasonry gutter={`${theme.space[2]}px`}>
         {React.Children.toArray(children).map((child, i) => (
           <View key={i}>{child}</View>
         ))}
