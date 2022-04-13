@@ -25,7 +25,6 @@ import {PaperActivity} from "../components/paper-activity"
 import {SelectGradient} from "../components/select"
 import {Sidebar} from "../components/sidebar"
 import {SwitcherSport} from "../components/switcher-sport"
-import {Text} from "../components/text"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 
@@ -303,9 +302,7 @@ const ActivitiesPopup = ({results, setResults}) => {
           }))
         }
       >
-        <Text>
-          <FormattedMessage id="actions.see-more" />
-        </Text>
+        <FormattedMessage id="actions.see-more" />
       </Button>
     </Popup>
   )

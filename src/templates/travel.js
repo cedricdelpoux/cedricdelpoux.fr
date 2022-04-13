@@ -29,9 +29,7 @@ const Travel = ({
       <Html body={body} />
       <View css={{alignSelf: "center"}}>
         <Button as={Link} to={menu.categories.travel.items[0].path}>
-          <Text>
-            <FormattedMessage id="actions.see-more" />
-          </Text>
+          <FormattedMessage id="actions.see-more" />
         </Button>
       </View>
     </LayoutPage>

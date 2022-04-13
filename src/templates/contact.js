@@ -132,9 +132,7 @@ const Contact = ({
           />
         </Label>
         <Button type="submit" css={{alignSelf: "center"}} icon={faPaperPlane}>
-          <Text>
-            <FormattedMessage id="actions.send" />
-          </Text>
+          <FormattedMessage id="actions.send" />
         </Button>
       </View>
     </LayoutPage>

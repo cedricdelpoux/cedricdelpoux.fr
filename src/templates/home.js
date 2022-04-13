@@ -1,5 +1,6 @@
 import {graphql} from "gatsby"
 import React from "react"
+import {FormattedMessage} from "react-intl"
 
 import {AnimationCode} from "../components/animation-code"
 import {AnimationSport} from "../components/animation-sport"
@@ -49,7 +50,7 @@ const Home = ({
         )}
         <Avatar />
         <Button as={Link} to={menu.items.about.path}>
-          <Text>{menu.items.about.name}</Text>
+          {menu.items.about.name}
         </Button>
       </View>
       <Html body={body} fluid />
@@ -67,6 +68,9 @@ const Home = ({
             gap: 3,
           }}
         >
+          <Button as={Link} to={menu.categories.code.root.path}>
+            <FormattedMessage id="actions.see-more" />
+          </Button>
           <View css={{height: 300}}>
             <AnimationCode />
           </View>
@@ -85,7 +89,7 @@ const Home = ({
             <AnimationSport />
           </View>
           <Button as={Link} to={menu.categories.sport.root.path}>
-            <Text>{menu.categories.sport.root.name}</Text>
+            <FormattedMessage id="actions.see-more" />
           </Button>
         </View>
         <View
@@ -99,7 +103,7 @@ const Home = ({
             <AnimationTravel />
           </View>
           <Button as={Link} to={menu.categories.travel.root.path}>
-            <Text>{menu.categories.travel.root.name}</Text>
+            <FormattedMessage id="actions.see-more" />
           </Button>
         </View>
       </View>

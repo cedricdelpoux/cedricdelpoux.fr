@@ -7,7 +7,6 @@ import {Grid} from "../components/grid"
 import {Link} from "../components/link"
 import {PaperActivity} from "../components/paper-activity"
 import {SwitcherSport} from "../components/switcher-sport"
-import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
 import {useMenu} from "../hooks/use-menu"
@@ -70,9 +69,7 @@ const Sport = ({
       </Grid>
       <View css={{alignSelf: "center"}}>
         <Button as={Link} to={menu.categories.sport.items[1].path}>
-          <Text>
-            <FormattedMessage id="actions.see-more" />
-          </Text>
+          <FormattedMessage id="actions.see-more" />
         </Button>
       </View>
     </LayoutPage>

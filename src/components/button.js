@@ -73,6 +73,7 @@ export const Button = ({css, children, icon, ...props}) => {
         css={{
           strokeWidth: "30px",
           stroke: "currentColor",
+          ml: 1,
         }}
       />
     </View>
