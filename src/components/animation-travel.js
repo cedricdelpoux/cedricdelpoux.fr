@@ -21,12 +21,26 @@ export const AnimationTravel = ({...props}) => {
           country
         }
       }
+      regions: allGoogleDocs(
+        filter: {
+          index: {eq: true}
+          region: {ne: null}
+          showOnMap: {eq: true}
+          locale: {eq: "fr"}
+        }
+      ) {
+        nodes {
+          slug
+          name
+          country: region
+        }
+      }
     }
   `)
 
   const countries = useMemo(
     () =>
-      data.countries.nodes.reduce(
+      [...data.countries.nodes, ...data.regions.nodes].reduce(
         (acc, {slug, name, country}) => ({
           ...acc,
           [country]: {slug, name},
@@ -37,8 +51,6 @@ export const AnimationTravel = ({...props}) => {
   )
 
   const countriesCodes = useMemo(() => Object.keys(countries), [countries])
-
-  console.log(countriesCodes)
 
   const getRandomCountry = useCallback(
     () => countriesCodes[Math.floor(Math.random() * countriesCodes.length)],
