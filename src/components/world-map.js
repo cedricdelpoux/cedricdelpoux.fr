@@ -54,6 +54,7 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
           fill: theme.colors.backgroundLight,
           stroke: theme.colors.background,
           strokeWidth: 1,
+          paintOrder: "stroke",
         },
         ...Object.keys(countries).reduce((acc, country) => {
           acc[`& [data-country="${country}"]`] = {
@@ -75,10 +76,16 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
         />
         {countriesData.map(({iso, code, name, d}) => {
           const path = (
-            <path data-iso={iso} data-country={code} title={name} d={d} />
+            <path
+              key={code}
+              data-iso={iso}
+              data-country={code}
+              title={name}
+              d={d}
+            />
           )
           return Object.keys(countries).includes(code) ? (
-            <Link to={countries[code].slug} css={{outline: "none"}}>
+            <Link key={code} to={countries[code].slug} css={{outline: "none"}}>
               {path}
             </Link>
           ) : (
@@ -102,7 +109,7 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
             </clipPath>
             <path
               id="circlePath"
-              d={`M 0, 0 m -100, 0 a 100,100 0 0,1 200,0 a 100,100 0 0,0 -200,0`}
+              d={`M 0, 0 m -100, 0 a 100,100 0 0,1 200,0 a 100,100 0 0,1-200,0`}
             />
           </defs>
           <g
@@ -126,7 +133,8 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
             <use xlinkHref="#countries" clipPath="url(#circleClip)" />
           </g>
           <text
-            dy={-10}
+            dy={-5}
+            dx={-5}
             fill="url(#svg-gradient)"
             stroke={theme.colors.background}
             paintOrder="stroke"
