@@ -47,7 +47,6 @@ exports.onCreateNode = async ({node, cache, actions: {createNodeField}}) => {
     if (node.template === "travel-story" && node.country) {
       const polyline = await cache.get("polyline-" + node.country)
       const map = await cache.get("mymaps-" + node.country)
-      console.log("map", node.country, map)
       node.polyline = polyline
 
       createNodeField({node, name: "mapId", value: map})
