@@ -74,6 +74,7 @@ export const pageQuery = graphql`
         country: {eq: $country}
         region: {ne: null}
       }
+      sort: {fields: album___latestDate, order: DESC}
     ) {
       nodes {
         region
