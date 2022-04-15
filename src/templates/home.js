@@ -8,6 +8,7 @@ import {AnimationTravel} from "../components/animation-travel"
 import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
 import {Flag} from "../components/flag"
+import {Html} from "../components/html"
 import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
@@ -18,9 +19,12 @@ import {LayoutPage} from "../layouts/page"
 const Home = ({
   data: {
     googleDocs: {
-      childMdx: {excerpt, headings},
+      childMdx: {body, excerpt},
+      title1,
       text1,
+      title2,
       text2,
+      title3,
       text3,
     },
   },
@@ -56,6 +60,7 @@ const Home = ({
           {menu.items.about.name}
         </Button>
       </View>
+      <Html body={body} css={{textAlign: "center"}} fluid />
       <View
         css={{
           flexDirection: {_: "column", m: "row"},
@@ -70,7 +75,7 @@ const Home = ({
             gap: 3,
           }}
         >
-          <Title as="h1">{headings[0].value}</Title>
+          <Title as="h1">{title1}</Title>
           <Text css={{textAlign: "justify"}}>{text1}</Text>
           <Button as={Link} to={menu.categories.code.root.path}>
             <FormattedMessage id="actions.see-more" />
@@ -104,7 +109,7 @@ const Home = ({
             gap: 3,
           }}
         >
-          <Title as="h1">{headings[1].value}</Title>
+          <Title as="h1">{title2}</Title>
           <Text css={{textAlign: "justify"}}>{text2}</Text>
           <Button as={Link} to={menu.categories.sport.root.path}>
             <FormattedMessage id="actions.see-more" />
@@ -125,7 +130,7 @@ const Home = ({
             gap: 3,
           }}
         >
-          <Title as="h1">{headings[2].value}</Title>
+          <Title as="h1">{title3}</Title>
           <Text css={{textAlign: "justify"}}>{text3}</Text>
           <Button as={Link} to={menu.categories.travel.root.path}>
             <FormattedMessage id="actions.see-more" />
@@ -145,13 +150,17 @@ export const pageQuery = graphql`
   query Home($path: String!) {
     googleDocs(slug: {eq: $path}) {
       childMdx {
+        body
         excerpt
         headings {
           value
         }
       }
+      title1
       text1
+      title2
       text2
+      title3
       text3
     }
   }
