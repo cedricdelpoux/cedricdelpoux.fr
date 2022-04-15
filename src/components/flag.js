@@ -14,6 +14,7 @@ import FlagIE from "wobblecode-flat-flags/images/png-47/IE.png"
 import FlagIS from "wobblecode-flat-flags/images/png-47/IS.png"
 import FlagIT from "wobblecode-flat-flags/images/png-47/IT.png"
 import FlagJO from "wobblecode-flat-flags/images/png-47/JO.png"
+import FlagLU from "wobblecode-flat-flags/images/png-47/LU.png"
 import FlagNL from "wobblecode-flat-flags/images/png-47/NL.png"
 import FlagNZ from "wobblecode-flat-flags/images/png-47/NZ.png"
 import FlagPE from "wobblecode-flat-flags/images/png-47/PE.png"
@@ -38,6 +39,7 @@ const flags = {
   ireland: FlagIE,
   italy: FlagIT,
   jordan: FlagJO,
+  luxembourg: FlagLU,
   netherlands: FlagNL,
   peru: FlagPE,
   singapore: FlagSG,
