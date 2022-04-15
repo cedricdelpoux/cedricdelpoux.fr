@@ -28,7 +28,7 @@ exports.feedOptions = {
             posts: allGoogleDocs(
               sort: { order: DESC, fields: [date] },
               filter: {
-                  template: {eq: "post"}
+                template: {eq: "post"}
               }
             ) {
               nodes {
