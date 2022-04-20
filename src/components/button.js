@@ -6,7 +6,7 @@ import React, {useContext} from "react"
 import {Icon} from "./icon"
 import {View} from "./view"
 
-export const Button = ({css, children, icon, ...props}) => {
+export const Button = ({css, children, icon, inset, ...props}) => {
   const theme = useContext(ThemeContext)
   return (
     <View
@@ -41,10 +41,7 @@ export const Button = ({css, children, icon, ...props}) => {
           background: theme.colors.gradient,
         },
         "&::after": {
-          top: "4px",
-          bottom: "4px",
-          left: "4px",
-          right: "4px",
+          inset: inset || "4px",
           bg: "background",
           zIndex: -1,
           opacity: 1,
