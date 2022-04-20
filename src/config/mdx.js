@@ -10,6 +10,37 @@ exports.mdxOptions = {
         stravaClientId: process.env.STRAVA_CLIENT_ID,
         stravaClientSecret: process.env.STRAVA_CLIENT_SECRET,
         stravaToken: process.env.STRAVA_TOKEN,
+        render: (activity) => {
+          const startDate = new Date(activity.start_date)
+          const startDateLocalized = startDate.toLocaleDateString("fr-fr", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+          const photo = activity?.photos?.primary?.urls["600"] || null
+
+          return `
+            <Strava
+              id="${activity.id}"
+              average_speed="${activity.average_speed}"
+              calories="${activity.calories}"
+              comment_count="${activity.comment_count}"
+              comment_count="${activity.comment_count}"
+              distance="${activity.distance}"
+              elapsed_time="${activity.elapsed_time}"
+              kudos_count="${activity.kudos_count}"
+              moving_time="${activity.moving_time}"
+              name="${activity.name}"
+              photo="${photo}"
+              photo_count="${activity.photo_count}"
+              polyline="${activity.map.summary_polyline}"
+              start_date="${startDateLocalized}"
+              suffer_score="${activity.suffer_score}"
+              total_elevation_gain="${activity.total_elevation_gain}"
+              type="${activity.type}"
+            />
+          `
+        },
       },
     },
     {

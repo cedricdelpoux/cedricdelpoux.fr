@@ -43,14 +43,14 @@ export const PaperActivity = ({
   id,
   type,
   average_speed,
-  start_date_formatted,
+  start_date,
   moving_time,
   distance,
-  map: {summary_polyline},
+  map,
   ...props
 }) => {
   const theme = useContext(ThemeContext)
-  const mapUrl = useMapbox(summary_polyline)
+  const mapUrl = useMapbox(map.summary_polyline)
   const timeObject = secondsToHms(moving_time)
   return (
     <Paper
@@ -104,9 +104,7 @@ export const PaperActivity = ({
             gradient
           />
           <Text>
-            <Text css={{fontSize: 3, fontWeight: "bold"}}>
-              {start_date_formatted}
-            </Text>
+            <Text css={{fontSize: 3, fontWeight: "bold"}}>{start_date}</Text>
           </Text>
         </GridItem>
         <GridItem>
@@ -171,8 +169,7 @@ export const query = graphql`
   fragment PaperActivityFragment on StravaActivity {
     id
     type
-    start_date
-    start_date_formatted: start_date(formatString: "DD MMM YY")
+    start_date(formatString: "DD MMM YY")
     moving_time
     distance
     average_speed

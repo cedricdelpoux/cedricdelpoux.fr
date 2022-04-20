@@ -11,6 +11,7 @@ import {Footer} from "../components/footer"
 import {Header} from "../components/header"
 import {Link} from "../components/link"
 import {Masonry} from "../components/masonry"
+import {StravaEmbed} from "../components/strava-embed"
 import {Technologies} from "../components/technologies"
 import {Title} from "../components/title"
 import {View} from "../components/view"
@@ -69,6 +70,7 @@ export default ({children, pageContext}) => {
         Link,
         ContactForm,
         Grid: Masonry,
+        strava: StravaEmbed,
         Technologies,
         // a: Link,
         h1: (props) => <Title as="h1" {...props} />,
