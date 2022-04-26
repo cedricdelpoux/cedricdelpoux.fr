@@ -1,0 +1,12 @@
+{
+  "name": "Alpe d'Huez",
+  "elevation_gain": 1118,
+  "distance": 13.9,
+  "avg_gradient": 8,
+  "max_gradient": 15,
+  "difficulty": 994,
+  "category": 0,
+  "country": "france",
+  "strava_id": "5829661840",
+  "climbfinder_id": "alpe-d-huez"
+}

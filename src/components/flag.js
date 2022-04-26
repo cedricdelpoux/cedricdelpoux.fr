@@ -49,7 +49,7 @@ const flags = {
 
 export const Flag = ({country, css, ...props}) =>
   flags[country] ? (
-    <View css={css} {...props}>
+    <View css={{justifyContent: "center", ...css}} {...props}>
       <View
         as="img"
         src={flags[country]}

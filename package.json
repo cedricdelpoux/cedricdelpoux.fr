@@ -52,6 +52,7 @@
     "gatsby-source-google-photos": "^3.0.0",
     "gatsby-source-strava": "^2.2.0",
     "gatsby-source-youtube": "^2.5.0",
+    "gatsby-transformer-json": "3.14.0",
     "gatsby-transformer-remark": "^4.3.0",
     "gatsby-transformer-sharp": "^3.6.0",
     "intersection-observer": "^0.12.0",

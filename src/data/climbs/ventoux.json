@@ -1,0 +1,12 @@
+{
+  "name": "Mont Ventoux",
+  "elevation_gain": 1594,
+  "distance": 20.8,
+  "avg_gradient": 7.7,
+  "max_gradient": 13.3,
+  "difficulty": 1352,
+  "category": 0,
+  "country": "france",
+  "strava_id": "3657585594",
+  "climbfinder_id": "mont-ventoux-bedoin"
+}

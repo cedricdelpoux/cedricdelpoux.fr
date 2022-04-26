@@ -39,12 +39,19 @@ module.exports = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    "gatsby-transformer-json",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-layout",
     "gatsby-plugin-catch-links",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-remove-trailing-slashes",
     "gatsby-plugin-netlify",
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: "./src/data/",
+      },
+    },
     {
       resolve: "gatsby-source-google-mymaps",
       options: googleMymapsOptions,
