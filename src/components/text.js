@@ -4,7 +4,7 @@ import {useContext} from "react"
 
 export const Text = createPrimitive(
   animated.div,
-  ({css, gradient, ...props}) => {
+  ({css, gradient, ellipsis, ...props}) => {
     const theme = useContext(ThemeContext)
     return {
       css: {
@@ -21,6 +21,14 @@ export const Text = createPrimitive(
               "-o-background-clip": "text",
               "background-clip": "text",
               "-webkit-text-fill-color": "transparent",
+            }
+          : {}),
+        ...(ellipsis
+          ? {
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              flex: 1,
+              whiteSpace: "nowrap",
             }
           : {}),
         ...css,
