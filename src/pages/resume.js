@@ -16,7 +16,7 @@ const PageResume = ({
     avatar,
     githubData: {
       data: {
-        viewer: {gist: githubGist},
+        viewer: {resumeGist},
       },
     },
   },
@@ -72,8 +72,8 @@ const PageResume = ({
     // },
   })
   const jsonResume = useMemo(
-    () => JSON.parse(githubGist.files[0].text),
-    [githubGist]
+    () => JSON.parse(resumeGist.files[0].text),
+    [resumeGist]
   )
   return (
     <>
@@ -410,7 +410,7 @@ export const pageQuery = graphql`
     githubData {
       data {
         viewer {
-          gist {
+          resumeGist {
             files {
               name
               text

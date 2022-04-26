@@ -16,7 +16,7 @@ const CodeCareer = ({
     },
     githubData: {
       data: {
-        viewer: {gist: githubGist},
+        viewer: {resumeGist},
       },
     },
   },
@@ -24,11 +24,11 @@ const CodeCareer = ({
 }) => {
   const resume = useMemo(() => {
     const resumes = {
-      fr: githubGist.files[0],
-      en: githubGist.files[1],
+      fr: resumeGist.files[0],
+      en: resumeGist.files[1],
     }
     return JSON.parse(resumes[locale].text)
-  }, [locale, githubGist])
+  }, [locale, resumeGist])
 
   return (
     <LayoutPage title={title} description={excerpt} body={body}>
@@ -93,7 +93,7 @@ export const pageQuery = graphql`
     githubData {
       data {
         viewer {
-          gist {
+          resumeGist {
             files {
               name
               text

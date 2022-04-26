@@ -5,7 +5,13 @@ exports.githubOptions = {
   graphQLQuery: `
       query {
         viewer {
-          gist(name: "fc7bdb427dd574dbebcac85ad5c94792") {
+          resumeGist: gist(name: "fc7bdb427dd574dbebcac85ad5c94792") {
+            files {
+              name
+              text
+            }
+          }
+          climbsGist: gist(name: "4cf7e75c0c74c7af7c0b729650de9326") {
             files {
               name
               text
