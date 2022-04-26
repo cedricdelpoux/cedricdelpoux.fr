@@ -8,7 +8,7 @@ export const AnimationSport = ({css, ...props}) => {
   return (
     <View
       as="svg"
-      viewBox="300 310 100 300"
+      viewBox="310 310 100 300"
       css={{filter: "url(#svg-shadow)", flex: 1, width: "100%", ...css}}
       {...props}
     >

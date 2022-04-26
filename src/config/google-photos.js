@@ -1,11 +1,11 @@
 exports.googlePhotosOptions = {
   albumsTitles: [
     "cedricdelpoux.fr",
+    "cedricdelpoux.fr/sport",
     "cedricdelpoux.fr/travel/iceland",
     "cedricdelpoux.fr/travel/france/reunion",
     ...(!process.env.MINIMAL
       ? [
-          "cedricdelpoux.fr/sport",
           "cedricdelpoux.fr/travel/austria",
           "cedricdelpoux.fr/travel/belgium",
           "cedricdelpoux.fr/travel/bosnia",

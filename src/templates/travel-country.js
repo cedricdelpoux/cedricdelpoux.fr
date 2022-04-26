@@ -32,8 +32,8 @@ const TravelCountry = ({
       <Masonry>
         {story && <PaperStory key={story.slug} {...story} />}
         {regions.nodes.length > 0 &&
-          regions.nodes.map(({region, slug, ...rest}) => (
-            <PaperCountry key={region} to={slug} country={region} {...rest} />
+          regions.nodes.map((node) => (
+            <PaperCountry key={node.id} {...node} country={node.region} />
           ))}
         {videos &&
           videos.nodes.length > 0 &&
@@ -77,8 +77,8 @@ export const pageQuery = graphql`
       sort: {fields: album___latestDate, order: DESC}
     ) {
       nodes {
+        id
         region
-        slug
         ...PaperCountryFragment
       }
     }

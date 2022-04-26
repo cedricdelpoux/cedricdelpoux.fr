@@ -9,6 +9,7 @@ import React from "react"
 import {useMapbox} from "../hooks/use-mapbox"
 import {Flag} from "./flag"
 import {Paper, PaperIcon, PaperMetadata} from "./paper"
+import {Text} from "./text"
 import {Title} from "./title"
 import {View} from "./view"
 
@@ -54,6 +55,46 @@ export const PaperStory = ({
           as="img"
           src={mapUrl}
           css={{objectFit: "cover", height: "300px"}}
+        />
+      </View>
+    </Paper>
+  )
+}
+
+export const PaperStoryCompact = ({
+  country,
+  name,
+  polyline,
+  relativeDate,
+  slug,
+  content,
+  ...props
+}) => {
+  const mapUrl = useMapbox(polyline)
+  return (
+    <Paper to={slug} css={{flexDirection: "row", p: 0}} {...props}>
+      <View
+        as="img"
+        src={mapUrl}
+        css={{objectFit: "cover", height: "75px", width: "130px"}}
+      />
+      <View css={{flex: 1, py: 1, px: 2}}>
+        <View css={{flexDirection: "row", gap: 1}}>
+          <Flag country={country} css={{width: "25px"}} />
+          <Text ellipsis>{name}</Text>
+        </View>
+        <PaperMetadata
+          items={[
+            {
+              icon: faCalendar,
+              label: relativeDate,
+            },
+            {
+              icon: faHourglassStart,
+              label: content.timeToRead + " min",
+            },
+          ]}
+          css={{p: 0, justifyContent: "start"}}
         />
       </View>
     </Paper>

@@ -68,6 +68,7 @@
     "react-range": "^1.8.12",
     "react-responsive-masonry": "^2.1.4",
     "react-share": "^4.4.0",
+    "react-slideshow-image": "^3.7.3",
     "react-vertical-timeline-component": "^3.5.2",
     "scrollama": "^3.1.0",
     "wobblecode-flat-flags": "^1.0.1"

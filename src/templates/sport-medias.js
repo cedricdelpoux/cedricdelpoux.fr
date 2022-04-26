@@ -56,12 +56,7 @@ export const pageQuery = graphql`
     }
     album: googlePhotosAlbum(category: {eq: "sport"}) {
       photos {
-        id
-        file {
-          childImageSharp {
-            gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
-          }
-        }
+        ...PaperPhotoFragment
       }
     }
   }

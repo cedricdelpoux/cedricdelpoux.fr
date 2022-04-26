@@ -1,10 +1,10 @@
 import {
   faBiking,
   faCalendar,
+  faMountains,
   faRabbitFast,
-  faRulerHorizontal,
+  faRoad,
   faRunning,
-  faStopwatch,
 } from "@fortawesome/pro-light-svg-icons"
 import {ThemeContext} from "css-system"
 import {graphql} from "gatsby"
@@ -15,9 +15,9 @@ import {
   metersPerSecondTokmPerHour,
   metersToKilometers,
 } from "../utils/convertors"
-import {secondsToHms} from "../utils/formattors"
+import {getStravaActivityUrl} from "../utils/strava"
 import {Icon} from "./icon"
-import {Paper, PaperIcon} from "./paper"
+import {Paper, PaperIcon, PaperMetadata} from "./paper"
 import {Text} from "./text"
 import {View} from "./view"
 
@@ -40,21 +40,20 @@ const GridItem = ({css, children, ...props}) => (
 )
 
 export const PaperActivity = ({
-  id,
-  type,
   average_speed,
-  start_date,
-  moving_time,
   distance,
+  id,
   map,
+  start_date,
+  total_elevation_gain,
+  type,
   ...props
 }) => {
   const theme = useContext(ThemeContext)
   const mapUrl = useMapbox(map.summary_polyline)
-  const timeObject = secondsToHms(moving_time)
   return (
     <Paper
-      to={`https://www.strava.com/activities/${id}`}
+      to={getStravaActivityUrl(id)}
       css={{position: "relative", p: 0}}
       {...props}
     >
@@ -109,32 +108,20 @@ export const PaperActivity = ({
         </GridItem>
         <GridItem>
           <Icon
-            icon={faStopwatch}
+            icon={faMountains}
             css={{
               fontSize: 5,
             }}
             gradient
           />
           <Text>
-            {timeObject.h > 0 && (
-              <>
-                <Text css={{fontSize: 3}}>{timeObject.h}</Text>
-                <Text css={{fontSize: 2}}>h</Text>
-              </>
-            )}
-            {timeObject.m > 0 && (
-              <>
-                <Text css={{fontSize: 3}}>{" " + timeObject.m}</Text>
-                <Text css={{fontSize: 2}}>m</Text>
-              </>
-            )}
-            <Text css={{fontSize: 3}}>{" " + timeObject.s}</Text>
-            <Text css={{fontSize: 2}}>s</Text>
+            <Text css={{fontSize: 3}}>{total_elevation_gain}</Text>
+            <Text css={{fontSize: 2}}>{" d+"}</Text>
           </Text>
         </GridItem>
         <GridItem>
           <Icon
-            icon={faRulerHorizontal}
+            icon={faRoad}
             css={{
               fontSize: 5,
             }}
@@ -165,14 +152,66 @@ export const PaperActivity = ({
   )
 }
 
+export const PaperActivityCompact = ({
+  id,
+  type,
+  start_date,
+  distance,
+  map,
+  name,
+  total_elevation_gain,
+  ...props
+}) => {
+  const mapUrl = useMapbox(map.summary_polyline)
+  return (
+    <Paper
+      to={getStravaActivityUrl(id)}
+      css={{flexDirection: "row", p: 0}}
+      {...props}
+    >
+      <View
+        as="img"
+        src={mapUrl}
+        css={{objectFit: "cover", height: "75px", width: "130px"}}
+        alt={`Activity map ${id}`}
+      />
+      <View css={{flex: 1, py: 1, px: 2}}>
+        <View css={{flexDirection: "row", alignItems: "center", gap: 1}}>
+          <Icon
+            icon={type === "Ride" ? faBiking : faRunning}
+            css={{
+              fontSize: "20px",
+            }}
+            gradient
+          />
+          <Text ellipsis>{name}</Text>
+        </View>
+        <PaperMetadata
+          items={[
+            {icon: faRoad, label: `${metersToKilometers(distance)} km`},
+            {icon: faMountains, label: `${total_elevation_gain} d+`},
+            {
+              icon: faCalendar,
+              label: start_date,
+            },
+          ]}
+          css={{p: 0, justifyContent: "start"}}
+        />
+      </View>
+    </Paper>
+  )
+}
+
 export const query = graphql`
   fragment PaperActivityFragment on StravaActivity {
     id
+    name
     type
     start_date(formatString: "DD MMM YY")
     moving_time
     distance
     average_speed
+    total_elevation_gain
     map {
       summary_polyline
     }

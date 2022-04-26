@@ -17,8 +17,8 @@ const TravelCountries = ({
   return (
     <LayoutPage title={title} description={excerpt} body={body}>
       <Masonry>
-        {countries.nodes.map(({slug, country, ...rest}) => (
-          <PaperCountry key={country} country={country} to={slug} {...rest} />
+        {countries.nodes.map((node) => (
+          <PaperCountry key={node.id} {...node} />
         ))}
       </Masonry>
     </LayoutPage>
@@ -41,7 +41,7 @@ export const pageQuery = graphql`
       sort: {fields: album___latestDate, order: DESC}
     ) {
       nodes {
-        slug
+        id
         ...PaperCountryFragment
       }
     }

@@ -1,6 +1,8 @@
 import {graphql, useStaticQuery} from "gatsby"
 import React, {useCallback, useEffect, useMemo, useState} from "react"
 
+import {Button} from "./button"
+import {Link} from "./link"
 import {View} from "./view"
 import {WorldMap} from "./world-map"
 
@@ -19,6 +21,7 @@ export const AnimationTravel = ({...props}) => {
           slug
           name
           country
+          flag: country
         }
       }
       regions: allGoogleDocs(
@@ -33,6 +36,7 @@ export const AnimationTravel = ({...props}) => {
           slug
           name
           country: region
+          flag: country
         }
       }
     }
@@ -41,9 +45,9 @@ export const AnimationTravel = ({...props}) => {
   const countries = useMemo(
     () =>
       [...data.countries.nodes, ...data.regions.nodes].reduce(
-        (acc, {slug, name, country}) => ({
+        (acc, {slug, name, country, flag}) => ({
           ...acc,
-          [country]: {slug, name},
+          [country]: {slug, name, flag},
         }),
         {}
       ),
@@ -65,11 +69,18 @@ export const AnimationTravel = ({...props}) => {
   }, [getRandomCountry])
 
   return (
-    <View css={{flex: 1}}>
+    <View css={{flex: 1, position: "relative"}}>
       <WorldMap
         countries={countries}
         selectedCountry={countryCode}
         {...props}
+      />
+      <Button
+        as={Link}
+        to={countries[countryCode].slug}
+        css={{alignSelf: "center"}}
+        flag={countries[countryCode].flag}
+        text={countries[countryCode].name}
       />
     </View>
   )

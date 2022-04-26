@@ -35,19 +35,29 @@ export const Paper = ({css, deps, children, ...props}) => {
   )
 }
 
-export const PaperMetadata = ({items}) => (
+export const PaperMetadata = ({items, css}) => (
   <View
     css={{
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
       px: 3,
+      gap: {_: 1, s: 2},
+      overflow: "hidden",
+      ...css,
     }}
   >
     {items.map(
       (item, i) =>
         item && (
-          <View key={i} css={{flexDirection: "row", alignItems: "center"}}>
+          <Text
+            key={i}
+            css={{
+              flexDirection: "row",
+              alignItems: "center",
+              display: {_: i >= 2 ? "none" : "inline", s: "inline"},
+            }}
+          >
             <Icon
               icon={item.icon}
               css={{
@@ -65,7 +75,7 @@ export const PaperMetadata = ({items}) => (
             >
               {item.label}
             </Text>
-          </View>
+          </Text>
         )
     )}
   </View>

@@ -6,7 +6,6 @@ import {Helmet} from "react-helmet"
 
 import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
-import {ContactForm} from "../components/contact-form"
 import {Footer} from "../components/footer"
 import {Header} from "../components/header"
 import {Link} from "../components/link"
@@ -68,7 +67,6 @@ export default ({children, pageContext}) => {
         Avatar,
         Button,
         Link,
-        ContactForm,
         Grid: Masonry,
         strava: StravaEmbed,
         Technologies,
