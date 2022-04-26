@@ -3,10 +3,21 @@ import {animated} from "@react-spring/web"
 import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
 
+import {Flag} from "./flag"
 import {Icon} from "./icon"
+import {Text} from "./text"
 import {View} from "./view"
 
-export const Button = ({css, children, icon, inset, ...props}) => {
+export const Button = ({
+  children,
+  css,
+  flag,
+  icon,
+  inset,
+  noArrow,
+  text,
+  ...props
+}) => {
   const theme = useContext(ThemeContext)
   return (
     <View
@@ -18,7 +29,7 @@ export const Button = ({css, children, icon, inset, ...props}) => {
         py: 1,
         px: 2,
         fontSize: "inherit",
-        fontWeight: "bold",
+        // fontWeight: "bold",
         border: 0,
         borderRadius: 999,
         cursor: "pointer",
@@ -64,15 +75,16 @@ export const Button = ({css, children, icon, inset, ...props}) => {
       }}
       {...props}
     >
-      {children}
-      <Icon
-        icon={icon || faAngleRight}
-        css={{
-          strokeWidth: "30px",
-          stroke: "currentColor",
-          ml: 1,
-        }}
-      />
+      {children ? (
+        children
+      ) : (
+        <>
+          {icon && <Icon icon={icon} />}
+          {flag && <Flag country={flag} css={{width: "25px"}} />}
+          {text && <Text>{text}</Text>}
+        </>
+      )}
+      {props.to && !noArrow && <Icon icon={faAngleRight} />}
     </View>
   )
 }

@@ -294,6 +294,7 @@ const ActivitiesPopup = ({results, setResults}) => {
         <View>{"..."}</View>
       </View>
       <Button
+        text={<FormattedMessage id="actions.see-more" />}
         css={{fontSize: "inherit", mt: 2}}
         onClick={() =>
           setResults((prevResults) => ({
@@ -301,9 +302,7 @@ const ActivitiesPopup = ({results, setResults}) => {
             open: true,
           }))
         }
-      >
-        <FormattedMessage id="actions.see-more" />
-      </Button>
+      />
     </Popup>
   )
 }

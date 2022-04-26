@@ -13,6 +13,7 @@ import React, {useCallback, useContext} from "react"
 import {useIntl} from "react-intl"
 
 import {useMenu} from "../hooks/use-menu"
+import {stravaAthleteUrl} from "../utils/strava"
 import {Icon} from "./icon"
 import {Link} from "./link"
 import {Select} from "./select"
@@ -104,7 +105,7 @@ export const Footer = () => {
             gap: 2,
           }}
         >
-          <Link to="https://www.strava.com/athletes/229804" title="Strava">
+          <Link to={stravaAthleteUrl} title="Strava">
             <Icon icon={faStrava} />
           </Link>
           <Link to="https://github.com/cedricdelpoux" title="Github">

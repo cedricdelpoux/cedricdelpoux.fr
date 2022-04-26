@@ -19,7 +19,6 @@ import {useIntl} from "react-intl"
 import {useMenu} from "../hooks/use-menu"
 import IconCed from "../icons/ced.svg"
 import {Button} from "./button"
-import {Flag} from "./flag"
 import {Icon} from "./icon"
 import {Link} from "./link"
 import {Sidebar} from "./sidebar"
@@ -169,15 +168,9 @@ export const Header = () => {
       </View>
       <Sidebar isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
         {locale === "fr" ? (
-          <Button as={Link} to="/en">
-            <Flag country="united-kingdom" css={{width: "25px"}} />
-            <Text>{"English"}</Text>
-          </Button>
+          <Button as={Link} to="/en" flag="united-kingdom" text="English" />
         ) : (
-          <Button as={Link} to="/">
-            <Flag country="france" css={{width: "25px"}} />
-            <Text>{"Français"}</Text>
-          </Button>
+          <Button as={Link} to="/" flag="france" text="Français" />
         )}
         <View
           as={Link}

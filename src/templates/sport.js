@@ -68,9 +68,11 @@ const Sport = ({
         </View>
       </Grid>
       <View css={{alignSelf: "center"}}>
-        <Button as={Link} to={menu.categories.sport.items[1].path}>
-          <FormattedMessage id="actions.see-more" />
-        </Button>
+        <Button
+          as={Link}
+          to={menu.categories.sport.items[1].path}
+          text={<FormattedMessage id="actions.see-more" />}
+        />
       </View>
     </LayoutPage>
   )

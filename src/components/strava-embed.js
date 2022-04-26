@@ -18,6 +18,7 @@ import {
   metersPerSecondTokmPerHour,
   metersToKilometers,
 } from "../utils/convertors"
+import {getStravaActivityUrl} from "../utils/strava"
 import {Button} from "./button"
 import {Icon} from "./icon"
 import {Link} from "./link"
@@ -85,7 +86,7 @@ export const StravaEmbed = ({
       <View css={{flexDirection: "row", gap: 2}}>
         <View
           as={Link}
-          to={`https://www.strava.com/activities/${id}`}
+          to={getStravaActivityUrl(id)}
           css={{flex: 1, background: "unset !important"}}
         >
           <View as="img" src={mapUrl} alt={`Activity map ${id}`} />
@@ -93,7 +94,7 @@ export const StravaEmbed = ({
         {photo && (
           <View
             as={Link}
-            to={`https://www.strava.com/activities/${id}`}
+            to={getStravaActivityUrl(id)}
             css={{flex: 1, background: "unset !important"}}
           >
             <View
@@ -118,13 +119,12 @@ export const StravaEmbed = ({
         <Data icon={faMessage} text={comment_count} />
         <Button
           as={Link}
-          to={`https://www.strava.com/activities/${id}`}
+          to={getStravaActivityUrl(id)}
+          icon={faStrava}
+          text="Strava"
           inset="2px"
           css={{order: {_: 5, s: 3}, mt: {_: 2, s: "unset"}}}
-        >
-          <Icon icon={faStrava} />
-          <Text>{"Strava"}</Text>
-        </Button>
+        />
         <Data icon={faFire} text={calories} css={{order: {_: 3, s: 4}}} />
         <Data
           icon={faFaceTongueSweat}

@@ -2,7 +2,6 @@ import React from "react"
 
 import {AnimationSport} from "../components/animation-sport"
 import {Button} from "../components/button"
-import {Flag} from "../components/flag"
 import {Link} from "../components/link"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
@@ -14,12 +13,8 @@ const Page404 = () => {
         <AnimationSport />
       </View>
       <View css={{flexDirection: "row", gap: 2}}>
-        <Button as={Link} to="/">
-          <Flag country="france" css={{width: "30px"}} />
-        </Button>
-        <Button as={Link} to="/en">
-          <Flag country="united-kingdom" css={{width: "30px"}} />
-        </Button>
+        <Button as={Link} to="/" flag="france" />
+        <Button as={Link} to="/en" flag="united-kingdom" />
       </View>
     </LayoutPage>
   )

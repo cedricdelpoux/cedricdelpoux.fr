@@ -19,6 +19,7 @@ const Label = ({css, children, ...props}) => (
     css={{
       alignItems: "flex-start",
       gap: 1,
+      fontSize: 4,
       ...css,
     }}
     {...props}
@@ -102,7 +103,6 @@ const Contact = ({
           alignSelf: "center",
           width: {_: "100%", s: "400px"},
           gap: 2,
-          fontSize: "4",
         }}
         name="contact"
         data-netlify="true"
@@ -131,9 +131,12 @@ const Contact = ({
             css={{resize: "none", height: 200}}
           />
         </Label>
-        <Button type="submit" css={{alignSelf: "center"}} icon={faPaperPlane}>
-          <FormattedMessage id="actions.send" />
-        </Button>
+        <Button
+          type="submit"
+          css={{alignSelf: "center"}}
+          icon={faPaperPlane}
+          text={<FormattedMessage id="actions.send" />}
+        />
       </View>
     </LayoutPage>
   )
