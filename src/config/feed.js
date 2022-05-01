@@ -12,21 +12,28 @@ exports.feedOptions = {
   feeds: [
     {
       serialize: ({query: {site, posts}}) => {
-        return posts.nodes.map((node) => {
+        const sortedPosts = posts.nodes.sort((a, b) =>
+          b.dateUS.localeCompare(a.dateUS)
+        )
+        return sortedPosts.map((node) => {
           return {
             title: node.name,
             description: node.childMdx.excerpt,
-            date: node.date,
+            date: node.dateISO,
             url: site.siteMetadata.siteUrl + node.slug,
             guid: site.siteMetadata.siteUrl + node.slug,
-            custom_elements: [{"content:encoded": node.childMdx.html}],
+            custom_elements: [
+              {
+                "content:encoded": node.childMdx.html,
+                "dc:creator": "Cédric Delpoux",
+              },
+            ],
           }
         })
       },
       query: `
           {
             posts: allGoogleDocs(
-              sort: { order: DESC, fields: [date] },
               filter: {
                 template: {eq: "post"}
               }
@@ -34,7 +41,8 @@ exports.feedOptions = {
               nodes {
                 slug
                 name
-                date
+                dateUS: date(formatString: "YYYY-MM-DD")
+                dateISO
                 childMdx {
                   excerpt
                   html
