@@ -6,6 +6,7 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons"
+import {faRss} from "@fortawesome/pro-light-svg-icons"
 import {ThemeContext} from "css-system"
 import {navigate} from "gatsby"
 import {GoogleDocsContext} from "gatsby-source-google-docs"
@@ -122,6 +123,9 @@ export const Footer = () => {
           </Link>
           <Link to="https://www.instagram.com/cedricdelpoux" title="Instagram">
             <Icon icon={faInstagram} />
+          </Link>
+          <Link to="/rss.xml" title="RSS">
+            <Icon icon={faRss} />
           </Link>
         </View>
       </View>
