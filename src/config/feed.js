@@ -21,11 +21,9 @@ exports.feedOptions = {
             description: node.childMdx.excerpt,
             date: node.dateISO,
             url: site.siteMetadata.siteUrl + node.slug,
-            guid: site.siteMetadata.siteUrl + node.slug,
             custom_elements: [
               {
                 "content:encoded": node.childMdx.html,
-                "dc:creator": "Cédric Delpoux",
               },
             ],
           }
@@ -42,7 +40,7 @@ exports.feedOptions = {
                 slug
                 name
                 dateUS: date(formatString: "YYYY-MM-DD")
-                dateISO
+                dateISO: date
                 childMdx {
                   excerpt
                   html
@@ -53,6 +51,12 @@ exports.feedOptions = {
         `,
       output: "/rss.xml",
       title: "Cédric Delpoux",
+      description:
+        "Site de Cédric Delpoux: sport, programmation, voyages et bien plus...",
+      feed_url: "https://cedricdelpoux.fr/rss.xml",
+      site_url: "https://cedricdelpoux.fr",
+      image_url: "https://cedricdelpoux.fr/favicon.svg",
+      language: "fr",
     },
   ],
 }
