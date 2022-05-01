@@ -14,11 +14,14 @@ const Posts = ({
     posts,
   },
 }) => {
+  const sortedPosts = posts.nodes.sort((a, b) =>
+    b.dateUS.localeCompare(a.dateUS)
+  )
   return (
     <LayoutPage title={title} description={excerpt} body={body}>
-      {posts && posts.nodes.length > 0 && (
+      {sortedPosts && sortedPosts.length > 0 && (
         <Grid>
-          {posts.nodes.map((post) => (
+          {sortedPosts.map((post) => (
             <PaperPost key={post.slug} post={post} />
           ))}
         </Grid>
@@ -48,6 +51,7 @@ export const pageQuery = graphql`
     ) {
       nodes {
         slug
+        dateUS: date(formatString: "YYYY-MM-DD")
         ...PaperPostFragment
       }
     }
