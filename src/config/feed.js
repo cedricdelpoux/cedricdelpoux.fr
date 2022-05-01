@@ -14,7 +14,7 @@ exports.feedOptions = {
       serialize: ({query: {site, posts}}) => {
         return posts.nodes.map((node) => {
           return {
-            title: node.title,
+            title: node.name,
             description: node.childMdx.excerpt,
             date: node.date,
             url: site.siteMetadata.siteUrl + node.slug,
