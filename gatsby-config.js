@@ -15,6 +15,7 @@ const {gaOptions} = require("./src/config/google-analytics.js")
 const {webfontsOptions} = require("./src/config/webfonts.js")
 
 module.exports = {
+  trailingSlash: "never",
   siteMetadata: {
     title: "Cédric Delpoux",
     siteUrl: "https://cedricdelpoux.fr",
@@ -44,7 +45,6 @@ module.exports = {
     "gatsby-plugin-layout",
     "gatsby-plugin-catch-links",
     "gatsby-plugin-sitemap",
-    "gatsby-plugin-remove-trailing-slashes",
     "gatsby-plugin-netlify",
     {
       resolve: "gatsby-source-filesystem",
