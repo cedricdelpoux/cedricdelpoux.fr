@@ -4,7 +4,7 @@ exports.googlePhotosOptions = {
     "cedricdelpoux.fr/sport",
     "cedricdelpoux.fr/travel/iceland",
     "cedricdelpoux.fr/travel/france/reunion",
-    ...(process.env.MINIMAL !== true
+    ...(!process.env.MINIMAL
       ? [
           "cedricdelpoux.fr/travel/austria",
           "cedricdelpoux.fr/travel/belgium",
@@ -39,6 +39,6 @@ exports.googlePhotosOptions = {
       region,
     }
   },
-  photosMaxWidth: process.env.MINIMAL === true ? 512 : 1024,
+  photosMaxWidth: process.env.MINIMAL ? 256 : 1024,
   debug: process.env.DEBUG,
 }

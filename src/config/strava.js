@@ -86,7 +86,7 @@ exports.stravaOptions = {
   stravaToken: process.env.STRAVA_TOKEN,
   activities: {
     after:
-      process.env.MINIMAL === true &&
+      process.env.MINIMAL &&
       new Date(
         new Date().getFullYear(),
         new Date().getMonth() - 12,
