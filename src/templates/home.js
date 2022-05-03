@@ -188,41 +188,45 @@ const Home = ({
               {...youtubeCyclingPyrenees}
               css={{width: {s: 350, m: 250}, aspectRatio: "16 / 9"}}
             />
-            <Slideshow
-              css={{
-                width: {_: 335, s: 370, m: 525},
-                borderRadius: 2,
-                overflow: "hidden",
-              }}
-              responsive={[
-                {
-                  breakpoint: theme.breakpointsInt.m,
-                  settings: {
-                    slidesToShow: 2,
+            {sportAlbum?.photos.length > 0 && (
+              <Slideshow
+                css={{
+                  width: {_: 335, s: 370, m: 525},
+                  height: {_: 188, s: 200, m: 140},
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  alignItems: "flex-start",
+                }}
+                responsive={[
+                  {
+                    breakpoint: theme.breakpointsInt.m,
+                    settings: {
+                      slidesToShow: 2,
+                    },
                   },
-                },
-                {
-                  breakpoint: theme.breakpointsInt.s,
-                  settings: {
-                    slidesToShow: 1,
+                  {
+                    breakpoint: theme.breakpointsInt.s,
+                    settings: {
+                      slidesToShow: 1,
+                    },
                   },
-                },
-              ]}
-            >
-              {sportAlbum?.photos.map((node) => (
-                <PaperPhoto
-                  key={node.id}
-                  photo={node.file}
-                  alt={`Sport photo ${node.id}`}
-                  css={{
-                    width: {_: 335, s: 350, m: 250},
-                    mr: 2,
-                    aspectRatio: "16 / 9",
-                    objectFit: "cover",
-                  }}
-                />
-              ))}
-            </Slideshow>
+                ]}
+              >
+                {sportAlbum?.photos.map((node) => (
+                  <PaperPhoto
+                    key={node.id}
+                    photo={node.file}
+                    alt={`Sport photo ${node.id}`}
+                    css={{
+                      width: {_: 335, s: 350, m: 250},
+                      mr: 2,
+                      aspectRatio: "16 / 9",
+                      objectFit: "cover",
+                    }}
+                  />
+                ))}
+              </Slideshow>
+            )}
           </View>
           <View
             css={{
