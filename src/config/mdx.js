@@ -6,7 +6,7 @@ exports.mdxOptions = {
     {
       resolve: "gatsby-remark-strava",
       options: {
-        debug: process.env.DEBUG,
+        debug: process.env.STRAVA_DEBUG,
         stravaClientId: process.env.STRAVA_CLIENT_ID,
         stravaClientSecret: process.env.STRAVA_CLIENT_SECRET,
         stravaToken: process.env.STRAVA_TOKEN,
@@ -46,7 +46,7 @@ exports.mdxOptions = {
     {
       resolve: "gatsby-remark-youtube",
       options: {
-        debug: process.env.DEBUG,
+        debug: process.env.YOUTUBE_DEBUG,
       },
     },
     {

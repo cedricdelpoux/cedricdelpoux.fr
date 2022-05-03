@@ -1,17 +1,29 @@
+const {siteConfig} = require("./site.js")
+
 exports.feedOptions = {
-  query: `
-      {
-        site {
-          siteMetadata {
-            title
-            siteUrl
-          }
-        }
-      }
-    `,
   feeds: [
     {
-      serialize: ({query: {site, posts}}) => {
+      query: `
+        {
+          posts: allGoogleDocs(
+            filter: {
+              template: {eq: "post"}
+            }
+          ) {
+            nodes {
+              slug
+              name
+              dateUS: date(formatString: "YYYY-MM-DD")
+              dateISO: date
+              childMdx {
+                excerpt
+                html
+              }
+            }
+          }
+        }
+      `,
+      serialize: ({query: {posts}}) => {
         const sortedPosts = posts.nodes.sort((a, b) =>
           b.dateUS.localeCompare(a.dateUS)
         )
@@ -20,7 +32,7 @@ exports.feedOptions = {
             title: node.name,
             description: node.childMdx.excerpt,
             date: node.dateISO,
-            url: site.siteMetadata.siteUrl + node.slug,
+            url: siteConfig.url + node.slug,
             custom_elements: [
               {
                 "content:encoded": node.childMdx.html,
@@ -29,26 +41,6 @@ exports.feedOptions = {
           }
         })
       },
-      query: `
-          {
-            posts: allGoogleDocs(
-              filter: {
-                template: {eq: "post"}
-              }
-            ) {
-              nodes {
-                slug
-                name
-                dateUS: date(formatString: "YYYY-MM-DD")
-                dateISO: date
-                childMdx {
-                  excerpt
-                  html
-                }
-              }
-            }
-          }
-        `,
       output: "/rss.xml",
       title: "Cédric Delpoux",
       description:

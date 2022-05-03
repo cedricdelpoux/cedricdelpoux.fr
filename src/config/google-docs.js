@@ -1,5 +1,5 @@
 exports.googleDocsOptions = {
-  debug: process.env.DEBUG,
+  debug: process.env.GOOGLE_DOCS_DEBUG,
   folder: process.env.GOOGLE_DOCS_FOLDER,
   skipImages: process.env.MINIMAL ? true : false,
   imagesOptions: {

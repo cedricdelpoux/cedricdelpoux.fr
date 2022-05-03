@@ -1,11 +1,11 @@
 exports.googlePhotosOptions = {
   albumsTitles: [
-    "cedricdelpoux.fr",
-    "cedricdelpoux.fr/sport",
-    "cedricdelpoux.fr/travel/iceland",
-    "cedricdelpoux.fr/travel/france/reunion",
+    // "cedricdelpoux.fr",
     ...(!process.env.MINIMAL
       ? [
+          "cedricdelpoux.fr/sport",
+          "cedricdelpoux.fr/travel/iceland",
+          "cedricdelpoux.fr/travel/france/reunion",
           "cedricdelpoux.fr/travel/austria",
           "cedricdelpoux.fr/travel/belgium",
           "cedricdelpoux.fr/travel/bosnia",
@@ -40,5 +40,5 @@ exports.googlePhotosOptions = {
     }
   },
   photosMaxWidth: process.env.MINIMAL ? 300 : 680,
-  debug: process.env.DEBUG,
+  debug: process.env.GOOGLE_PHOTOS_DEBUG,
 }

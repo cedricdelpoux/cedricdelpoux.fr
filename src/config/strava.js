@@ -80,7 +80,7 @@ const transformStravaAthlete = (athlete, activities) => {
 }
 
 exports.stravaOptions = {
-  debug: process.env.DEBUG,
+  debug: process.env.STRAVA_DEBUG,
   stravaClientId: process.env.STRAVA_CLIENT_ID,
   stravaClientSecret: process.env.STRAVA_CLIENT_SECRET,
   stravaToken: process.env.STRAVA_TOKEN,
