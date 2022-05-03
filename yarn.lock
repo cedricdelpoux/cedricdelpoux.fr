@@ -8709,22 +8709,6 @@ gatsby-core-utils@^3.13.0, gatsby-core-utils@^3.5.2, gatsby-core-utils@^3.8.2:
     tmp "^0.2.1"
     xdg-basedir "^4.0.0"
 
-gatsby-core-utils@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.4.0.tgz#6d5658dc045dcf60a314d4f2d0bc85e260659837"
-  integrity sha512-dYQpyo1BLGJzxQOXgGs1Fbj7jzGj5cKAIPYz2hz2l4Aus6skwjjaUlOjZlrWIahNHoLkx3mH0f5y6E8205T/aQ==
-  dependencies:
-    "@babel/runtime" "^7.15.4"
-    ci-info "2.0.0"
-    configstore "^5.0.1"
-    file-type "^16.5.3"
-    fs-extra "^10.0.0"
-    got "^11.8.3"
-    node-object-hash "^2.3.10"
-    proper-lockfile "^4.1.2"
-    tmp "^0.2.1"
-    xdg-basedir "^4.0.0"
-
 gatsby-graphiql-explorer@^2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/gatsby-graphiql-explorer/-/gatsby-graphiql-explorer-2.13.0.tgz#60253faa9cc6e162daa25a23ffab8fd3bac7cb34"
@@ -9187,25 +9171,6 @@ gatsby-source-filesystem@^4.1.1:
     valid-url "^1.0.9"
     xstate "^4.14.0"
 
-gatsby-source-filesystem@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-4.4.0.tgz#9921ac0600166e4ee0cd561d194c2df89a42e11d"
-  integrity sha512-tN+aJdOnBf92V9oHXaGzPB6gL0EhpYH0mh/dfszroy25CtSq07fZu8SynS/B3ClJVi22MkD0imcDVMlPJGSQ3w==
-  dependencies:
-    "@babel/runtime" "^7.15.4"
-    chokidar "^3.5.2"
-    fastq "^1.13.0"
-    file-type "^16.5.3"
-    fs-extra "^10.0.0"
-    gatsby-core-utils "^3.4.0"
-    got "^9.6.0"
-    md5-file "^5.0.0"
-    mime "^2.5.2"
-    pretty-bytes "^5.4.1"
-    progress "^2.0.3"
-    valid-url "^1.0.9"
-    xstate "^4.26.1"
-
 gatsby-source-github-api@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/gatsby-source-github-api/-/gatsby-source-github-api-1.0.0.tgz#7ad889adf787f6ce40225576ef44b57c987a97cf"
@@ -9255,14 +9220,14 @@ gatsby-source-strava@^2.2.0:
     strava-v3 "^2.0.10"
     system-sleep "^1.3.6"
 
-gatsby-source-youtube@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/gatsby-source-youtube/-/gatsby-source-youtube-2.5.0.tgz#43c9b782e2d38be475efe274c77d656629bac518"
-  integrity sha512-exhAtSKtqN0RQz+rOkhh5/eWq94OfB7Hzum4xxlPgE+umK+eZmrZTI4jtX10PdQln2JKHCU60ONkAm9d8VU4Fg==
+gatsby-source-youtube@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/gatsby-source-youtube/-/gatsby-source-youtube-2.5.1.tgz#bbeb2fdee9cd9e53933a8dba372717dfa6d3602b"
+  integrity sha512-/RDV3nNP6En9G1lZCzhi3ZmPlc1TfozN2t6Dr0UPUKPyJR6EcMlhQL/1sL9zfKMHuaaOf8Qv8Nr5NCgBB/sgfg==
   dependencies:
-    gatsby-source-filesystem "^4.4.0"
+    gatsby-source-filesystem "^4.13.0"
     google-oauth2-env-vars "^1.3.0"
-    googleapis "^92.0.0"
+    googleapis "^100.0.0"
 
 gatsby-telemetry@^3.13.0:
   version "3.13.0"
@@ -9889,7 +9854,7 @@ googleapis-common@^5.0.1, googleapis-common@^5.0.2:
     url-template "^2.0.8"
     uuid "^8.0.0"
 
-googleapis@100.0.0:
+googleapis@100.0.0, googleapis@^100.0.0:
   version "100.0.0"
   resolved "https://registry.yarnpkg.com/googleapis/-/googleapis-100.0.0.tgz#baeeba7877ee7dd3250643b3803c4a9c24bcf8dd"
   integrity sha512-RToFQGY54B756IDbjdyjb1vWFmn03bYpXHB2lIf0eq2UBYsIbYOLZ0kqSomfJnpclEukwEmMF7Jn6Wsev871ew==
@@ -9904,14 +9869,6 @@ googleapis@^67.1.0:
   dependencies:
     google-auth-library "^7.0.2"
     googleapis-common "^5.0.1"
-
-googleapis@^92.0.0:
-  version "92.0.0"
-  resolved "https://registry.yarnpkg.com/googleapis/-/googleapis-92.0.0.tgz#291b9826a5a4509a9e9a6974ef942328857bfe18"
-  integrity sha512-5HgJg7XvqEEJ+GO+2gvnzd5cAcDuSS/VB6nW7thoyj2GMq9nH4VvJwncSevinjLCnv06a+VSxrXNiL5vePHojA==
-  dependencies:
-    google-auth-library "^7.0.2"
-    googleapis-common "^5.0.2"
 
 googlephotos@^0.3.4:
   version "0.3.4"
