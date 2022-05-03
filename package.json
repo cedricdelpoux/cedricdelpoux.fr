@@ -47,7 +47,7 @@
     "gatsby-remark-youtube": "^1.2.0",
     "gatsby-source-filesystem": "^4.13.0",
     "gatsby-source-github-api": "^1.0.0",
-    "gatsby-source-google-docs": "^2.2.1",
+    "gatsby-source-google-docs": "^2.2.2",
     "gatsby-source-google-mymaps": "^1.0.0",
     "gatsby-source-google-photos": "^3.0.0",
     "gatsby-source-strava": "^2.2.0",
