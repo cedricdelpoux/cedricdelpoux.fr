@@ -1,6 +1,5 @@
 import {MDXProvider} from "@mdx-js/react"
 import {ThemeContext, useGlobalCss} from "css-system"
-import {getSrc} from "gatsby-plugin-image"
 import React from "react"
 import {Helmet} from "react-helmet"
 
@@ -14,7 +13,7 @@ import {StravaEmbed} from "../components/strava-embed"
 import {Technologies} from "../components/technologies"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {useSiteMetadata} from "../hooks/use-site-metadata"
+import {siteConfig} from "../config/site.js"
 import {Blank} from "./blank"
 
 export default ({children, pageContext}) => {
@@ -52,10 +51,6 @@ export default ({children, pageContext}) => {
     },
   })
 
-  const {siteUrl, siteImage, title} = useSiteMetadata()
-  const imageUrl = getSrc(siteImage)
-  const metaImage = imageUrl && siteUrl + imageUrl
-
   if (pageContext.layout === "blank") {
     return <Blank>{children}</Blank>
   }
@@ -81,18 +76,19 @@ export default ({children, pageContext}) => {
       <Helmet>
         <html lang={pageContext.locale} />
         <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
-        <title>{title}</title>
+        <title>{siteConfig.title}</title>
         <meta charSet="utf-8" />
-        <meta property="og:site_name" content={title} />
+        <meta property="og:site_name" content={siteConfig.title} />
         <meta property="og:locale" content={pageContext.locale} />
         <meta property="og:type" content="website" />
       </Helmet>
-      {metaImage && (
-        <Helmet>
-          <meta property="image" content={metaImage} />
-          <meta property="og:image" content={metaImage} />
-        </Helmet>
-      )}
+      <Helmet>
+        <meta property="image" content={siteConfig.url + "/meta-image.png"} />
+        <meta
+          property="og:image"
+          content={siteConfig.url + "/meta-image.png"}
+        />
+      </Helmet>
       <View
         as="svg"
         xmlns="http://www.w3.org/2000/svg"

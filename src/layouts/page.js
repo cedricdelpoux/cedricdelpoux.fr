@@ -12,7 +12,7 @@ import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {useSiteMetadata} from "../hooks/use-site-metadata"
+import {siteConfig} from "../config/site.js"
 import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 
 export const LayoutPage = ({
@@ -36,9 +36,8 @@ export const LayoutPage = ({
   }, [location])
 
   // Meta
-  const {siteUrl} = useSiteMetadata()
   const imageUrl = cover && getSrc(cover.image)
-  const metaImage = imageUrl && siteUrl + imageUrl
+  const metaImage = imageUrl && siteConfig.url + imageUrl
 
   return (
     <>

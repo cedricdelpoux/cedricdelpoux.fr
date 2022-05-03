@@ -1,6 +1,4 @@
 import {ThemeContext} from "css-system"
-import {graphql, useStaticQuery} from "gatsby"
-import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React, {useContext} from "react"
 
 import {View} from "./view"
@@ -9,20 +7,6 @@ const CIRCLE_OFFSET = 34
 
 export const Avatar = ({css, ...props}) => {
   const theme = useContext(ThemeContext)
-  const data = useStaticQuery(graphql`
-    query AvatarQuery {
-      avatar: googlePhotosPhoto(
-        description: {eq: "Cédric Delpoux sur fond transparent"}
-      ) {
-        description
-        file {
-          childImageSharp {
-            gatsbyImageData(width: 200, layout: FIXED, placeholder: BLURRED)
-          }
-        }
-      }
-    }
-  `)
   return (
     <View
       css={{
@@ -59,7 +43,12 @@ export const Avatar = ({css, ...props}) => {
           transitionProperty: "background",
         }}
       />
-      <GatsbyImage image={getImage(data.avatar.file)} alt="Cédric Delpoux" />
+      <View
+        as="img"
+        src={"/cedric-delpoux.png"}
+        alt="Cédric Delpoux"
+        css={{position: "relative"}}
+      />
       <View
         css={{
           position: "absolute",
