@@ -1,23 +1,27 @@
-import "react-slideshow-image/dist/styles.css"
+import "swiper/css"
 
 import React from "react"
-import {Slide} from "react-slideshow-image"
+import {Autoplay} from "swiper"
+import {Swiper, SwiperSlide} from "swiper/react"
 
 import {View} from "./view"
 
 export const Slideshow = ({children, css, ...props}) => {
   return (
     <View
-      as={Slide}
-      duration={1000}
-      transitionDuration={500}
-      arrows={false}
-      pauseOnHover={false}
-      canSwipe={false}
+      as={Swiper}
+      loop={true}
+      autoplay={{
+        delay: 1000,
+        disableOnInteraction: false,
+      }}
+      modules={[Autoplay]}
       css={{...css}}
       {...props}
     >
-      {children}
+      {React.Children.map(children, (child, i) => (
+        <SwiperSlide key={i}>{child}</SwiperSlide>
+      ))}
     </View>
   )
 }

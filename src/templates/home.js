@@ -186,31 +186,29 @@ const Home = ({
           >
             <PaperVideoCompact
               {...youtubeCyclingPyrenees}
-              css={{width: {s: 350, m: 250}, aspectRatio: "16 / 9"}}
+              css={{
+                height: {_: "auto", m: 140},
+                width: {_: 335, s: 350, m: "auto"},
+                aspectRatio: "16 / 9",
+              }}
             />
             {sportAlbum?.photos?.length > 0 && (
               <Slideshow
+                spaceBetween={theme.space[2]}
+                breakpoints={{
+                  [theme.breakpointsInt.s]: {
+                    slidesPerView: 1,
+                  },
+                  [theme.breakpointsInt.m]: {
+                    slidesPerView: 2,
+                  },
+                }}
                 css={{
-                  width: {_: 335, s: 370, m: 525},
-                  height: {_: 188, s: 200, m: 140},
+                  flex: 1,
+                  width: {_: 335, s: 350, m: "auto"},
                   borderRadius: 2,
                   overflow: "hidden",
-                  alignItems: "flex-start",
                 }}
-                responsive={[
-                  {
-                    breakpoint: theme.breakpointsInt.m,
-                    settings: {
-                      slidesToShow: 2,
-                    },
-                  },
-                  {
-                    breakpoint: theme.breakpointsInt.s,
-                    settings: {
-                      slidesToShow: 1,
-                    },
-                  },
-                ]}
               >
                 {sportAlbum?.photos.map((node) => (
                   <PaperPhoto
@@ -218,8 +216,8 @@ const Home = ({
                     photo={node.file}
                     alt={`Sport photo ${node.id}`}
                     css={{
-                      width: {_: 335, s: 350, m: 250},
-                      mr: 2,
+                      width: {_: 335, s: 350, m: "auto"},
+                      height: {_: "auto", m: 140},
                       aspectRatio: "16 / 9",
                       objectFit: "cover",
                     }}
