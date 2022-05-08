@@ -30,7 +30,7 @@ const TravelRegion = ({
         {videos &&
           videos.nodes.length > 0 &&
           videos.nodes.map((node) => <PaperVideo key={node.id} {...node} />)}
-        {album &&
+        {album?.photos &&
           album.photos.length > 0 &&
           album.photos.map((node) => (
             <PaperPhoto

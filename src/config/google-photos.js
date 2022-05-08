@@ -1,9 +1,10 @@
 exports.googlePhotosOptions = {
   albumsTitles: [
-    // "cedricdelpoux.fr",
+    "cedricdelpoux.fr/sport",
+    "cedricdelpoux.fr/travel/france/corsica",
     ...(!process.env.MINIMAL
       ? [
-          "cedricdelpoux.fr/sport",
+          // "cedricdelpoux.fr/sport",
           "cedricdelpoux.fr/travel/iceland",
           "cedricdelpoux.fr/travel/france/reunion",
           "cedricdelpoux.fr/travel/austria",
@@ -13,7 +14,7 @@ exports.googlePhotosOptions = {
           "cedricdelpoux.fr/travel/czechia",
           "cedricdelpoux.fr/travel/denmark",
           "cedricdelpoux.fr/travel/france/bretagne",
-          "cedricdelpoux.fr/travel/france/corsica",
+          // "cedricdelpoux.fr/travel/france/corsica",
           "cedricdelpoux.fr/travel/hungary",
           "cedricdelpoux.fr/travel/indonesia",
           "cedricdelpoux.fr/travel/ireland",

@@ -40,7 +40,7 @@ const TravelCountry = ({
           videos.nodes
             .filter((node) => !node.region)
             .map((node) => <PaperVideo key={node.id} {...node} />)}
-        {album &&
+        {album?.photos &&
           album.photos.length > 0 &&
           album.photos.map((node) => (
             <PaperPhoto

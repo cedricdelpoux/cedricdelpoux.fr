@@ -22,13 +22,14 @@ const SportMedias = ({
         {videos.nodes.map((node) => (
           <PaperVideo key={node.id} {...node} />
         ))}
-        {album?.photos.map((node) => (
-          <PaperPhoto
-            key={node.id}
-            photo={node.file}
-            alt={`Sport photo ${node.id}`}
-          />
-        ))}
+        {album?.photos &&
+          album.photos.map((node) => (
+            <PaperPhoto
+              key={node.id}
+              photo={node.file}
+              alt={`Sport photo ${node.id}`}
+            />
+          ))}
       </Masonry>
     </LayoutPage>
   )

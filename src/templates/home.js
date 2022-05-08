@@ -188,7 +188,7 @@ const Home = ({
               {...youtubeCyclingPyrenees}
               css={{width: {s: 350, m: 250}, aspectRatio: "16 / 9"}}
             />
-            {sportAlbum?.photos.length > 0 && (
+            {sportAlbum?.photos?.length > 0 && (
               <Slideshow
                 css={{
                   width: {_: 335, s: 370, m: 525},

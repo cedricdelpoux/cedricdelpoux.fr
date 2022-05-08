@@ -64,29 +64,29 @@ exports.createSchemaCustomization = ({actions}) => {
       album: GooglePhotosAlbum @link(from: "fields.albumId")
       videos: [YoutubeVideo] @link(from: "fields.videosIds")
     }
-
-    type GooglePhotosPhoto implements Node {
-      id: ID!
-      description: String
-      file: File @link
-    }
-
-    type GooglePhotosAlbum implements Node {
-      id: ID!
-      country: String
-      region: String
-      category: String
-      photos: [GooglePhotosPhoto]
-      latestDate(
-        formatString: String
-        fromNow: Boolean
-        difference: String
-        locale: String
-      ): Date
-      cover: GooglePhotosPhoto
-    }
   `)
 }
+
+// type GooglePhotosPhoto implements Node {
+//   id: ID!
+//   description: String
+//   file: File @link
+// }
+
+// type GooglePhotosAlbum implements Node {
+//   id: ID!
+//   country: String
+//   region: String
+//   category: String
+//   photos: [GooglePhotosPhoto]
+//   latestDate(
+//     formatString: String
+//     fromNow: Boolean
+//     difference: String
+//     locale: String
+//   ): Date
+//   cover: GooglePhotosPhoto
+// }
 
 exports.onCreatePage = ({page}) => {
   if (page.path.match(/^\/resume/)) {
