@@ -1,3 +1,4 @@
+import {faStrava} from "@fortawesome/free-brands-svg-icons"
 import {graphql} from "gatsby"
 import React from "react"
 
@@ -5,6 +6,7 @@ import {Masonry} from "../components/masonry"
 import {PaperPhoto} from "../components/paper-photo"
 import {PaperVideo} from "../components/paper-video"
 import {LayoutPage} from "../layouts/page"
+import {getStravaActivityUrl} from "../utils/strava"
 
 const SportMedias = ({
   data: {
@@ -27,7 +29,11 @@ const SportMedias = ({
             <PaperPhoto
               key={node.id}
               photo={node.file}
-              alt={`Sport photo ${node.id}`}
+              alt={node.description || `Sport photo ${node.id}`}
+              to={
+                node.stravaID ? getStravaActivityUrl(node.stravaID) : undefined
+              }
+              icon={node.stravaID && faStrava}
             />
           ))}
       </Masonry>
@@ -58,6 +64,7 @@ export const pageQuery = graphql`
     album: googlePhotosAlbum(category: {eq: "sport"}) {
       photos {
         ...PaperPhotoFragment
+        stravaID
       }
     }
   }
