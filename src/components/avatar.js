@@ -1,4 +1,5 @@
 import {ThemeContext} from "css-system"
+import {StaticImage} from "gatsby-plugin-image"
 import React, {useContext} from "react"
 
 import {View} from "./view"
@@ -43,11 +44,10 @@ export const Avatar = ({css, ...props}) => {
           transitionProperty: "background",
         }}
       />
-      <View
-        as="img"
-        src={"/cedric-delpoux.png"}
+      <StaticImage
+        src={"../assets/cedric-delpoux.png"}
         alt="Cédric Delpoux"
-        css={{position: "relative"}}
+        placeholder="blurred"
       />
       <View
         css={{
