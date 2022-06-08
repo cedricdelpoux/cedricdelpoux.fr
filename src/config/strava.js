@@ -1,7 +1,31 @@
 const polyline = require("@mapbox/polyline")
 const geocoder = require("city-reverse-geocoder")
 
+const toKebabCase = (str) =>
+  str &&
+  str
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map((x) => x.toLowerCase())
+    .join("-")
+
+const countriesFix = {
+  "Bosnia And Herzegowina": "bosnia",
+  Israel: "jordan",
+  Reunion: "france",
+}
+
 const transformStravaActivity = (activity) => {
+  // Add country and city
+  if (activity.start_latlng) {
+    const latitude = activity.start_latlng[0]
+    const longitude = activity.start_latlng[1]
+    const nearestCities = geocoder(latitude, longitude)
+    const {city, nearCountry} = nearestCities[0]
+    const country = countriesFix[nearCountry] || toKebabCase(nearCountry)
+    Object.assign(activity, {city, country})
+  }
+
+  // Add geoJSON map
   if (activity.map && activity.map.summary_polyline) {
     activity.map.geoJSON = polyline.toGeoJSON(activity.map.summary_polyline)
   }
