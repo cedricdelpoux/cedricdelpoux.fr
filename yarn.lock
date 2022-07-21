@@ -9443,7 +9443,7 @@ gatsby-plugin-manifest@^4.19.0:
     semver "^7.3.7"
     sharp "^0.30.3"
 
-gatsby-plugin-mdx@^3.19.0:
+gatsby-plugin-mdx@^3.13.0:
   version "3.19.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-mdx/-/gatsby-plugin-mdx-3.19.0.tgz#637a52f1b270271ff4f6668f236253b58d9068eb"
   integrity sha512-uCn2w2GfW/CDeHEebXBa3ee2xnBbRVyn9gjqFxH3nUtFa4UsxQ13SWyd4Pur48A3VNpsQKQMXGo8JQFzXiqI5w==
