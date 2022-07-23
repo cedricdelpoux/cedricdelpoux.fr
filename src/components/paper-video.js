@@ -48,9 +48,6 @@ export const PaperVideo = ({id, title, cover, statistics}) => {
         css={{
           position: "relative",
           width: "100%",
-          height: 0,
-          pb: "56.25%",
-          overflow: "hidden",
         }}
       >
         {showYoutube ? (
