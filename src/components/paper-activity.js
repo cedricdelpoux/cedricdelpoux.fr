@@ -50,19 +50,18 @@ export const PaperActivity = ({
   ...props
 }) => {
   const theme = useContext(ThemeContext)
-  const mapUrl = useMapbox(map.summary_polyline)
+  const mapUrl = useMapbox({
+    polyline: map.summary_polyline,
+    width: 300,
+    height: 300,
+  })
   return (
     <Paper
       to={getStravaActivityUrl(id)}
       css={{position: "relative", p: 0}}
       {...props}
     >
-      <View
-        as="img"
-        src={mapUrl}
-        css={{objectFit: "cover", height: "300px"}}
-        alt={`Activity map ${id}`}
-      />
+      <View as="img" src={mapUrl} alt={`Activity map ${id}`} />
       <PaperIcon
         icon={type === "Ride" ? faBiking : faRunning}
         css={{
@@ -162,7 +161,11 @@ export const PaperActivityCompact = ({
   total_elevation_gain,
   ...props
 }) => {
-  const mapUrl = useMapbox(map.summary_polyline)
+  const mapUrl = useMapbox({
+    polyline: map.summary_polyline,
+    width: 130,
+    height: 75,
+  })
   return (
     <Paper
       to={getStravaActivityUrl(id)}
@@ -172,7 +175,7 @@ export const PaperActivityCompact = ({
       <View
         as="img"
         src={mapUrl}
-        css={{objectFit: "cover", height: "75px", width: "130px"}}
+        css={{objectFit: "cover", width: "130px", height: "75px"}}
         alt={`Activity map ${id}`}
       />
       <View css={{flex: 1, py: 1, px: 2}}>

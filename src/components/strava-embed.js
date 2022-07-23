@@ -56,7 +56,12 @@ export const StravaEmbed = ({
   total_elevation_gain,
   photo,
 }) => {
-  const mapUrl = useMapbox(polyline, "mapbox/satellite-streets-v11")
+  const mapUrl = useMapbox({
+    polyline,
+    style: "mapbox/satellite-streets-v11",
+    width: 300,
+    height: 180,
+  })
 
   return (
     <Paper

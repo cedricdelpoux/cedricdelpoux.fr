@@ -23,7 +23,7 @@ export const PaperStory = ({
   content,
   ...props
 }) => {
-  const mapUrl = useMapbox(polyline)
+  const mapUrl = useMapbox({polyline, width: 320, height: 320})
   return (
     <Paper to={slug} css={{px: 0, pb: 0, gap: 3}} {...props}>
       <Title as="h2" css={{mx: 3}}>
@@ -51,11 +51,7 @@ export const PaperStory = ({
             right: 2,
           }}
         />
-        <View
-          as="img"
-          src={mapUrl}
-          css={{objectFit: "cover", height: "300px"}}
-        />
+        <View as="img" src={mapUrl} alt={`${country} map`} />
       </View>
     </Paper>
   )
@@ -70,13 +66,13 @@ export const PaperStoryCompact = ({
   content,
   ...props
 }) => {
-  const mapUrl = useMapbox(polyline)
+  const mapUrl = useMapbox({polyline, width: 130, height: 75})
   return (
     <Paper to={slug} css={{flexDirection: "row", p: 0}} {...props}>
       <View
         as="img"
         src={mapUrl}
-        css={{objectFit: "cover", height: "75px", width: "130px"}}
+        css={{objectFit: "cover", width: "130px", height: "75px"}}
       />
       <View css={{flex: 1, py: 1, px: 2}}>
         <View css={{flexDirection: "row", gap: 1}}>
