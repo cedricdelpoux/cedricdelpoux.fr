@@ -1,7 +1,7 @@
 import {graphql} from "gatsby"
 import React from "react"
 
-import {Grid} from "../components/grid"
+import {Masonry} from "../components/masonry"
 import {PaperVideo} from "../components/paper-video"
 import {LayoutPage} from "../layouts/page"
 
@@ -16,13 +16,13 @@ const TravelVideos = ({
 }) => {
   return (
     <LayoutPage title={title} description={excerpt} body={body}>
-      <Grid>
+      <Masonry>
         {videos.nodes
           .filter((node) => !node.region)
           .map((node) => (
             <PaperVideo key={node.id} {...node} />
           ))}
-      </Grid>
+      </Masonry>
     </LayoutPage>
   )
 }
