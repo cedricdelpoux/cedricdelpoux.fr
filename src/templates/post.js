@@ -30,7 +30,8 @@ const Post = ({
       date,
       name: title,
       cover,
-      childMdx: {excerpt, timeToRead, body},
+      timeToRead,
+      childMdx: {excerpt, body},
     },
   },
   location,
@@ -125,9 +126,9 @@ export const pageQuery = graphql`
           }
         }
       }
+      timeToRead
       childMdx {
         body
-        timeToRead
         excerpt
       }
     }

@@ -20,7 +20,7 @@ export const PaperStory = ({
   polyline,
   relativeDate,
   slug,
-  content,
+  timeToRead,
   ...props
 }) => {
   const mapUrl = useMapbox({polyline, width: 320, height: 320})
@@ -38,7 +38,7 @@ export const PaperStory = ({
           },
           {
             icon: faHourglassStart,
-            label: content.timeToRead + " min",
+            label: timeToRead + " min",
           },
         ]}
       />
@@ -63,7 +63,7 @@ export const PaperStoryCompact = ({
   polyline,
   relativeDate,
   slug,
-  content,
+  timeToRead,
   ...props
 }) => {
   const mapUrl = useMapbox({polyline, width: 130, height: 75})
@@ -87,7 +87,7 @@ export const PaperStoryCompact = ({
             },
             {
               icon: faHourglassStart,
-              label: content.timeToRead + " min",
+              label: timeToRead + " min",
             },
           ]}
           css={{p: 0, justifyContent: "start"}}
@@ -104,8 +104,6 @@ export const query = graphql`
     name
     polyline
     relativeDate: date(fromNow: true, locale: $locale)
-    content: childMdx {
-      timeToRead
-    }
+    timeToRead
   }
 `

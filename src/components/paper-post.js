@@ -13,7 +13,8 @@ export const PaperPost = ({
     date,
     name,
     cover,
-    childMdx: {timeToRead, excerpt},
+    timeToRead,
+    childMdx: {excerpt},
   },
   ...props
 }) => {
@@ -49,6 +50,7 @@ export const query = graphql`
     slug
     name
     date(formatString: "Do MMM YYYY", locale: $locale)
+    timeToRead
     cover {
       image {
         childImageSharp {
@@ -58,7 +60,6 @@ export const query = graphql`
     }
     childMdx {
       excerpt
-      timeToRead
     }
   }
 `

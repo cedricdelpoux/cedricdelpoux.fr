@@ -1,3 +1,5 @@
+const readingTime = require("reading-time")
+
 exports.onCreateNode = async ({node, cache, actions: {createNodeField}}) => {
   if (node.internal.type === "GoogleMyMaps") {
     await cache.set("mymaps-" + node.name, node.id)
@@ -28,6 +30,12 @@ exports.onCreateNode = async ({node, cache, actions: {createNodeField}}) => {
   }
 
   if (node.internal.type === "GoogleDocs") {
+    createNodeField({
+      node,
+      name: `timeToRead`,
+      value: readingTime(node.markdown),
+    })
+
     if (node.template === "travel-region" && node.region) {
       const album = await cache.get("album-" + node.region)
       const videos = await cache.get("videos-" + node.region)

@@ -379,9 +379,6 @@ export const pageQuery = graphql`
       childMdx {
         body
         excerpt
-        headings {
-          value
-        }
       }
       text1
       text2
