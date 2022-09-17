@@ -50,7 +50,8 @@ const transformStravaAthlete = (athlete, activities) => {
   activities
     .filter(
       (activity) =>
-        activitiesTypes.includes(activity.type) && activity.map.summary_polyline
+        activitiesTypes.includes(activity.type) &&
+        activity.map?.summary_polyline
     )
     .forEach((activity) => {
       const nearestCities = geocoder(
@@ -109,13 +110,13 @@ exports.stravaOptions = {
   stravaClientSecret: process.env.STRAVA_CLIENT_SECRET,
   stravaToken: process.env.STRAVA_TOKEN,
   activities: {
-    after:
-      process.env.MINIMAL &&
-      new Date(
-        new Date().getFullYear(),
-        new Date().getMonth() - 12,
-        new Date().getDate()
-      ).getTime() / 1000,
+    // after:
+    //   process.env.MINIMAL &&
+    //   new Date(
+    //     new Date().getFullYear(),
+    //     new Date().getMonth() - 12,
+    //     new Date().getDate()
+    //   ).getTime() / 1000,
     extend: ({activity}) => transformStravaActivity(activity),
   },
   athlete: {
