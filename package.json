@@ -93,7 +93,8 @@
     "dev": "gatsby develop",
     "lint": "eslint ./*.js src/**/*.js",
     "serve": "gatsby serve",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "netlify deploy --prod"
   },
   "browserslist": "last 2 versions and >0.25% and not IE 11",
   "config": {
