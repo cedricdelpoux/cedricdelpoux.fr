@@ -69,6 +69,7 @@
     "react-responsive-masonry": "^2.1.5",
     "react-share": "^4.4.0",
     "react-vertical-timeline-component": "^3.5.2",
+    "recharts": "^2.2.0",
     "scrollama": "^3.2.0",
     "swiper": "^8.3.2",
     "wobblecode-flat-flags": "^1.0.1"

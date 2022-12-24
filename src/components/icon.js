@@ -1,8 +1,9 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import React from "react"
+
 import {Text} from "./text"
 
-export const Icon = ({icon, onClick, css, gradient}) => (
+export const Icon = ({icon, css, gradient, ...props}) => (
   <Text
     as={FontAwesomeIcon}
     icon={icon}
@@ -16,6 +17,6 @@ export const Icon = ({icon, onClick, css, gradient}) => (
         ...css,
       },
     }}
-    onClick={onClick}
+    {...props}
   />
 )

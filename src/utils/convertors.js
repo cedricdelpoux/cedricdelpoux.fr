@@ -5,7 +5,7 @@ const metersPerSecondToMinPerKm = (mps) => {
 }
 const metersPerSecondTokmPerHour = (mps) => (3.6 * mps).toFixed(2)
 const kmPerHourToMetersPerSecond = (kmh) => (kmh / 3.6).toFixed(2)
-const metersToKilometers = (m) => (m / 1000).toFixed(1)
+const metersToKilometers = (m, precision = 1) => (m / 1000).toFixed(precision)
 const kilometersToMeters = (km) => (km * 1000).toFixed(1)
 const hrssToHrssPerHour = (hrss, duration) =>
   ((hrss / duration) * 60 * 60).toFixed(0)

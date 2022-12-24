@@ -9,6 +9,7 @@ import {Footer} from "../components/footer"
 import {Header} from "../components/header"
 import {Link} from "../components/link"
 import {Masonry} from "../components/masonry"
+import {SportStatsMonth} from "../components/sport-stats-month"
 import {StravaEmbed} from "../components/strava-embed"
 import {Technologies} from "../components/technologies"
 import {Title} from "../components/title"
@@ -65,6 +66,7 @@ export default ({children, pageContext}) => {
         Grid: Masonry,
         strava: StravaEmbed,
         Technologies,
+        SportStatsMonth,
         // a: Link,
         h1: (props) => <Title as="h1" {...props} />,
         h2: (props) => <Title as="h2" {...props} />,

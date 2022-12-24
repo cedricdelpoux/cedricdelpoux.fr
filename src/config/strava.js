@@ -8,6 +8,8 @@ const toKebabCase = (str) =>
     .map((x) => x.toLowerCase())
     .join("-")
 
+const twoDigit = (string) => ("0" + string).slice(-2)
+
 const countriesFix = {
   "Bosnia And Herzegowina": "bosnia",
   Israel: "jordan",
@@ -29,6 +31,18 @@ const transformStravaActivity = (activity) => {
   if (activity.map && activity.map.summary_polyline) {
     activity.map.geoJSON = polyline.toGeoJSON(activity.map.summary_polyline)
   }
+
+  // Add date fields
+  const date = new Date(activity.start_date)
+  const year = date.getFullYear()
+  const month = twoDigit(date.getMonth() + 1)
+  const day = twoDigit(date.getDate())
+  const year_month = `${year}-${month}`
+  activity.date = date
+  activity.date_year = year
+  activity.date_month = month
+  activity.date_year_month = year_month
+  activity.date_day = day
 }
 
 const transformStravaAthlete = (athlete, activities) => {
@@ -54,6 +68,7 @@ const transformStravaAthlete = (athlete, activities) => {
         activity.map?.summary_polyline
     )
     .forEach((activity) => {
+      // Add activities counts
       const nearestCities = geocoder(
         activity.start_latlng[0],
         activity.start_latlng[1]
@@ -110,13 +125,13 @@ exports.stravaOptions = {
   stravaClientSecret: process.env.STRAVA_CLIENT_SECRET,
   stravaToken: process.env.STRAVA_TOKEN,
   activities: {
-    // after:
-    //   process.env.MINIMAL &&
-    //   new Date(
-    //     new Date().getFullYear(),
-    //     new Date().getMonth() - 12,
-    //     new Date().getDate()
-    //   ).getTime() / 1000,
+    after:
+      process.env.MINIMAL &&
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 12,
+        new Date().getDate()
+      ).getTime() / 1000,
     extend: ({activity}) => transformStravaActivity(activity),
   },
   athlete: {

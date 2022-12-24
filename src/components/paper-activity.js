@@ -61,7 +61,12 @@ export const PaperActivity = ({
       css={{position: "relative", p: 0}}
       {...props}
     >
-      <View as="img" src={mapUrl} alt={`Activity map ${id}`} />
+      <View
+        as="img"
+        src={mapUrl}
+        alt={`Activity map ${id}`}
+        css={{minHeight: "300px"}}
+      />
       <PaperIcon
         icon={type === "Ride" ? faBiking : faRunning}
         css={{
