@@ -20,7 +20,6 @@ const SportTotal = ({
   totals = {distance: 0, time: 0, elevation: 0},
   color,
   icon,
-  position,
 }) => (
   <View css={{position: "relative"}}>
     <Paper css={{flexDirection: "row", p: 2, gap: 2}}>
@@ -42,12 +41,9 @@ const SportTotal = ({
         justifyContent: "center",
         backgroundColor: "backgroundLight",
         position: "absolute",
-        top: "50%",
-        right: position === "left" ? 0 : "unset",
-        left: position === "right" ? 0 : "unset",
-        transform: `translateY(-50%) translateX(${
-          position === "left" ? "70%" : "-70%"
-        })`,
+        top: 0,
+        left: "50%",
+        transform: `translateY(-55%) translateX(-50%)`,
       }}
     >
       <Icon icon={icon} css={{color, fontSize: 5}} />
@@ -71,13 +67,11 @@ export const SportStatsMonthTotals = ({totals}) => {
         totals={totalsRun}
         color={theme.colors.secondary}
         icon={faRunning}
-        position="left"
       />
       <SportTotal
         totals={totalsRide}
         color={theme.colors.primary}
         icon={faBiking}
-        position="right"
       />
     </View>
   )

@@ -8,7 +8,7 @@ const toKebabCase = (str) =>
     .map((x) => x.toLowerCase())
     .join("-")
 
-const twoDigit = (string) => ("0" + string).slice(-2)
+const twoDigit = (number) => String(number).padStart(2, "0")
 
 const countriesFix = {
   "Bosnia And Herzegowina": "bosnia",
