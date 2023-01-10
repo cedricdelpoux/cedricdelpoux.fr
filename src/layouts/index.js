@@ -64,7 +64,7 @@ export default ({children, pageContext}) => {
         Button,
         Link,
         Grid: Masonry,
-        strava: StravaEmbed,
+        strava: StravaEmbed, // Mdx transform tag to lowercase
         Technologies,
         SportStatsMonth,
         // a: Link,

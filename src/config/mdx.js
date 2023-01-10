@@ -19,8 +19,9 @@ exports.mdxOptions = {
           })
           const photo = activity?.photos?.primary?.urls["600"] || null
 
+          // Don't work in PascalCase <Strava />
           return `
-            <Strava
+            <strava
               id="${activity.id}"
               average_speed="${activity.average_speed}"
               calories="${activity.calories}"

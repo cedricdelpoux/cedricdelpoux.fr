@@ -94,13 +94,22 @@ export const StravaEmbed = ({
           to={getStravaActivityUrl(id)}
           css={{flex: 1, background: "unset !important"}}
         >
-          <View as="img" src={mapUrl} alt={`Activity map ${id}`} />
+          <View
+            as="img"
+            src={mapUrl}
+            alt={`Activity map ${id}`}
+            css={{maxWidth: "100%"}}
+          />
         </View>
         {photo && (
           <View
             as={Link}
             to={getStravaActivityUrl(id)}
-            css={{flex: 1, background: "unset !important"}}
+            css={{
+              display: {_: "none", m: "flex"},
+              flex: 1,
+              background: "unset !important",
+            }}
           >
             <View
               as="img"
