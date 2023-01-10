@@ -44,7 +44,7 @@
     "gatsby-remark-prismjs": "^6.20.0",
     "gatsby-remark-strava": "^1.4.0",
     "gatsby-remark-unwrap-images": "^1.0.2",
-    "gatsby-remark-youtube": "^1.2.0",
+    "gatsby-remark-youtube": "^1.3.1",
     "gatsby-source-filesystem": "^4.20.0",
     "gatsby-source-github-api": "^1.0.0",
     "gatsby-source-google-docs": "^2.2.3",
@@ -95,7 +95,7 @@
     "lint": "eslint ./*.js src/**/*.js",
     "serve": "gatsby serve",
     "prepare": "husky install",
-    "deploy": "netlify deploy --prod"
+    "deploy": "netlify deploy --prod --dir=public"
   },
   "browserslist": "last 2 versions and >0.25% and not IE 11",
   "config": {
