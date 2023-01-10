@@ -5,7 +5,11 @@ import ReactMasonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import {View} from "./view"
 
 export const Masonry = ({children, ...props}) => {
+  if (!children) return
+
   const theme = useContext(ThemeContext)
+
+  const displayThreecols = children.length % 3 == 0
 
   return (
     <View
@@ -13,7 +17,7 @@ export const Masonry = ({children, ...props}) => {
       columnsCountBreakPoints={{
         0: 1,
         [theme.breakpointsInt.s]: 2,
-        [theme.breakpointsInt.m]: 3,
+        [theme.breakpointsInt.m]: displayThreecols ? 3 : 2,
       }}
       {...props}
     >
