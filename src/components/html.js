@@ -16,8 +16,14 @@ export const Html = ({body, css, fluid, ...props}) => {
         flex: 1,
         fontSize: {_: 3, s: 4},
         mx: "auto",
-        width: fluid ? "100%" : {m: 680},
         maxWidth: "100%",
+        alignItems: "center",
+        "& > div": {
+          width: "100%",
+        },
+        "& > p": {
+          width: fluid ? "100%" : {m: 680},
+        },
         "& img, & iframe, & video, & [class=gatsby-resp-image-background-image]":
           {
             borderRadius: 2,
@@ -31,6 +37,7 @@ export const Html = ({body, css, fluid, ...props}) => {
         },
         "& > table": {
           ...tableCss(theme),
+          maxWidth: "100%",
         },
         "& a": {
           position: "relative",
