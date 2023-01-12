@@ -53,7 +53,7 @@
     "gatsby-source-strava": "^2.2.0",
     "gatsby-source-youtube": "^2.5.1",
     "gatsby-transformer-json": "4.20.0",
-    "gatsby-transformer-remark": "^5.20.0",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^4.20.0",
     "intersection-observer": "^0.12.2",
     "mapbox-gl": "^2.12.0",
