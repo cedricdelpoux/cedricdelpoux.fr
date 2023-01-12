@@ -1,21 +1,22 @@
 require("dotenv").config()
 
-const {manifestOptions} = require("./src/config/manifest")
-const {nprogressOptions} = require("./src/config/nprogress")
-const {svgOptions} = require("./src/config/react-svg")
 const {cssOptions} = require("./src/config/css-system")
 const {feedOptions} = require("./src/config/feed")
+const {filesystemOptions} = require("./src/config/filesystem")
+const {gaOptions} = require("./src/config/google-analytics.js")
 const {githubOptions} = require("./src/config/github")
-const {stravaOptions} = require("./src/config/strava")
+const {googleDocsOptions} = require("./src/config/google-docs")
 const {googleMymapsOptions} = require("./src/config/google-mymaps")
 const {googlePhotosOptions} = require("./src/config/google-photos")
-const {googleDocsOptions} = require("./src/config/google-docs")
-const {youtubeOptions} = require("./src/config/youtube")
-const {filesystemOptions} = require("./src/config/filesystem")
+const {manifestOptions} = require("./src/config/manifest")
 const {mdxOptions} = require("./src/config/mdx")
-const {gaOptions} = require("./src/config/google-analytics.js")
-const {webfontsOptions} = require("./src/config/webfonts.js")
+const {netlifyOptions} = require("./src/config/netlify")
+const {nprogressOptions} = require("./src/config/nprogress")
 const {siteConfig} = require("./src/config/site.js")
+const {stravaOptions} = require("./src/config/strava")
+const {svgOptions} = require("./src/config/react-svg")
+const {webfontsOptions} = require("./src/config/webfonts.js")
+const {youtubeOptions} = require("./src/config/youtube")
 
 module.exports = {
   trailingSlash: "never",
@@ -32,7 +33,7 @@ module.exports = {
     "gatsby-plugin-layout",
     "gatsby-plugin-catch-links",
     "gatsby-plugin-sitemap",
-    "gatsby-plugin-netlify",
+    {resolve: "gatsby-plugin-netlify", options: netlifyOptions},
     {resolve: "gatsby-plugin-webfonts", options: webfontsOptions},
     {resolve: "@css-system/gatsby-plugin-css-system", options: cssOptions},
     {resolve: "gatsby-plugin-react-svg", options: svgOptions},
