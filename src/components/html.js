@@ -16,19 +16,20 @@ export const Html = ({body, css, fluid, ...props}) => {
         flex: 1,
         fontSize: {_: 3, s: 4},
         mx: "auto",
-        maxWidth: "100%",
+        width: "100%",
         alignItems: "center",
         "& > div": {
           width: "100%",
         },
         "& > p": {
-          width: fluid ? "100%" : {m: 680},
+          maxWidth: 680,
         },
         "& img, & iframe, & video, & [class=gatsby-resp-image-background-image]":
           {
             borderRadius: 2,
           },
         "& > [class^=gatsby-resp-image]": {
+          maxWidth: 680,
           "& > figcaption": {
             mt: 1,
             textAlign: "center",
