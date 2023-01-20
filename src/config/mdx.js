@@ -54,8 +54,10 @@ exports.mdxOptions = {
       resolve: "gatsby-remark-images",
       options: {
         showCaptions: true,
-        maxWidth: 680,
-        linkImagesToOriginal: false,
+        withWebp: true,
+        maxWidth: 1600,
+        quality: 80,
+        linkImagesToOriginal: false, // Important for gatsby-remark-images-medium-zoom
         wrapperStyle: "overflow:hidden; width:100%;",
       },
     },

@@ -40,6 +40,6 @@ exports.googlePhotosOptions = {
       region,
     }
   },
-  photosMaxWidth: process.env.MINIMAL ? 300 : 680,
+  photosMaxWidth: process.env.MINIMAL ? 300 : 1600,
   debug: process.env.GOOGLE_PHOTOS_DEBUG,
 }
