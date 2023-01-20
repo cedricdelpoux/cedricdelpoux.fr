@@ -5,7 +5,7 @@ import React, {useContext} from "react"
 import {tableCss} from "./table"
 import {View} from "./view"
 
-export const Html = ({body, css, fluid, ...props}) => {
+export const Html = ({body, css, ...props}) => {
   const theme = useContext(ThemeContext)
 
   if (!body) return null
@@ -22,6 +22,7 @@ export const Html = ({body, css, fluid, ...props}) => {
           width: "100%",
         },
         "& > p": {
+          width: "100%",
           maxWidth: 680,
         },
         "& img, & iframe, & video, & [class=gatsby-resp-image-background-image]":
@@ -68,6 +69,7 @@ export const Html = ({body, css, fluid, ...props}) => {
           },
         },
         "& > p > iframe": {
+          width: "100%",
           maxWidth: "100%",
         },
         "& > *": {
