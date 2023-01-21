@@ -1,24 +1,23 @@
-import getDaysInMonth from "date-fns/getDaysInMonth"
 import {graphql, useStaticQuery} from "gatsby"
 import React, {useMemo} from "react"
 
 import {SportStatsChart} from "./sport-stats-chart"
 import {SportStatsTotals} from "./sport-stats-totals"
 
-export const SportStatsMonth = ({month}) => {
+export const SportStatsYear = ({year}) => {
   const data = useStaticQuery(graphql`
-    query SportMonthChartQuery {
+    query SportYearChartQuery {
       allStravaActivity(
         filter: {type: {in: ["Run", "Ride"]}, visibility: {eq: "everyone"}}
         sort: {fields: [start_date], order: ASC}
       ) {
-        group(field: date_year_month) {
-          month: fieldValue
+        group(field: date_year) {
+          year: fieldValue
           total_elevation: sum(field: total_elevation_gain)
           total_time: sum(field: elapsed_time)
           total_distance: sum(field: distance)
-          group(field: date_day) {
-            day: fieldValue
+          group(field: date_month) {
+            month: fieldValue
             group(field: type) {
               sport: fieldValue
               elevation: sum(field: total_elevation_gain)
@@ -47,35 +46,33 @@ export const SportStatsMonth = ({month}) => {
     }
   `)
 
-  const monthData = useMemo(() => {
+  const yearData = useMemo(() => {
     return data.allStravaActivity.group.find(
-      (monthData) => monthData.month === month
+      (yearData) => yearData.year === year
     )
-  }, [data, month])
+  }, [data, year])
 
-  if (!monthData) return null
+  if (!yearData) return null
 
   const chartData = useMemo(() => {
-    const daysInMonth = getDaysInMonth(new Date(month))
-    const days = Array.from({length: daysInMonth}, (_, i) => i + 1)
-    return days.map((day) => {
+    const months = Array.from({length: 12}, (_, i) => i + 1)
+    return months.map((month) => {
       return {
-        data: monthData?.group.find((group) => group.day == day),
-        date: new Date(month + "-" + day),
+        data: yearData?.group.find((group) => group.month == month),
+        date: new Date(year + "-" + month),
       }
     })
-  }, [monthData, month])
+  }, [yearData, year])
 
   return (
     <>
-      <SportStatsTotals totals={monthData.totals} />
+      <SportStatsTotals totals={yearData.totals} />
       <SportStatsChart
         data={chartData}
         xDateOptions={{
-          day: "numeric",
+          month: "short",
         }}
         tooltipDateOptions={{
-          day: "numeric",
           year: "numeric",
           month: "long",
         }}

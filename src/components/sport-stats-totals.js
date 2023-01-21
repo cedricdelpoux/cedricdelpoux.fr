@@ -51,7 +51,7 @@ const SportTotal = ({
   </View>
 )
 
-export const SportStatsMonthTotals = ({totals}) => {
+export const SportStatsTotals = ({totals}) => {
   const theme = useContext(ThemeContext)
   const totalsRun = totals.find(({sport}) => sport === "Run")
   const totalsRide = totals.find(({sport}) => sport === "Ride")
