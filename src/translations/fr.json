@@ -27,6 +27,9 @@
   "sport.index.fastest-activity": "La plus rapide",
   "sport.index.latest-activity": "La plus récente",
   "sport.index.longest-activity": "La plus longue",
+  "sport.types.all": "Toutes",
   "sport.types.ride": "Vélo",
-  "sport.types.run": "Course à pied"
+  "sport.types.run": "Course à pied",
+  "sport.map.activities": "Activités :",
+  "sport.map.tiles": "Carrés"
 }

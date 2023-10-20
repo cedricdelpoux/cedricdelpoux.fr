@@ -1,5 +1,9 @@
 exports.youtubeOptions = {
   updateVideo: (video) => {
+    if (!video.tags) {
+      return video
+    }
+
     const countryTag = video.tags.find((tag) => tag.startsWith("country"))
     const regionTag = video.tags.find((tag) => tag.startsWith("region"))
     let country

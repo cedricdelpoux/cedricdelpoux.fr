@@ -2,6 +2,7 @@ import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
 
 import {Button} from "./button"
+import {Text} from "./text"
 import {View} from "./view"
 
 export const tableCss = (theme) => ({
@@ -45,6 +46,19 @@ export const Table = ({css, ...props}) => {
     />
   )
 }
+
+export const TableCell = ({as = "td", css, align = "left", ...props}) => (
+  <Text
+    as={as}
+    css={{
+      display: "table-cell",
+      whiteSpace: "nowrap",
+      textAlign: align,
+      ...css,
+    }}
+    {...props}
+  ></Text>
+)
 
 export const TableButton = ({children, css, ...props}) => (
   <Button

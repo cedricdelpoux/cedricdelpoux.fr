@@ -6,9 +6,8 @@ import React from "react"
 import {Flag} from "../components/flag"
 import {Icon} from "../components/icon"
 import {Link} from "../components/link"
-import {Table, TableButton} from "../components/table"
+import {Table, TableButton, TableCell} from "../components/table"
 import {Text} from "../components/text"
-import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 import {getClimbFinderUrl} from "../utils/climbfinder"
 import {getStravaActivityUrl} from "../utils/strava"
@@ -28,61 +27,48 @@ const SportClimbs = ({
       <Table>
         <thead>
           <tr>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            <TableCell as="th" align="center">
               #
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Nom
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Category
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Longueur
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Pente moy
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Pente max
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Difficulté
-            </Text>
-            <Text as="th" css={{display: "table-cell", textAlign: "center"}}>
+            </TableCell>
+            <TableCell as="th" align="center">
               Actions
-            </Text>
+            </TableCell>
           </tr>
         </thead>
         <tbody>
           {climbs.nodes.map((climb, i) => (
             <tr key={climb.name}>
-              <Text as="td" css={{display: "table-cell", textAlign: "center"}}>
-                {i + 1}
-              </Text>
-              <View as="td" css={{flexDirection: "row", gap: 1}}>
+              <TableCell>{i + 1}</TableCell>
+              <TableCell css={{display: "flex", flexDirection: "row", gap: 1}}>
                 <Flag country={climb.country} css={{width: "25px"}} />
                 <Text>{climb.name}</Text>
-              </View>
-              <Text as="td" css={{display: "table-cell", textAlign: "center"}}>
+              </TableCell>
+              <TableCell align="center">
                 {climb.category === 0 ? "HC" : climb.category}
-              </Text>
-              <Text
-                as="td"
-                css={{display: "table-cell", textAlign: "right"}}
-              >{`${climb.distance} km`}</Text>
-              <Text
-                as="td"
-                css={{display: "table-cell", textAlign: "right"}}
-              >{`${climb.avg_gradient} %`}</Text>
-              <Text
-                as="td"
-                css={{display: "table-cell", textAlign: "right"}}
-              >{`${climb.max_gradient} %`}</Text>
-              <Text as="td" css={{display: "table-cell", textAlign: "right"}}>
-                {climb.difficulty}
-              </Text>
-              <Text as="td" css={{display: "table-cell", textAlign: "center"}}>
+              </TableCell>
+              <TableCell align="right">{`${climb.distance} km`}</TableCell>
+              <TableCell align="right">{`${climb.avg_gradient} %`}</TableCell>
+              <TableCell align="right">{`${climb.max_gradient} %`}</TableCell>
+              <TableCell align="right">{climb.difficulty}</TableCell>
+              <TableCell>
                 <TableButton
                   as={Link}
                   to={getStravaActivityUrl(climb.strava_id)}
@@ -99,7 +85,7 @@ const SportClimbs = ({
                 >
                   <Icon icon={faRoute} css={{fontSize: 1}} />
                 </TableButton>
-              </Text>
+              </TableCell>
             </tr>
           ))}
         </tbody>

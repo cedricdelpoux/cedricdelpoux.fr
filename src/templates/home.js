@@ -4,6 +4,7 @@ import {
   faCode,
   faEarthEurope,
   faFilm,
+  faMapLocationDot,
   faMountains,
   faNewspaper,
   faPersonRunning,
@@ -29,6 +30,7 @@ import {PaperPhoto} from "../components/paper-photo"
 import {PaperStoryCompact} from "../components/paper-story"
 import {PaperVideoCompact} from "../components/paper-video"
 import {Slideshow} from "../components/slideshow"
+import {SportTilesMap} from "../components/sport-tiles-map"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
@@ -62,6 +64,7 @@ const Home = ({
       text3,
     },
     activities,
+    statsHunters,
     climbs,
     stories,
     countries,
@@ -258,6 +261,32 @@ const Home = ({
           </View>
         </View>
       </View>
+
+      <View
+        css={{
+          position: "relative",
+          height: "600px",
+          width: "100%",
+        }}
+      >
+        <SportTilesMap
+          activities={activities}
+          statsHunters={statsHunters}
+          showTiles={true}
+        />
+        <Button
+          as={Link}
+          to={menu.categories.sport.items[4].path}
+          icon={faMapLocationDot}
+          text={<FormattedMessage id="actions.see-more" />}
+          css={{
+            position: "absolute",
+            bottom: {_: 1, s: 2},
+            right: {_: 1, s: 2},
+          }}
+        />
+      </View>
+
       <View
         css={{
           flexDirection: {_: "column", m: "row"},
@@ -399,6 +428,11 @@ export const pageQuery = graphql`
         id
         ...PaperActivityFragment
       }
+    }
+    statsHunters {
+      square
+      tiles
+      cluster
     }
     climbs: allClimbsJson(sort: {fields: difficulty, order: DESC}, limit: 10) {
       nodes {

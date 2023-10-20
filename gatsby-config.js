@@ -3,7 +3,7 @@ require("dotenv").config()
 const {cssOptions} = require("./src/config/css-system")
 const {feedOptions} = require("./src/config/feed")
 const {filesystemOptions} = require("./src/config/filesystem")
-const {gaOptions} = require("./src/config/google-analytics.js")
+const {gaOptions} = require("./src/config/google-analytics")
 const {githubOptions} = require("./src/config/github")
 const {googleDocsOptions} = require("./src/config/google-docs")
 const {googleMymapsOptions} = require("./src/config/google-mymaps")
@@ -12,10 +12,11 @@ const {manifestOptions} = require("./src/config/manifest")
 const {mdxOptions} = require("./src/config/mdx")
 const {netlifyOptions} = require("./src/config/netlify")
 const {nprogressOptions} = require("./src/config/nprogress")
-const {siteConfig} = require("./src/config/site.js")
+const {siteConfig} = require("./src/config/site")
+const {statshuntersOptions} = require("./src/config/statshunters")
 const {stravaOptions} = require("./src/config/strava")
 const {svgOptions} = require("./src/config/react-svg")
-const {webfontsOptions} = require("./src/config/webfonts.js")
+const {webfontsOptions} = require("./src/config/webfonts")
 const {youtubeOptions} = require("./src/config/youtube")
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
     {resolve: "@css-system/gatsby-plugin-css-system", options: cssOptions},
     {resolve: "gatsby-plugin-react-svg", options: svgOptions},
     {resolve: "gatsby-source-filesystem", options: filesystemOptions},
+    {resolve: "gatsby-source-statshunters", options: statshuntersOptions},
     {resolve: "gatsby-source-google-mymaps", options: googleMymapsOptions},
     {resolve: "gatsby-source-strava", options: stravaOptions},
     {resolve: "gatsby-source-youtube", options: youtubeOptions},

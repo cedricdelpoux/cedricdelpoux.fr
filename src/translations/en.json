@@ -27,6 +27,9 @@
   "sport.index.fastest-activity": "Fastest",
   "sport.index.latest-activity": "Latest",
   "sport.index.longest-activity": "Longest",
+  "sport.types.all": "All",
   "sport.types.ride": "Cycling",
-  "sport.types.run": "Running"
+  "sport.types.run": "Running",
+  "sport.map.activities": "Activities:",
+  "sport.map.tiles": "Tiles"
 }
