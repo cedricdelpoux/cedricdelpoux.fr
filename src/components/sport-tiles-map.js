@@ -1,6 +1,4 @@
 import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
-import {faStrava} from "@fortawesome/free-brands-svg-icons"
-import {faBiking, faRunning} from "@fortawesome/pro-light-svg-icons"
 import MapGL, {
   Filter,
   FullscreenControl,
@@ -16,12 +14,8 @@ import React, {useContext, useState} from "react"
 import {useMemo} from "react"
 import {useIntl} from "react-intl"
 
-import {metersToKilometers} from "../utils/convertors"
-import {getStravaActivityUrl} from "../utils/strava"
-import {Icon} from "./icon"
-import {Link} from "./link"
+import {SportTableActivities} from "./sport-table-activities"
 import {SportTilesMapLayer} from "./sport-tiles-map-layer"
-import {Table, TableButton, TableCell} from "./table"
 import {View} from "./view"
 
 export const SportTilesMap = ({
@@ -222,62 +216,11 @@ const ActivitiesPopup = ({results, setResults}) => {
       onClose={() => setResults(null)}
     >
       <View>
-        <Table>
-          <thead>
-            <tr>
-              <TableCell as="th" align="center">
-                Type
-              </TableCell>
-              <TableCell as="th" align="center">
-                Date
-              </TableCell>
-
-              <TableCell as="th" align="center">
-                Distance
-              </TableCell>
-              <TableCell as="th" align="center">
-                Elevation
-              </TableCell>
-              <TableCell as="th" align="center">
-                Strava
-              </TableCell>
-            </tr>
-          </thead>
-          <tbody>
-            {results.activities
-              .sort((a, b) => b.distance - a.distance)
-              .slice(0, 10)
-              .map((activity) => (
-                <tr key={activity.id}>
-                  <TableCell align="center">
-                    <Icon
-                      icon={activity.type === "Ride" ? faBiking : faRunning}
-                      css={{
-                        fontSize: 4,
-                      }}
-                      gradient
-                    />
-                  </TableCell>
-                  <TableCell>{activity.start_date}</TableCell>
-                  <TableCell align="right">
-                    {metersToKilometers(activity.distance, 0) + " km"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {activity.total_elevation_gain + " d+"}
-                  </TableCell>
-                  <TableCell>
-                    <TableButton
-                      as={Link}
-                      to={getStravaActivityUrl(activity.id)}
-                      noArrow
-                    >
-                      <Icon icon={faStrava} css={{fontSize: 1}} />
-                    </TableButton>
-                  </TableCell>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
+        <SportTableActivities
+          activities={results.activities
+            .sort((a, b) => b.distance - a.distance)
+            .slice(0, 10)}
+        />
       </View>
     </Popup>
   )

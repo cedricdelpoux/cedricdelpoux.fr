@@ -1,3 +1,4 @@
+import parse from "date-fns/parse"
 import {graphql, useStaticQuery} from "gatsby"
 import React, {useMemo} from "react"
 
@@ -8,7 +9,7 @@ export const SportStatsYear = ({year}) => {
   const data = useStaticQuery(graphql`
     query SportYearChartQuery {
       allStravaActivity(
-        filter: {type: {in: ["Run", "Ride"]}, visibility: {eq: "everyone"}}
+        filter: {type: {in: ["Run", "Ride", "VirtualRide"]}}
         sort: {fields: [start_date], order: ASC}
       ) {
         group(field: date_year) {
@@ -31,7 +32,7 @@ export const SportStatsYear = ({year}) => {
                 moving_time
                 distance
                 total_elevation_gain
-                ...PaperActivityFragment
+                ...SportTableActivityFragment
               }
             }
           }
@@ -59,7 +60,7 @@ export const SportStatsYear = ({year}) => {
     return months.map((month) => {
       return {
         data: yearData?.group.find((group) => group.month == month),
-        date: new Date(year + "-" + month),
+        date: parse(year + "-" + month, "yyyy-MM", new Date()),
       }
     })
   }, [yearData, year])

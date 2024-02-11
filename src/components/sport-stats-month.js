@@ -1,4 +1,5 @@
 import getDaysInMonth from "date-fns/getDaysInMonth"
+import parse from "date-fns/parse"
 import {graphql, useStaticQuery} from "gatsby"
 import React, {useMemo} from "react"
 
@@ -9,7 +10,7 @@ export const SportStatsMonth = ({month}) => {
   const data = useStaticQuery(graphql`
     query SportMonthChartQuery {
       allStravaActivity(
-        filter: {type: {in: ["Run", "Ride"]}, visibility: {eq: "everyone"}}
+        filter: {type: {in: ["Run", "Ride", "VirtualRide"]}}
         sort: {fields: [start_date], order: ASC}
       ) {
         group(field: date_year_month) {
@@ -32,7 +33,7 @@ export const SportStatsMonth = ({month}) => {
                 moving_time
                 distance
                 total_elevation_gain
-                ...PaperActivityFragment
+                ...SportTableActivityFragment
               }
             }
           }
@@ -61,7 +62,7 @@ export const SportStatsMonth = ({month}) => {
     return days.map((day) => {
       return {
         data: monthData?.group.find((group) => group.day == day),
-        date: new Date(month + "-" + day),
+        date: parse(month + "-" + day, "yyyy-MM-dd", new Date()),
       }
     })
   }, [monthData, month])

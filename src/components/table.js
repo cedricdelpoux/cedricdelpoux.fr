@@ -9,11 +9,13 @@ export const tableCss = (theme) => ({
   alignSelf: {m: "center"},
   display: "block",
   overflow: "scroll",
+  borderCollapse: "separate",
+  backgroundColor: "background",
   borderRadius: 3,
   "& > thead": {
-    background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 30%, ${theme.colors.primary} 100%)`,
     color: "#fff",
     textAlign: "left",
+    background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 30%, ${theme.colors.primary} 100%)`,
     "& > tr > th": {
       fontWeight: "normal",
       p: 1,
@@ -24,11 +26,11 @@ export const tableCss = (theme) => ({
     },
   },
   "& > tbody": {
-    backgroundColor: "backgroundLight",
     transitionDuration: theme.transition,
     transitionProperty: "background",
     "& > tr > td": {
       p: 1,
+      backgroundColor: "backgroundLight",
     },
   },
 })

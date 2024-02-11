@@ -24,7 +24,7 @@ import {metersToKilometers} from "../utils/convertors"
 import {Icon} from "./icon"
 import Modal from "./modal"
 import {Paper} from "./paper"
-import {PaperActivity} from "./paper-activity"
+import {SportTableActivities} from "./sport-table-activities"
 import {Text} from "./text"
 import {View} from "./view"
 
@@ -82,10 +82,10 @@ export const SportStatsChart = ({data, xDateOptions, tooltipDateOptions}) => {
     setActivities(activities)
     openModal()
   }, [])
-
   const xAxisFormatter = useCallback(
     (value) => {
       const date = new Date(value)
+
       const formattedDate = new Intl.DateTimeFormat(
         locale,
         xDateOptions
@@ -227,11 +227,7 @@ export const SportStatsChart = ({data, xDateOptions, tooltipDateOptions}) => {
         onClose={closeModal}
         css={{maxWidth: "300px", p: 0}}
       >
-        <View css={{gap: 2}}>
-          {activities.map((activity) => (
-            <PaperActivity key={activity.id} {...activity} />
-          ))}
-        </View>
+        <SportTableActivities activities={activities} />
       </Modal>
     </View>
   )
