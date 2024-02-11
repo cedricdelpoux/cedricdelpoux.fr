@@ -8604,10 +8604,10 @@ gatsby-source-github-api@^1.0.0:
     graphql-fetch "^1.0.1"
     uuid "^3.1.0"
 
-gatsby-source-google-docs@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/gatsby-source-google-docs/-/gatsby-source-google-docs-2.4.2.tgz#cf4b0c00f62bc811936926098024e7d89610d709"
-  integrity sha512-wGSP6RToXOi/ahDw0eICRQJjupRxnvfnFP8j//yxIbpsjjwnSiZVuszdb0C+geV4tduDqx+bCfEb6XBds5vB4A==
+gatsby-source-google-docs@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/gatsby-source-google-docs/-/gatsby-source-google-docs-2.4.3.tgz#1e391330447cef4dfaec3073c7adf3e8e2a52e7a"
+  integrity sha512-kyGVaeQGFEd4eRKaOTvDrZn1oAWSWVJnxbrCv+eZ+uQX2Gh0tcuMacypWuXz5ftFeuy47FbkYqxCDT87cL+XZw==
   dependencies:
     gatsby-source-filesystem "5.8.0"
     google-oauth2-env-vars "^1.4.0"
