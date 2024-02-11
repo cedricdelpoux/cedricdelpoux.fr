@@ -112,7 +112,6 @@ export const pageQuery = graphql`
       sort: {fields: [start_date], order: DESC}
     ) {
       nodes {
-        ...PaperActivityFragment
         type
         map {
           geoJSON {
@@ -121,6 +120,7 @@ export const pageQuery = graphql`
           }
         }
         start_latlng
+        ...SportTableActivityFragment
       }
     }
     statsHunters {

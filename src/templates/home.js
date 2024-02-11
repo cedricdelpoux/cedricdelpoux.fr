@@ -102,7 +102,7 @@ const Home = ({
           text={menu.items.about.name}
         />
       </View>
-      <Html body={body} css={{textAlign: "center"}} fluid />
+      <Html body={body} css={{textAlign: "center"}} />
 
       <HomeTitle as="h2">
         <FormattedMessage id="home.developer" />
@@ -296,7 +296,7 @@ const Home = ({
       >
         <View css={{flex: 1, gap: 2}}>
           <Title as="h3">
-            <FormattedMessage id="home.last-activities" />
+            <FormattedMessage id="home.last-adventures" />
           </Title>
           {activities.nodes.map((node) => (
             <PaperActivityCompact key={node.id} {...node} />
@@ -421,7 +421,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [start_date], order: DESC}
+      sort: {fields: [distance], order: DESC}
       limit: 3
     ) {
       nodes {

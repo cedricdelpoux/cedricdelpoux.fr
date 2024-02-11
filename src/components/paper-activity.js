@@ -196,8 +196,8 @@ export const PaperActivityCompact = ({
         </View>
         <PaperMetadata
           items={[
-            {icon: faRoad, label: `${metersToKilometers(distance)} km`},
-            {icon: faMountains, label: `${total_elevation_gain} d+`},
+            {icon: faRoad, label: `${metersToKilometers(distance, 0)} km`},
+            {icon: faMountains, label: `${total_elevation_gain.toFixed(0)} d+`},
             {
               icon: faCalendar,
               label: start_date,
