@@ -1,12 +1,19 @@
-import {faBriefcase, faSchool} from "@fortawesome/pro-light-svg-icons"
+import {faLink, faSchool} from "@fortawesome/pro-light-svg-icons"
 import {graphql} from "gatsby"
 import React, {useMemo} from "react"
-import {FormattedMessage} from "react-intl"
+import {FormattedDate, FormattedMessage} from "react-intl"
 
+import {Button} from "../components/button"
+import {Icon} from "../components/icon"
+import {Link} from "../components/link"
+import {Text} from "../components/text"
 import {Timeline, TimelineItem} from "../components/timeline"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import IconCed from "../icons/ced.svg"
 import {LayoutPage} from "../layouts/page"
+import {diffDates} from "../utils/date"
+import {getWorkCompanyLogo} from "../utils/work"
 
 const CodeCareer = ({
   data: {
@@ -34,20 +41,80 @@ const CodeCareer = ({
     <LayoutPage title={title} description={excerpt} body={body}>
       <Timeline>
         {resume.work.map((work) => {
+          const logo = getWorkCompanyLogo(work.company)
+          console.log("logo", logo)
           return (
             <TimelineItem
-              key={`${work.compagny}-${work.startDate}`}
-              icon={faBriefcase}
-              date={`${new Date(work.startDate).toLocaleDateString()} - ${
-                work.endDate
-                  ? new Date(work.endDate).toLocaleDateString()
-                  : "present"
-              }`}
+              key={`${work.company}-${work.startDate}`}
+              icon={
+                logo ? (
+                  <View as={logo} />
+                ) : (
+                  <View
+                    as={IconCed}
+                    css={{
+                      "& path": {
+                        stroke: "url(#svg-gradient)",
+                      },
+                    }}
+                  />
+                )
+              }
+              date={
+                <View>
+                  <Text>
+                    <Text css={{textTransform: "capitalize"}}>
+                      <FormattedDate
+                        value={work.startDate}
+                        year="numeric"
+                        month="long"
+                      />
+                    </Text>
+                    <Text>{" - "}</Text>
+                    <Text css={{textTransform: "capitalize"}}>
+                      {work.endDate ? (
+                        <FormattedDate
+                          value={work.endDate}
+                          year="numeric"
+                          month="long"
+                        />
+                      ) : (
+                        "present"
+                      )}
+                    </Text>
+                  </Text>
+                  <Text>
+                    (
+                    {diffDates(
+                      work.endDate ? new Date(work.endDate) : new Date(),
+                      new Date(work.startDate),
+                      {locale}
+                    )}
+                    )
+                  </Text>
+                </View>
+              }
             >
               <Title as="h3" css={{mt: 0, mb: 2}}>
-                {work.position}
+                {work.position} {work.company && `@ ${work.company}`}
               </Title>
               <View>{work.summary}</View>
+              {work.highlights && (
+                <ul>
+                  {work.highlights.map((course, i) => (
+                    <li key={i}>{course}</li>
+                  ))}
+                </ul>
+              )}
+              {work.website && (
+                <Button
+                  as={Link}
+                  to={work.website}
+                  icon={faLink}
+                  text={<FormattedMessage id="actions.see-more" />}
+                  css={{alignSelf: "center"}}
+                />
+              )}
             </TimelineItem>
           )
         })}
@@ -60,7 +127,7 @@ const CodeCareer = ({
           return (
             <TimelineItem
               key={`${work.institution}-${work.startDate}`}
-              icon={faSchool}
+              icon={<Icon icon={faSchool} gradient />}
               date={`${new Date(work.startDate).toLocaleDateString()} - ${
                 work.endDate
                   ? new Date(work.endDate).toLocaleDateString()
@@ -68,9 +135,15 @@ const CodeCareer = ({
               }`}
             >
               <Title as="h3" css={{mt: 0, mb: 2}}>
-                {work.institution}
+                {work.studyType} @ {work.institution}
               </Title>
-              <View>{work.studyType}</View>
+              {work.courses && (
+                <ul>
+                  {work.courses.map((course, i) => (
+                    <li key={i}>{course}</li>
+                  ))}
+                </ul>
+              )}
             </TimelineItem>
           )
         })}

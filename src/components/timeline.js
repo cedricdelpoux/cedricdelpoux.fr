@@ -1,11 +1,12 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import "react-vertical-timeline-component/style.min.css"
+
 import {ThemeContext} from "css-system"
 import React, {useContext} from "react"
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component"
-import "react-vertical-timeline-component/style.min.css"
+
 import {View} from "./view"
 
 export const TimelineItem = ({icon, date, children}) => {
@@ -15,6 +16,8 @@ export const TimelineItem = ({icon, date, children}) => {
       as={VerticalTimelineElement}
       css={{
         display: "block",
+        my: 2,
+        mx: 0,
         "& .vertical-timeline-element-content": {
           display: "flex",
           flexDirection: "column",
@@ -32,9 +35,6 @@ export const TimelineItem = ({icon, date, children}) => {
           "& svg": {
             m: 0,
             transform: "translate(-50%, -50%)",
-            "& path:first-child": {
-              fill: "url(#svg-gradient)",
-            },
           },
           "&::before, &::after": {
             content: '""',
@@ -59,7 +59,7 @@ export const TimelineItem = ({icon, date, children}) => {
         },
       }}
       date={date}
-      icon={<FontAwesomeIcon icon={icon} />}
+      icon={icon}
     >
       {children}
     </View>
