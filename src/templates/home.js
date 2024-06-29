@@ -470,7 +470,7 @@ export const pageQuery = graphql`
       ...PaperVideoFragment
     }
     youtubeCyclingPyrenees: youtubeVideo(
-      title: {eq: "Ma traversée des Pyrénées en vélo"}
+      title: {eq: "Ma traversée des Pyrénées à vélo"}
     ) {
       id
       ...PaperVideoFragment
