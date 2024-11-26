@@ -68,8 +68,8 @@ const Home = ({
     climbs,
     stories,
     countries,
-    youtubeCyclingPyrenees,
-    youtubeBretagne,
+    sportYoutube,
+    travelYoutube,
     sportAlbum,
   },
   pageContext: {locale},
@@ -188,7 +188,7 @@ const Home = ({
             }}
           >
             <PaperVideoCompact
-              {...youtubeCyclingPyrenees}
+              {...sportYoutube}
               css={{
                 height: {_: "auto", m: 140},
                 width: {_: 335, s: 350, m: "auto"},
@@ -352,7 +352,7 @@ const Home = ({
           }}
         >
           <Text css={{textAlign: "justify"}}>{text3}</Text>
-          <PaperVideoCompact {...youtubeBretagne} />
+          <PaperVideoCompact {...travelYoutube} />
           <View css={{flexDirection: "row", justifyContent: "center", gap: 2}}>
             <Button
               as={Link}
@@ -465,13 +465,11 @@ export const pageQuery = graphql`
         ...PaperCountryFragment
       }
     }
-    youtubeBretagne: youtubeVideo(title: {eq: "Le tour de la Bretagne"}) {
+    travelYoutube: youtubeVideo(id: {eq: "7QH5Cih_BBU"}) {
       id
       ...PaperVideoFragment
     }
-    youtubeCyclingPyrenees: youtubeVideo(
-      title: {eq: "Ma traversée des Pyrénées à vélo"}
-    ) {
+    sportYoutube: youtubeVideo(id: {eq: "eWLtXALpskQ"}) {
       id
       ...PaperVideoFragment
     }
