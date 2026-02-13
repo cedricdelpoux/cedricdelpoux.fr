@@ -1,15 +1,14 @@
-import {graphql} from "gatsby"
-import React from "react"
-
 import {Flag} from "../components/flag"
 import {Html} from "../components/html"
+import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperCountry} from "../components/paper-country"
 import {PaperPhoto} from "../components/paper-photo"
 import {PaperPost} from "../components/paper-post"
 import {PaperStory} from "../components/paper-story"
 import {PaperVideo} from "../components/paper-video"
-import {LayoutPage} from "../layouts/page"
+import React from "react"
+import {graphql} from "gatsby"
 
 const TravelCountry = ({
   pageContext: {country},
@@ -21,7 +20,7 @@ const TravelCountry = ({
     regions,
     story,
     posts,
-    album,
+    photos,
     videos,
   },
 }) => {
@@ -40,12 +39,12 @@ const TravelCountry = ({
           videos.nodes
             .filter((node) => !node.region)
             .map((node) => <PaperVideo key={node.id} {...node} />)}
-        {album?.photos &&
-          album.photos.length > 0 &&
-          album.photos.map((node) => (
+        {photos?.nodes &&
+          photos.nodes.length > 0 &&
+          photos.nodes.map((node) => (
             <PaperPhoto
               key={node.id}
-              photo={node.file}
+              photo={node}
               alt={`${country} photo ${node.id}`}
             />
           ))}
@@ -74,7 +73,7 @@ export const pageQuery = graphql`
         country: {eq: $country}
         region: {ne: null}
       }
-      sort: {fields: album___latestDate, order: DESC}
+      sort: {fields: fields___lastVisitDate, order: DESC}
     ) {
       nodes {
         id
@@ -113,14 +112,18 @@ export const pageQuery = graphql`
         ...PaperPostFragment
       }
     }
-    album: googlePhotosAlbum(country: {eq: $country}, region: {eq: null}) {
-      photos {
-        id
-        file {
-          childImageSharp {
-            gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
-          }
+    photos: allCloudinaryMedia(
+      filter: {
+        fields: {
+          category: {eq: "travel"}
+          country: {eq: $country}
+          region: {eq: null}
         }
+      }
+    ) {
+      nodes {
+        id
+        ...PaperPhotoFragment
       }
     }
   }

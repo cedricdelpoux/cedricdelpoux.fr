@@ -1,13 +1,12 @@
-import {graphql} from "gatsby"
-import React from "react"
-
 import {Flag} from "../components/flag"
+import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperPhoto} from "../components/paper-photo"
 import {PaperPost} from "../components/paper-post"
 import {PaperStory} from "../components/paper-story"
 import {PaperVideo} from "../components/paper-video"
-import {LayoutPage} from "../layouts/page"
+import React from "react"
+import {graphql} from "gatsby"
 
 const TravelRegion = ({
   pageContext: {country, region},
@@ -16,7 +15,7 @@ const TravelRegion = ({
       name: title,
       childMdx: {body, excerpt},
     },
-    album,
+    photos,
     posts,
     story,
     videos,
@@ -30,12 +29,12 @@ const TravelRegion = ({
         {videos &&
           videos.nodes.length > 0 &&
           videos.nodes.map((node) => <PaperVideo key={node.id} {...node} />)}
-        {album?.photos &&
-          album.photos.length > 0 &&
-          album.photos.map((node) => (
+        {photos?.nodes &&
+          photos.nodes.length > 0 &&
+          photos.nodes.map((node) => (
             <PaperPhoto
               key={node.id}
-              photo={node.file}
+              photo={node}
               alt={`${region} photo ${node.id}`}
             />
           ))}
@@ -93,14 +92,18 @@ export const pageQuery = graphql`
         ...PaperVideoFragment
       }
     }
-    album: googlePhotosAlbum(country: {eq: $country}, region: {eq: $region}) {
-      photos {
-        id
-        file {
-          childImageSharp {
-            gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
-          }
+    photos: allCloudinaryMedia(
+      filter: {
+        fields: {
+          category: {eq: "travel"}
+          country: {eq: $country}
+          region: {eq: $region}
         }
+      }
+    ) {
+      nodes {
+        id
+        ...PaperPhotoFragment
       }
     }
   }

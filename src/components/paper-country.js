@@ -1,19 +1,25 @@
-import {faCalendar, faFilm, faImages} from "@fortawesome/pro-light-svg-icons"
-import {graphql} from "gatsby"
 import {GatsbyImage, getImage} from "gatsby-plugin-image"
-import React from "react"
+import {Paper, PaperMetadata} from "./paper"
+import {
+  faCalendar,
+  faFilm,
+  faImages,
+  faRoute,
+} from "@fortawesome/pro-light-svg-icons"
 
 import {Flag} from "./flag"
-import {Paper, PaperMetadata} from "./paper"
+import React from "react"
 import {Text} from "./text"
 import {Title} from "./title"
 import {View} from "./view"
+import {graphql} from "gatsby"
 
 export const PaperCountry = ({
   name,
   country,
-  album,
   videos,
+  photos,
+  fields: {photosCount, relativeDate, polyline},
   slug,
   ...props
 }) => (
@@ -24,18 +30,19 @@ export const PaperCountry = ({
     {country && <Flag country={country} css={{alignSelf: "center"}} />}
     <PaperMetadata
       items={[
-        album && {
+        relativeDate && {
           icon: faCalendar,
-          label: album.relativeDate,
+          label: relativeDate,
         },
-        {icon: faImages, label: album?.photos?.length || 0},
+        polyline && {icon: faRoute, label: 1},
+        {icon: faImages, label: photosCount},
         {icon: faFilm, label: videos?.length || 0},
       ]}
     />
-    {album?.cover && (
+    {photos?.length > 0 && (
       <View
         as={GatsbyImage}
-        image={getImage(album.cover.file)}
+        image={getImage(photos[0])}
         alt={`${country} cover`}
         css={{mb: -3}}
       />
@@ -46,16 +53,17 @@ export const PaperCountry = ({
 export const PaperCountryCompact = ({
   name,
   country,
-  album,
+  photos,
+  fields: {photosCount, relativeDate},
   videos,
   slug,
   ...props
 }) => (
   <Paper to={slug} css={{flexDirection: "row", p: 0}} {...props}>
-    {album?.cover && (
+    {photos?.length > 0 && (
       <View
         as={GatsbyImage}
-        image={getImage(album.cover.file)}
+        image={getImage(photos[0])}
         alt={`${country} cover`}
         css={{height: "75px", width: "130px"}}
       />
@@ -67,11 +75,11 @@ export const PaperCountryCompact = ({
       </View>
       <PaperMetadata
         items={[
-          album && {
+          relativeDate && {
             icon: faCalendar,
-            label: album.relativeDate,
+            label: relativeDate,
           },
-          {icon: faImages, label: album?.photos?.length || 0},
+          {icon: faImages, label: photosCount || 0},
           {icon: faFilm, label: videos?.length || 0},
         ]}
         css={{p: 0, justifyContent: "start"}}
@@ -85,20 +93,16 @@ export const query = graphql`
     name
     slug
     country
-    album {
-      relativeDate: latestDate(fromNow: true, locale: $locale)
-      cover {
-        file {
-          childImageSharp {
-            gatsbyImageData(width: 500, placeholder: BLURRED)
-          }
-        }
-      }
-      photos {
-        id
-      }
-    }
     videos {
+      id
+    }
+    fields {
+      photosCount
+      relativeDate: lastVisitDate(fromNow: true, locale: $locale)
+      polyline
+    }
+    photos {
+      gatsbyImageData(width: 500, placeholder: BLURRED)
       id
     }
   }

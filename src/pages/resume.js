@@ -1,19 +1,18 @@
-import {faAt, faBrowser, faPhone} from "@fortawesome/pro-light-svg-icons"
-import {graphql} from "gatsby"
-import {GatsbyImage, getImage} from "gatsby-plugin-image"
 import React, {useContext, useMemo} from "react"
+import {faAt, faBrowser, faPhone} from "@fortawesome/pro-light-svg-icons"
 
 import {Icon} from "../components/icon"
 import {Link} from "../components/link"
+import {StaticImage} from "gatsby-plugin-image"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {graphql} from "gatsby"
 
 var {ThemeContext, useGlobalCss} = require("css-system")
 
 const PageResume = ({
   data: {
-    avatar,
     githubData: {
       data: {
         viewer: {resumeGist},
@@ -24,12 +23,12 @@ const PageResume = ({
   const theme = useContext(ThemeContext)
 
   useGlobalCss({
+    html: {
+      background: "white",
+    },
     body: {
-      width: "100%",
-      height: "100%",
       m: 0,
       p: 0,
-      backgroundColor: "#FAFAFA",
       fontFamily: "Quicksand",
     },
 
@@ -46,30 +45,31 @@ const PageResume = ({
       cursor: "pointer",
       textDecoration: "none",
     },
-    // "@page": {
-    //   size: "A4",
-    //   margin: 0,
-    // },
-    // "@media print": {
-    //   body: {
-    //     background: "black",
-    //     "-webkit-print-color-adjust": "exact !important",
-    //     // margin: "0",
-    //     // p: 0,
-    //     // border: "initial",
-    //     // borderRadius: "initial",
-    //     // width: "initial",
-    //     // minHeight: "initial",
-    //     // boxShadow: "initial",
-    //     // background: "initial",
-    //     // pageBreakAfter: "always",
-    //   },
+    "@media print": {
+      "@page": {
+        size: "A4",
+        // margin: 0,
+        // padding: 0,
+      },
+      // body: {
+      //   "-webkit-print-color-adjust": "exact !important",
+      //   margin: "0",
+      //   p: 0,
+      //   border: "initial",
+      //   borderRadius: "initial",
+      //   width: "initial",
+      //   minHeight: "initial",
+      //   boxShadow: "initial",
+      //   background: "initial",
+      //   pageBreakAfter: "always",
+      // },
 
-    //   "html, body": {
-    //     width: "210mm",
-    //     height: "297mm",
-    //   },
-    // },
+      // "html, body": {
+      //   width: "210mm",
+      //   height: "297mm",
+      //   padding: 0,
+      // },
+    },
   })
   const jsonResume = useMemo(
     () => JSON.parse(resumeGist.files[0].text),
@@ -108,40 +108,42 @@ const PageResume = ({
             borderRadius: 0,
           }}
         >
-          {avatar && (
-            <View
-              css={{
-                alignSelf: "flex-end",
-                width: "160px",
-                mx: "24px",
-                position: "relative",
-                "&::before": {
-                  content: '""',
-                  position: "absolute",
-                  background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 15%, ${theme.colors.primary} 100%)`,
-                  borderRadius: "50%",
-                  width: "130%",
-                  paddingBottom: "130%",
-                  bottom: "-11%",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  clipPath: "polygon(0 0, 100% 0, 100% 85%, 0 85%)",
-                },
-                "&::after": {
-                  content: '""',
-                  position: "absolute",
-                  background: "#fff",
-                  width: "130%",
-                  bottom: 0,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  height: "3px",
-                },
-              }}
-            >
-              <GatsbyImage image={getImage(avatar.file)} alt="Resume avatar" />
-            </View>
-          )}
+          <View
+            css={{
+              alignSelf: "flex-end",
+              width: "160px",
+              mx: "24px",
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                background: `linear-gradient(to right, ${theme.colors.secondary} 0%, ${theme.colors.secondary} 15%, ${theme.colors.primary} 100%)`,
+                borderRadius: "50%",
+                width: "130%",
+                paddingBottom: "130%",
+                bottom: "-12%",
+                left: "50%",
+                transform: "translateX(-50%)",
+                clipPath: "polygon(0 0, 100% 0, 100% 85%, 0 85%)",
+              },
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                background: "#fff",
+                width: "130%",
+                bottom: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                height: "3px",
+              },
+            }}
+          >
+            <StaticImage
+              src={"../assets/cedric-delpoux.png"}
+              alt="Cédric Delpoux"
+              placeholder="blurred"
+            />
+          </View>
           <Personal jsonResume={jsonResume} />
         </View>
         <View
@@ -397,16 +399,6 @@ export default PageResume
 
 export const pageQuery = graphql`
   query ResumeQuery {
-    avatar: googlePhotosPhoto(
-      description: {eq: "Cédric Delpoux sur fond transparent"}
-    ) {
-      description
-      file {
-        childImageSharp {
-          gatsbyImageData(width: 200, layout: FIXED, placeholder: BLURRED)
-        }
-      }
-    }
     githubData {
       data {
         viewer {

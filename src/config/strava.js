@@ -129,8 +129,8 @@ exports.stravaOptions = {
       process.env.MINIMAL &&
       new Date(
         new Date().getFullYear(),
-        new Date().getMonth() - 12,
-        new Date().getDate()
+        new Date().getMonth(),
+        new Date().getDate() - 1
       ).getTime() / 1000,
     extend: ({activity}) => transformStravaActivity(activity),
   },

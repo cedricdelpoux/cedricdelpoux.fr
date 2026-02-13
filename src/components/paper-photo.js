@@ -1,8 +1,8 @@
-import {graphql} from "gatsby"
 import {GatsbyImage, getImage} from "gatsby-plugin-image"
-import React from "react"
-
 import {Paper, PaperIcon} from "./paper"
+
+import React from "react"
+import {graphql} from "gatsby"
 
 export const PaperPhoto = ({photo, alt, css, icon, ...props}) => {
   return (
@@ -31,13 +31,8 @@ export const PaperPhoto = ({photo, alt, css, icon, ...props}) => {
 }
 
 export const query = graphql`
-  fragment PaperPhotoFragment on GooglePhotosPhoto {
+  fragment PaperPhotoFragment on CloudinaryMedia {
     id
-    description
-    file {
-      childImageSharp {
-        gatsbyImageData(layout: FULL_WIDTH, placeholder: BLURRED)
-      }
-    }
+    gatsbyImageData(placeholder: BLURRED)
   }
 `

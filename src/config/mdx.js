@@ -1,7 +1,21 @@
 exports.mdxOptions = {
+  // a workaround to solve mdx-remark plugin compat issue
+  // https://github.com/gatsbyjs/gatsby/issues/15486
+  plugins: ["gatsby-remark-images", "gatsby-remark-images-medium-zoom"],
   gatsbyRemarkPlugins: [
     "gatsby-remark-unwrap-images",
     "gatsby-remark-copy-linked-files",
+    {
+      resolve: "gatsby-remark-images",
+      options: {
+        showCaptions: true,
+        withWebp: true,
+        maxWidth: 1600,
+        quality: 80,
+        linkImagesToOriginal: false, // Important for gatsby-remark-images-medium-zoom
+        wrapperStyle: "overflow:hidden; width:100%;",
+      },
+    },
     "gatsby-remark-images-medium-zoom",
     {
       resolve: "gatsby-remark-strava",
@@ -48,17 +62,6 @@ exports.mdxOptions = {
       resolve: "gatsby-remark-youtube",
       options: {
         debug: process.env.YOUTUBE_DEBUG,
-      },
-    },
-    {
-      resolve: "gatsby-remark-images",
-      options: {
-        showCaptions: true,
-        withWebp: true,
-        maxWidth: 1600,
-        quality: 80,
-        linkImagesToOriginal: false, // Important for gatsby-remark-images-medium-zoom
-        wrapperStyle: "overflow:hidden; width:100%;",
       },
     },
     // {

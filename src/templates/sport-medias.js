@@ -1,13 +1,12 @@
-import {faStrava} from "@fortawesome/free-brands-svg-icons"
-import {graphql} from "gatsby"
-import React from "react"
-import {useMemo} from "react"
-
+import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperPhoto} from "../components/paper-photo"
 import {PaperVideo} from "../components/paper-video"
-import {LayoutPage} from "../layouts/page"
+import React from "react"
+import {faStrava} from "@fortawesome/free-brands-svg-icons"
 import {getStravaActivityUrl} from "../utils/strava"
+import {graphql} from "gatsby"
+import {useMemo} from "react"
 
 const SportMedias = ({
   data: {
@@ -15,7 +14,7 @@ const SportMedias = ({
       name: title,
       childMdx: {body, excerpt},
     },
-    album,
+    photos,
     videos,
   },
 }) => {
@@ -25,13 +24,13 @@ const SportMedias = ({
       date: new Date(node.recordingDetails.recordingDate),
       node,
     }))
-    const photosItems = album?.photos.map((node) => ({
+    const photosItems = photos?.nodes.map((node) => ({
       type: "photo",
-      date: new Date(node.mediaMetadata.creationTime),
+      date: new Date(node.created_at),
       node,
     }))
     return [...photosItems, ...videosItems].sort((a, b) => b.date - a.date)
-  }, [album, videos])
+  }, [photos, videos])
   return (
     <LayoutPage
       title={title}
@@ -46,7 +45,7 @@ const SportMedias = ({
               return (
                 <PaperPhoto
                   key={node.id}
-                  photo={node.file}
+                  photo={node}
                   alt={node.description || `Sport photo ${node.id}`}
                   to={
                     node.stravaID
@@ -88,13 +87,11 @@ export const pageQuery = graphql`
         ...PaperVideoFragment
       }
     }
-    album: googlePhotosAlbum(category: {eq: "sport"}) {
-      photos {
+    photos: allCloudinaryMedia(filter: {fields: {category: {eq: "sport"}}}) {
+      nodes {
+        id
+        created_at
         ...PaperPhotoFragment
-        mediaMetadata {
-          creationTime
-        }
-        stravaID
       }
     }
   }

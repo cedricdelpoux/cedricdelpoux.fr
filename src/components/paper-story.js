@@ -1,26 +1,26 @@
+import {Paper, PaperIcon, PaperMetadata} from "./paper"
 import {
   faCalendar,
   faHourglassStart,
   faRoute,
 } from "@fortawesome/pro-light-svg-icons"
-import {graphql} from "gatsby"
-import React from "react"
 
-import {useMapbox} from "../hooks/use-mapbox"
 import {Flag} from "./flag"
-import {Paper, PaperIcon, PaperMetadata} from "./paper"
+import React from "react"
 import {Text} from "./text"
 import {Title} from "./title"
 import {View} from "./view"
+import {graphql} from "gatsby"
+import {useMapbox} from "../hooks/use-mapbox"
 
 export const PaperStory = ({
   country,
   flag,
   name,
-  polyline,
   relativeDate,
   slug,
   content,
+  fields: {polyline},
   ...props
 }) => {
   const mapUrl = useMapbox({polyline, width: 320, height: 320})
@@ -60,10 +60,10 @@ export const PaperStory = ({
 export const PaperStoryCompact = ({
   country,
   name,
-  polyline,
   relativeDate,
   slug,
   content,
+  fields: {polyline},
   ...props
 }) => {
   const mapUrl = useMapbox({polyline, width: 130, height: 75})
@@ -102,7 +102,9 @@ export const query = graphql`
     slug
     country
     name
-    polyline
+    fields {
+      polyline
+    }
     relativeDate: date(fromNow: true, locale: $locale)
     content: childMdx {
       timeToRead

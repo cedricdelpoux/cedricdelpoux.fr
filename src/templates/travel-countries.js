@@ -1,9 +1,8 @@
-import {graphql} from "gatsby"
-import React from "react"
-
+import {LayoutPage} from "../layouts/page"
 import {Masonry} from "../components/masonry"
 import {PaperCountry} from "../components/paper-country"
-import {LayoutPage} from "../layouts/page"
+import React from "react"
+import {graphql} from "gatsby"
 
 const TravelCountries = ({
   data: {
@@ -37,8 +36,12 @@ export const pageQuery = graphql`
       }
     }
     countries: allGoogleDocs(
-      filter: {locale: {eq: $locale}, template: {eq: "travel-country"}}
-      sort: {fields: album___latestDate, order: DESC}
+      filter: {
+        locale: {eq: $locale}
+        template: {eq: "travel-country"}
+        fields: {photosCount: {gt: 0}}
+      }
+      sort: {fields: fields___lastVisitDate, order: DESC}
     ) {
       nodes {
         id

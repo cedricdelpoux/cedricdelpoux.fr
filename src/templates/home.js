@@ -1,3 +1,4 @@
+import React, {useContext} from "react"
 import {
   faAddressCard,
   faBriefcase,
@@ -11,17 +12,15 @@ import {
   faPhotoFilm,
   faRoute,
 } from "@fortawesome/pro-light-svg-icons"
-import {ThemeContext} from "css-system"
-import {graphql} from "gatsby"
-import React, {useContext} from "react"
-import {FormattedMessage} from "react-intl"
 
 import {AnimationCode} from "../components/animation-code"
 import {AnimationSport} from "../components/animation-sport"
 import {AnimationTravel} from "../components/animation-travel"
 import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
+import {FormattedMessage} from "react-intl"
 import {Html} from "../components/html"
+import {LayoutPage} from "../layouts/page"
 import {Link} from "../components/link"
 import {ListNumber} from "../components/list-number"
 import {PaperActivityCompact} from "../components/paper-activity"
@@ -32,11 +31,12 @@ import {PaperVideoCompact} from "../components/paper-video"
 import {Slideshow} from "../components/slideshow"
 import {SportTilesMap} from "../components/sport-tiles-map"
 import {Text} from "../components/text"
+import {ThemeContext} from "css-system"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {useMenu} from "../hooks/use-menu"
-import {LayoutPage} from "../layouts/page"
 import {getStravaActivityUrl} from "../utils/strava"
+import {graphql} from "gatsby"
+import {useMenu} from "../hooks/use-menu"
 
 const HomeTitle = ({css, children, ...props}) => (
   <Title
@@ -70,7 +70,7 @@ const Home = ({
     countries,
     sportYoutube,
     travelYoutube,
-    sportAlbum,
+    sportPhotos,
   },
   pageContext: {locale},
 }) => {
@@ -195,7 +195,7 @@ const Home = ({
                 aspectRatio: "16 / 9",
               }}
             />
-            {sportAlbum?.photos?.length > 0 && (
+            {sportPhotos?.nodes?.length > 0 && (
               <Slideshow
                 spaceBetween={theme.space[2]}
                 breakpoints={{
@@ -213,10 +213,10 @@ const Home = ({
                   overflow: "hidden",
                 }}
               >
-                {sportAlbum?.photos.map((node) => (
+                {sportPhotos?.nodes.map((node) => (
                   <PaperPhoto
                     key={node.id}
-                    photo={node.file}
+                    photo={node}
                     alt={`Sport photo ${node.id}`}
                     css={{
                       width: {_: 335, s: 350, m: "auto"},
@@ -455,9 +455,9 @@ export const pageQuery = graphql`
       filter: {
         locale: {eq: $locale}
         template: {eq: "travel-country"}
-        album: {id: {ne: null}}
+        fields: {photosCount: {gt: 0}}
       }
-      sort: {fields: album___latestDate, order: DESC}
+      sort: {fields: fields___lastVisitDate, order: DESC}
       limit: 3
     ) {
       nodes {
@@ -473,8 +473,10 @@ export const pageQuery = graphql`
       id
       ...PaperVideoFragment
     }
-    sportAlbum: googlePhotosAlbum(category: {eq: "sport"}) {
-      photos {
+    sportPhotos: allCloudinaryMedia(
+      filter: {fields: {category: {eq: "sport"}}}
+    ) {
+      nodes {
         id
         ...PaperPhotoFragment
       }
