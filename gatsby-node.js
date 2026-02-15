@@ -140,7 +140,7 @@ exports.createSchemaCustomization = ({actions}) => {
 }
 
 exports.onCreatePage = ({page}) => {
-  if (page.path.match(/^\/resume/)) {
+  if (page.path.match(/^\/resume/) || page.path.match(/^\/tiles/)) {
     page.context.layout = "blank"
   }
 }

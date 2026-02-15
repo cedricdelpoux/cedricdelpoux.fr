@@ -1,4 +1,5 @@
 import {Layer, Source} from "@urbica/react-map-gl"
+
 import React from "react"
 
 const feature = (coods) => ({
@@ -23,8 +24,9 @@ export const SportTilesMapLayer = ({id, tiles, color}) => (
       source={id}
       paint={{
         "fill-color": color,
-        "fill-opacity": 0.2,
+        "fill-opacity": 0.3,
       }}
+      before="departments-border"
     />
     <Layer
       id={`${id}_borders`}
@@ -32,9 +34,10 @@ export const SportTilesMapLayer = ({id, tiles, color}) => (
       source={id}
       paint={{
         "line-color": color,
-        "line-width": 2,
-        "line-opacity": 0.2,
+        "line-width": 1,
+        "line-opacity": 0.3,
       }}
+      before="departments-border"
     />
   </>
 )

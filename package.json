@@ -59,7 +59,7 @@
     "gatsby-transformer-remark": "^5.13.0",
     "gatsby-transformer-sharp": "^4.13.0",
     "intersection-observer": "^0.12.2",
-    "mapbox-gl": "^1.13.0",
+    "mapbox-gl": "^3.18.1",
     "prismjs": "^1.28.0",
     "react": "^18.2.0",
     "react-aria-offcanvas": "^1.4.3",

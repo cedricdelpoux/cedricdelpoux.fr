@@ -1,52 +1,40 @@
-import {useSwitchTheme} from "@css-system/gatsby-plugin-css-system"
 import MapGL, {
   Filter,
   FullscreenControl,
   LanguageControl,
   Layer,
+  MapContext,
   NavigationControl,
   Popup,
   ScaleControl,
   Source,
 } from "@urbica/react-map-gl"
-import {ThemeContext, useCss} from "css-system"
-import React, {useContext, useState} from "react"
-import {useMemo} from "react"
-import {useIntl} from "react-intl"
+import React, {useState} from "react"
 
 import {SportTableActivities} from "./sport-table-activities"
 import {SportTilesMapLayer} from "./sport-tiles-map-layer"
 import {View} from "./view"
+import {useCss} from "css-system"
+import {useIntl} from "react-intl"
 
 export const SportTilesMap = ({
   css,
   activities,
   statsHunters,
-  type,
+  type = "all",
   showActivities = false,
   showTiles = false,
   withControls = false,
+  initialZoom = 7.3,
 }) => {
   const intl = useIntl()
-  const theme = useContext(ThemeContext)
-  const [themeKey] = useSwitchTheme()
   const [mapLoaded, setMapLoaded] = useState(false)
   const [results, setResults] = useState(null)
   const [viewState, setViewState] = useState({
-    zoom: 7,
-    longitude: 1.183142,
-    latitude: 43.708,
+    zoom: initialZoom,
+    longitude: 1.343,
+    latitude: 43.711,
   })
-
-  const mapboxStyle = useMemo(
-    () =>
-      `xuopled/${
-        themeKey === "light"
-          ? "ckhj9ux1x2w7x19odqmtxccea"
-          : "ckhjauub03fyd19otcjzj5qnw"
-      }`,
-    [themeKey]
-  )
 
   return (
     <View
@@ -67,19 +55,30 @@ export const SportTilesMap = ({
           width: "100%",
           height: "100%",
         }}
-        mapStyle={`mapbox://styles/${mapboxStyle}`}
+        mapStyle="mapbox://styles/xuopled/cmlopmwg2009x01skbjqg7urz"
         accessToken={process.env.GATSBY_MAPBOX_TOKEN}
         latitude={viewState.latitude}
         longitude={viewState.longitude}
         zoom={viewState.zoom}
         onViewportChange={
-          withControls ? (viewport) => setViewState(viewport) : null
+          withControls
+            ? (viewport) => {
+                setViewState(viewport)
+              }
+            : null
         }
         attributionControl={false}
-        onLoad={() => {
-          setMapLoaded(true)
-        }}
+        onLoad={() => setMapLoaded(true)}
       >
+        <MapContext.Consumer>
+          {(map) => {
+            // map.moveLayer("mapbox-terrain-rgb", "water")
+            // map.moveLayer("grass", "water")
+            // map.moveLayer("poi-label", "contour")
+            console.log("map", map.getStyle().layers)
+            return
+          }}
+        </MapContext.Consumer>
         <LanguageControl language={intl.locale} />
 
         {withControls && (
@@ -95,17 +94,17 @@ export const SportTilesMap = ({
             <SportTilesMapLayer
               id="square"
               tiles={statsHunters.square}
-              color={theme.colors.primary}
+              color="#428cf4"
             />
             <SportTilesMapLayer
               id="cluster"
               tiles={statsHunters.cluster}
-              color={theme.colors.primary}
+              color="#2ca57e"
             />
             <SportTilesMapLayer
               id="tiles"
               tiles={statsHunters.tiles}
-              color={theme.colors.secondary}
+              color="#ff0000"
             />
           </>
         )}
@@ -148,10 +147,11 @@ export const SportTilesMap = ({
                 "line-cap": "round",
               }}
               paint={{
-                "line-color": theme.colors.secondary,
-                "line-width": 3,
-                "line-opacity": 0.3,
+                "line-color": "#2ca57e",
+                "line-width": 1,
+                "line-opacity": 1,
               }}
+              before="departments-border"
             />
             {type !== "all" && (
               <Filter layerId="activites" filter={["==", "type", type]} />

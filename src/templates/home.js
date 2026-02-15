@@ -265,14 +265,15 @@ const Home = ({
       <View
         css={{
           position: "relative",
-          height: "600px",
           width: "100%",
+          aspectRatio: "16 / 10",
         }}
       >
         <SportTilesMap
           activities={activities}
           statsHunters={statsHunters}
           showTiles={true}
+          initialZoom={6.5}
         />
         <Button
           as={Link}

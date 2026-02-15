@@ -1,12 +1,12 @@
-import {graphql} from "gatsby"
 import React, {useState} from "react"
-import {useIntl} from "react-intl"
 
 import {Checkbox} from "../components/checkbox"
+import {LayoutPage} from "../layouts/page"
 import {Select} from "../components/select"
 import {SportTilesMap} from "../components/sport-tiles-map"
 import {View} from "../components/view"
-import {LayoutPage} from "../layouts/page"
+import {graphql} from "gatsby"
+import {useIntl} from "react-intl"
 
 const SportMap = ({
   data: {
@@ -86,7 +86,7 @@ const SportMap = ({
           showTiles={showTiles}
           type={type}
           withControls={true}
-          css={{height: "80vh"}}
+          css={{aspectRatio: "20 / 10"}}
         />
       </View>
     </LayoutPage>
