@@ -27,6 +27,7 @@ import {
   cloudinarySourceOptions,
   cloudinaryTransformerOptions,
 } from "./src/config/cloudinary.js"
+import {rehypeStrava} from "./src/plugins/rehype-strava.js"
 
 const config = {
   trailingSlash: "never",
@@ -57,6 +58,11 @@ const config = {
           // ~~strikethrough~~ gatsby-source-google-docs generates are
           // rendered as raw text.
           remarkPlugins: [remarkGfm],
+          // gatsby-plugin-mdx turns every gatsby-remark-* plugin's `html`
+          // output into inert dangerouslySetInnerHTML content, which
+          // breaks gatsby-remark-strava's `<strava />` embed tag. Restore
+          // it as a real JSX element so MDXProvider can render it.
+          rehypePlugins: [rehypeStrava],
         },
       },
     },
