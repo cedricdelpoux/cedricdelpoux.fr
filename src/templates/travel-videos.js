@@ -8,14 +8,15 @@ import {LayoutPage} from "../layouts/page"
 const TravelVideos = ({
   data: {
     videos,
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
   },
+  children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <Masonry>
         {videos.nodes
           .filter((node) => !node.region)
@@ -30,17 +31,16 @@ const TravelVideos = ({
 export default TravelVideos
 
 export const pageQuery = graphql`
-  query TravelVideos($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query TravelVideos($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     videos: allYoutubeVideo(
       filter: {tags: {in: "travel"}}
-      sort: {fields: statistics___viewCount, order: DESC}
+      sort: {statistics: {viewCount: DESC}}
     ) {
       nodes {
         id

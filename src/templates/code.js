@@ -7,19 +7,20 @@ import {LayoutPage} from "../layouts/page"
 
 const Code = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     projects,
   },
+  children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       {projects?.nodes.length > 0 && (
         <Grid>
           {projects.nodes.map((project) => (
-            <PaperProject key={project.slug} project={project} />
+            <PaperProject key={project.id} project={project} />
           ))}
         </Grid>
       )}
@@ -30,20 +31,19 @@ const Code = ({
 export default Code
 
 export const pageQuery = graphql`
-  query Code($path: String!, $locale: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query Code($slug: String!, $locale: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
-    projects: allGoogleDocs(
-      sort: {fields: date, order: DESC}
-      filter: {type: {eq: "project"}, locale: {eq: $locale}}
+    projects: allMdx(
+      sort: {frontmatter: {date: DESC}}
+      filter: {frontmatter: {type: {eq: "project"}, locale: {eq: $locale}}}
     ) {
       nodes {
-        slug
+        id
         ...PaperProjectFragment
       }
     }

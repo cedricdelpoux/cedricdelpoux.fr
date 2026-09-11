@@ -11,20 +11,20 @@ export const SportStatsMonth = ({month}) => {
     query SportMonthChartQuery {
       allStravaActivity(
         filter: {type: {in: ["Run", "Ride", "VirtualRide"]}}
-        sort: {fields: [start_date], order: ASC}
+        sort: {start_date: ASC}
       ) {
-        group(field: date_year_month) {
+        group(field: {date_year_month: SELECT}) {
           month: fieldValue
-          total_elevation: sum(field: total_elevation_gain)
-          total_time: sum(field: elapsed_time)
-          total_distance: sum(field: distance)
-          group(field: date_day) {
+          total_elevation: sum(field: {total_elevation_gain: SELECT})
+          total_time: sum(field: {elapsed_time: SELECT})
+          total_distance: sum(field: {distance: SELECT})
+          group(field: {date_day: SELECT}) {
             day: fieldValue
-            group(field: type) {
+            group(field: {type: SELECT}) {
               sport: fieldValue
-              elevation: sum(field: total_elevation_gain)
-              time: sum(field: elapsed_time)
-              distance: sum(field: distance)
+              elevation: sum(field: {total_elevation_gain: SELECT})
+              time: sum(field: {elapsed_time: SELECT})
+              distance: sum(field: {distance: SELECT})
               activities: nodes {
                 id
                 date
@@ -37,11 +37,11 @@ export const SportStatsMonth = ({month}) => {
               }
             }
           }
-          totals: group(field: type) {
+          totals: group(field: {type: SELECT}) {
             sport: fieldValue
-            elevation: sum(field: total_elevation_gain)
-            time: sum(field: elapsed_time)
-            distance: sum(field: distance)
+            elevation: sum(field: {total_elevation_gain: SELECT})
+            time: sum(field: {elapsed_time: SELECT})
+            distance: sum(field: {distance: SELECT})
           }
         }
       }

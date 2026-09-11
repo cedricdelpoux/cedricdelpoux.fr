@@ -7,14 +7,15 @@ import {graphql} from "gatsby"
 const TravelCountries = ({
   data: {
     countries,
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
   },
+  children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <Masonry>
         {countries.nodes.map((node) => (
           <PaperCountry key={node.id} {...node} />
@@ -27,21 +28,19 @@ const TravelCountries = ({
 export default TravelCountries
 
 export const pageQuery = graphql`
-  query TravelCountries($path: String!, $locale: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query TravelCountries($slug: String!, $locale: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
-    countries: allGoogleDocs(
+    countries: allMdx(
       filter: {
-        locale: {eq: $locale}
-        template: {eq: "travel-country"}
+        frontmatter: {locale: {eq: $locale}, template: {eq: "travel-country"}}
         fields: {photosCount: {gt: 0}}
       }
-      sort: {fields: fields___lastVisitDate, order: DESC}
+      sort: {fields: {lastVisitDate: DESC}}
     ) {
       nodes {
         id

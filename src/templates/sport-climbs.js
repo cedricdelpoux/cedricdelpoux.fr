@@ -14,16 +14,17 @@ import {getStravaActivityUrl} from "../utils/strava"
 
 const SportClimbs = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     climbs,
   },
   pageContext: {locale},
+  children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <Table>
         <thead>
           <tr>
@@ -97,15 +98,14 @@ const SportClimbs = ({
 export default SportClimbs
 
 export const pageQuery = graphql`
-  query SportClimbs($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query SportClimbs($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
-    climbs: allClimbsJson(sort: {fields: difficulty, order: DESC}, limit: 10) {
+    climbs: allClimbsJson(sort: {difficulty: DESC}, limit: 10) {
       nodes {
         name
         category

@@ -57,11 +57,9 @@ const HomeTitle = ({css, children, ...props}) => (
 
 const Home = ({
   data: {
-    googleDocs: {
-      childMdx: {body, excerpt},
-      text1,
-      text2,
-      text3,
+    mdx: {
+      excerpt,
+      frontmatter: {text1, text2, text3},
     },
     activities,
     statsHunters,
@@ -73,6 +71,7 @@ const Home = ({
     sportPhotos,
   },
   pageContext: {locale},
+  children,
 }) => {
   const theme = useContext(ThemeContext)
   const menu = useMenu(locale)
@@ -102,7 +101,7 @@ const Home = ({
           text={menu.items.about.name}
         />
       </View>
-      <Html body={body} css={{textAlign: "center"}} />
+      <Html body={children} css={{textAlign: "center"}} />
 
       <HomeTitle as="h2">
         <FormattedMessage id="home.developer" />
@@ -404,25 +403,21 @@ const Home = ({
 export default Home
 
 export const pageQuery = graphql`
-  query Home($path: String!, $locale: String!) {
-    googleDocs(slug: {eq: $path}) {
-      childMdx {
-        body
-        excerpt
-        headings {
-          value
-        }
+  query Home($slug: String!, $locale: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        text1
+        text2
+        text3
       }
-      text1
-      text2
-      text3
     }
     activities: allStravaActivity(
       filter: {
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [distance], order: DESC}
+      sort: {distance: DESC}
       limit: 3
     ) {
       nodes {
@@ -435,16 +430,18 @@ export const pageQuery = graphql`
       tiles
       cluster
     }
-    climbs: allClimbsJson(sort: {fields: difficulty, order: DESC}, limit: 10) {
+    climbs: allClimbsJson(sort: {difficulty: DESC}, limit: 10) {
       nodes {
         id
         name
         strava_id
       }
     }
-    stories: allGoogleDocs(
-      sort: {fields: date, order: DESC}
-      filter: {template: {eq: "travel-story"}, locale: {eq: $locale}}
+    stories: allMdx(
+      sort: {frontmatter: {date: DESC}}
+      filter: {
+        frontmatter: {template: {eq: "travel-story"}, locale: {eq: $locale}}
+      }
       limit: 3
     ) {
       nodes {
@@ -452,13 +449,12 @@ export const pageQuery = graphql`
         ...PaperStoryFragment
       }
     }
-    countries: allGoogleDocs(
+    countries: allMdx(
       filter: {
-        locale: {eq: $locale}
-        template: {eq: "travel-country"}
+        frontmatter: {locale: {eq: $locale}, template: {eq: "travel-country"}}
         fields: {photosCount: {gt: 0}}
       }
-      sort: {fields: fields___lastVisitDate, order: DESC}
+      sort: {fields: {lastVisitDate: DESC}}
       limit: 3
     ) {
       nodes {

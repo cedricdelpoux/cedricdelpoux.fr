@@ -1,7 +1,4 @@
 exports.mdxOptions = {
-  // a workaround to solve mdx-remark plugin compat issue
-  // https://github.com/gatsbyjs/gatsby/issues/15486
-  plugins: ["gatsby-remark-images", "gatsby-remark-images-medium-zoom"],
   gatsbyRemarkPlugins: [
     "gatsby-remark-unwrap-images",
     "gatsby-remark-copy-linked-files",

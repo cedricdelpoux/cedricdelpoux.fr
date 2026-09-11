@@ -9,14 +9,15 @@ import {LayoutPage} from "../layouts/page"
 
 const CodeOpenSource = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     githubData: {
       data: {viewer: githubViewer},
     },
   },
+  children,
 }) => {
   const starsCount = useMemo(() => {
     return githubViewer.repositories.nodes.reduce(
@@ -28,7 +29,7 @@ const CodeOpenSource = ({
     <LayoutPage
       title={title}
       description={excerpt}
-      body={body}
+      body={children}
       metadata={[
         {
           icon: faGithub,
@@ -56,12 +57,11 @@ const CodeOpenSource = ({
 export default CodeOpenSource
 
 export const pageQuery = graphql`
-  query CodeOpenSource($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query CodeOpenSource($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     githubData {

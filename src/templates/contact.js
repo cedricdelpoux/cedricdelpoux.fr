@@ -63,12 +63,13 @@ const encode = (data) =>
 
 const Contact = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
   },
   pageContext: {locale},
+  children,
 }) => {
   const menu = useMenu(locale)
   const location = useLocation()
@@ -94,7 +95,7 @@ const Contact = ({
   )
 
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <View
         as={animated.form}
         method="post"
@@ -145,12 +146,11 @@ const Contact = ({
 export default Contact
 
 export const pageQuery = graphql`
-  query Contact($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query Contact($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
   }

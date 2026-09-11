@@ -1,5 +1,4 @@
 import {ThemeContext} from "css-system"
-import {MDXRenderer} from "gatsby-plugin-mdx"
 import React, {useContext} from "react"
 
 import {tableCss} from "./table"
@@ -85,7 +84,7 @@ export const Html = ({body, css, ...props}) => {
       }}
       {...props}
     >
-      <MDXRenderer>{body}</MDXRenderer>
+      {body}
     </View>
   )
 }

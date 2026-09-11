@@ -10,13 +10,14 @@ import {useIntl} from "react-intl"
 
 const SportMap = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     activities,
     statsHunters,
   },
+  children,
 }) => {
   const intl = useIntl()
   const [type, setType] = useState("all")
@@ -27,7 +28,7 @@ const SportMap = ({
   return (
     <LayoutPage
       title={title}
-      body={body}
+      body={children}
       description={excerpt}
       css={{
         maxWidth: "100%",
@@ -96,11 +97,11 @@ const SportMap = ({
 export default SportMap
 
 export const pageQuery = graphql`
-  query SportMap($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        excerpt
+  query SportMap($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     activities: allStravaActivity(
@@ -109,7 +110,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [start_date], order: DESC}
+      sort: {start_date: DESC}
     ) {
       nodes {
         type

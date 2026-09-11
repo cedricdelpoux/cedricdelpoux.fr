@@ -5,24 +5,24 @@ import {LayoutPage} from "../layouts/page"
 
 const Page = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
   },
+  children,
 }) => {
-  return <LayoutPage title={title} description={excerpt} body={body} />
+  return <LayoutPage title={title} description={excerpt} body={children} />
 }
 
 export default Page
 
 export const pageQuery = graphql`
-  query Page($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query Page($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
   }

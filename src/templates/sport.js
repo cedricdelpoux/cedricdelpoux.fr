@@ -14,9 +14,9 @@ import {LayoutPage} from "../layouts/page"
 
 const Sport = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     fastestRuns,
     fastestRides,
@@ -26,6 +26,7 @@ const Sport = ({
     latestRides,
   },
   pageContext: {locale},
+  children,
 }) => {
   const menu = useMenu(locale)
   const [sport, setSport] = useState("Run")
@@ -42,7 +43,7 @@ const Sport = ({
     [sport]
   )
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <SwitcherSport onChange={setSport} css={{alignSelf: "center"}} />
       <Title as="h2">
         <FormattedMessage id={`sport.types.${sport.toLowerCase()}`} />
@@ -81,12 +82,11 @@ const Sport = ({
 export default Sport
 
 export const pageQuery = graphql`
-  query Sport($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query Sport($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     latestRuns: allStravaActivity(
@@ -95,7 +95,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [start_date], order: DESC}
+      sort: {start_date: DESC}
       limit: 1
     ) {
       nodes {
@@ -108,7 +108,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [start_date], order: DESC}
+      sort: {start_date: DESC}
       limit: 1
     ) {
       nodes {
@@ -121,7 +121,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [average_speed], order: DESC}
+      sort: {average_speed: DESC}
       limit: 1
     ) {
       nodes {
@@ -134,7 +134,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [average_speed], order: DESC}
+      sort: {average_speed: DESC}
       limit: 1
     ) {
       nodes {
@@ -147,7 +147,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [distance], order: DESC}
+      sort: {distance: DESC}
       limit: 1
     ) {
       nodes {
@@ -160,7 +160,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [distance], order: DESC}
+      sort: {distance: DESC}
       limit: 1
     ) {
       nodes {

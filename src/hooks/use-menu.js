@@ -4,38 +4,45 @@ import {useMemo} from "react"
 export const useMenu = (locale = "fr") => {
   const data = useStaticQuery(graphql`
     query MenuQuery {
-      fr: allGoogleDocs(
-        filter: {locale: {eq: "fr"}, menu: {eq: true}}
-        sort: {fields: order}
+      fr: allMdx(
+        filter: {frontmatter: {locale: {eq: "fr"}, menu: {eq: true}}}
+        sort: {frontmatter: {order: ASC}}
       ) {
         nodes {
-          name
-          type
-          template
-          category
-          index
-          slug
+          frontmatter {
+            name
+            type
+            template
+            category
+            index
+            slug
+            order
+          }
         }
       }
-      en: allGoogleDocs(
-        filter: {locale: {eq: "en"}, menu: {eq: true}}
-        sort: {fields: order}
+      en: allMdx(
+        filter: {frontmatter: {locale: {eq: "en"}, menu: {eq: true}}}
+        sort: {frontmatter: {order: ASC}}
       ) {
         nodes {
-          name
-          type
-          template
-          category
-          index
-          slug
+          frontmatter {
+            name
+            type
+            template
+            category
+            index
+            slug
+            order
+          }
         }
       }
     }
   `)
 
   const menu = useMemo(() => {
-    const rawItems = data[locale].nodes.filter((item) => !item.category)
-    const categoryItems = data[locale].nodes.filter((item) => item.category)
+    const items = data[locale].nodes.map((node) => node.frontmatter)
+    const rawItems = items.filter((item) => !item.category)
+    const categoryItems = items.filter((item) => item.category)
     return {
       items: rawItems.reduce(
         (acc, item) => ({

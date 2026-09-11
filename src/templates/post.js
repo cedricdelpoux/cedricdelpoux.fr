@@ -26,14 +26,14 @@ const ReactDisqusComments = Loadable(() => import("react-disqus-comments"))
 
 const Post = ({
   data: {
-    googleDocs: {
-      date,
-      name: title,
-      cover,
-      childMdx: {excerpt, timeToRead, body},
+    mdx: {
+      excerpt,
+      timeToRead,
+      frontmatter: {date, name: title, cover},
     },
   },
   location,
+  children,
 }) => {
   return (
     <LayoutPage
@@ -49,7 +49,7 @@ const Post = ({
         <meta property="og:type" content="article" />
       </Helmet>
       {/*<Toc tableOfContents={tableOfContents} />*/}
-      <Html body={body} />
+      <Html body={children} />
       {location && (
         <>
           <Title
@@ -114,21 +114,20 @@ const Post = ({
 export default Post
 
 export const pageQuery = graphql`
-  query Post($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      date(formatString: "Do MMMM YYYY", locale: "fr")
-      cover {
-        image {
-          childImageSharp {
-            gatsbyImageData(width: 1000)
+  query Post($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      timeToRead
+      frontmatter {
+        name
+        date(formatString: "Do MMMM YYYY", locale: "fr")
+        cover {
+          image {
+            childImageSharp {
+              gatsbyImageData(width: 1000)
+            }
           }
         }
-      }
-      childMdx {
-        body
-        timeToRead
-        excerpt
       }
     }
   }

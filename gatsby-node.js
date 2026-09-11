@@ -1,4 +1,4 @@
-const {buildObjectType} = require("gatsby/graphql")
+const readingTime = require("reading-time")
 
 const countryData = {}
 
@@ -20,22 +20,35 @@ exports.onCreateNode = async ({node, cache, actions: {createNodeField}}) => {
     }
   }
 
-  if (node.internal.type === "GoogleDocs") {
-    if (node.region) {
-      const photos = await cache.get("photos-" + node.region)
-      const videos = await cache.get("videos-" + node.region)
-      const data = countryData[node.country]?.regions[node.region] || {}
+  // Since gatsby-source-google-docs v3 the documents are written as files and
+  // reach Gatsby as `Mdx` nodes, with their metadata under `frontmatter`.
+  if (node.internal.type === "Mdx") {
+    // gatsby-plugin-mdx v4 dropped `timeToRead`, it is up to the site now
+    createNodeField({
+      node,
+      name: "timeToRead",
+      value: readingTime(node.body || ""),
+    })
+  }
+
+  if (node.internal.type === "Mdx" && node.frontmatter) {
+    const {country, region} = node.frontmatter
+
+    if (region) {
+      const photos = await cache.get("photos-" + region)
+      const videos = await cache.get("videos-" + region)
+      const data = countryData[country]?.regions[region] || {}
 
       createNodeField({node, name: "photosIds", value: photos})
       createNodeField({node, name: "videosIds", value: videos})
       createNodeField({node, name: "photosCount", value: data.photosCount || 0})
       createNodeField({node, name: "lastVisitDate", value: data.lastVisitDate})
-    } else if (node.country) {
-      const photos = await cache.get("photos-" + node.country)
-      const videos = await cache.get("videos-" + node.country)
-      const data = countryData[node.country] || {}
-      const polyline = await cache.get("polyline-" + node.country)
-      const map = await cache.get("mymaps-" + node.country)
+    } else if (country) {
+      const photos = await cache.get("photos-" + country)
+      const videos = await cache.get("videos-" + country)
+      const data = countryData[country] || {}
+      const polyline = await cache.get("polyline-" + country)
+      const map = await cache.get("mymaps-" + country)
 
       createNodeField({node, name: "photosIds", value: photos})
       createNodeField({node, name: "videosIds", value: videos})
@@ -108,11 +121,11 @@ exports.createSchemaCustomization = ({actions}) => {
   const {createTypes} = actions
 
   createTypes(`
-    type GoogleDocs implements Node {
-      id: ID!
+    type Mdx implements Node {
       map: GoogleMyMaps @link(from: "fields.mapId")
       photos: [CloudinaryMedia] @link(from: "fields.photosIds")
       videos: [YoutubeVideo] @link(from: "fields.videosIds")
+      timeToRead: Float @proxy(from: "fields.timeToRead.minutes")
     }
   `)
 

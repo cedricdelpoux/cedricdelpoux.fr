@@ -12,12 +12,13 @@ import {LayoutPage} from "../layouts/page"
 
 const Travel = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
   },
   pageContext: {locale},
+  children,
 }) => {
   const menu = useMenu(locale)
   return (
@@ -25,7 +26,7 @@ const Travel = ({
       <View css={{width: 680, alignSelf: "center"}}>
         <AnimationTravel />
       </View>
-      <Html body={body} />
+      <Html body={children} />
       <View css={{alignSelf: "center"}}>
         <Button
           as={Link}
@@ -40,12 +41,11 @@ const Travel = ({
 export default Travel
 
 export const pageQuery = graphql`
-  query Travel($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query Travel($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
   }

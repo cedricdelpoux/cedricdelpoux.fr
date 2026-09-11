@@ -14,12 +14,9 @@ import {graphql} from "gatsby"
 import {useMapbox} from "../hooks/use-mapbox"
 
 export const PaperStory = ({
-  country,
   flag,
-  name,
-  relativeDate,
-  slug,
-  content,
+  timeToRead,
+  frontmatter: {country, name, relativeDate, slug},
   fields: {polyline},
   ...props
 }) => {
@@ -38,7 +35,7 @@ export const PaperStory = ({
           },
           {
             icon: faHourglassStart,
-            label: content.timeToRead + " min",
+            label: timeToRead + " min",
           },
         ]}
       />
@@ -58,11 +55,8 @@ export const PaperStory = ({
 }
 
 export const PaperStoryCompact = ({
-  country,
-  name,
-  relativeDate,
-  slug,
-  content,
+  timeToRead,
+  frontmatter: {country, name, relativeDate, slug},
   fields: {polyline},
   ...props
 }) => {
@@ -87,7 +81,7 @@ export const PaperStoryCompact = ({
             },
             {
               icon: faHourglassStart,
-              label: content.timeToRead + " min",
+              label: timeToRead + " min",
             },
           ]}
           css={{p: 0, justifyContent: "start"}}
@@ -98,16 +92,16 @@ export const PaperStoryCompact = ({
 }
 
 export const query = graphql`
-  fragment PaperStoryFragment on GoogleDocs {
-    slug
-    country
-    name
+  fragment PaperStoryFragment on Mdx {
+    timeToRead
     fields {
       polyline
     }
-    relativeDate: date(fromNow: true, locale: $locale)
-    content: childMdx {
-      timeToRead
+    frontmatter {
+      slug
+      country
+      name
+      relativeDate: date(fromNow: true, locale: $locale)
     }
   }
 `

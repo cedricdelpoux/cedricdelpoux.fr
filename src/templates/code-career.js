@@ -17,9 +17,9 @@ import {getWorkCompanyLogo} from "../utils/work"
 
 const CodeCareer = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     githubData: {
       data: {
@@ -28,6 +28,7 @@ const CodeCareer = ({
     },
   },
   pageContext: {locale},
+  children,
 }) => {
   const resume = useMemo(() => {
     const resumes = {
@@ -38,11 +39,10 @@ const CodeCareer = ({
   }, [locale, resumeGist])
 
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <Timeline>
         {resume.work.map((work) => {
           const logo = getWorkCompanyLogo(work.company)
-          console.log("logo", logo)
           return (
             <TimelineItem
               key={`${work.company}-${work.startDate}`}
@@ -155,12 +155,11 @@ const CodeCareer = ({
 export default CodeCareer
 
 export const pageQuery = graphql`
-  query CodeCareer($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query CodeCareer($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     githubData {

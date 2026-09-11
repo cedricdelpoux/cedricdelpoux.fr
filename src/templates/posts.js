@@ -7,22 +7,23 @@ import {LayoutPage} from "../layouts/page"
 
 const Posts = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     posts,
   },
+  children,
 }) => {
   const sortedPosts = posts.nodes.sort((a, b) =>
-    b.dateUS.localeCompare(a.dateUS)
+    b.frontmatter.dateUS.localeCompare(a.frontmatter.dateUS)
   )
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       {sortedPosts && sortedPosts.length > 0 && (
         <Grid>
           {sortedPosts.map((post) => (
-            <PaperPost key={post.slug} post={post} />
+            <PaperPost key={post.id} post={post} />
           ))}
         </Grid>
       )}
@@ -33,25 +34,28 @@ const Posts = ({
 export default Posts
 
 export const pageQuery = graphql`
-  query Posts($path: String!, $locale: String!, $category: String) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query Posts($slug: String!, $locale: String!, $category: String) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
-    posts: allGoogleDocs(
-      sort: {fields: date, order: DESC}
+    posts: allMdx(
+      sort: {frontmatter: {date: DESC}}
       filter: {
-        template: {eq: "post"}
-        locale: {eq: $locale}
-        category: {eq: $category}
+        frontmatter: {
+          template: {eq: "post"}
+          locale: {eq: $locale}
+          category: {eq: $category}
+        }
       }
     ) {
       nodes {
-        slug
-        dateUS: date(formatString: "YYYY-MM-DD")
+        id
+        frontmatter {
+          dateUS: date(formatString: "YYYY-MM-DD")
+        }
         ...PaperPostFragment
       }
     }

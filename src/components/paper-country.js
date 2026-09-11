@@ -15,12 +15,10 @@ import {View} from "./view"
 import {graphql} from "gatsby"
 
 export const PaperCountry = ({
-  name,
-  country,
   videos,
   photos,
   fields: {photosCount, relativeDate, polyline},
-  slug,
+  frontmatter: {name, country, slug},
   ...props
 }) => (
   <Paper to={slug} css={{px: 0, gap: 3}} {...props}>
@@ -51,12 +49,10 @@ export const PaperCountry = ({
 )
 
 export const PaperCountryCompact = ({
-  name,
-  country,
   photos,
   fields: {photosCount, relativeDate},
   videos,
-  slug,
+  frontmatter: {name, country, slug},
   ...props
 }) => (
   <Paper to={slug} css={{flexDirection: "row", p: 0}} {...props}>
@@ -89,10 +85,12 @@ export const PaperCountryCompact = ({
 )
 
 export const query = graphql`
-  fragment PaperCountryFragment on GoogleDocs {
-    name
-    slug
-    country
+  fragment PaperCountryFragment on Mdx {
+    frontmatter {
+      name
+      slug
+      country
+    }
     videos {
       id
     }

@@ -8,14 +8,15 @@ import {LayoutPage} from "../layouts/page"
 const TravelStories = ({
   data: {
     stories,
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
   },
+  children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <Grid>
         {stories.nodes.map((node) => (
           <PaperStory key={node.id} {...node} flag />
@@ -28,17 +29,18 @@ const TravelStories = ({
 export default TravelStories
 
 export const pageQuery = graphql`
-  query TravelStories($path: String!, $locale: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query TravelStories($slug: String!, $locale: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
-    stories: allGoogleDocs(
-      sort: {fields: date, order: DESC}
-      filter: {template: {eq: "travel-story"}, locale: {eq: $locale}}
+    stories: allMdx(
+      sort: {frontmatter: {date: DESC}}
+      filter: {
+        frontmatter: {template: {eq: "travel-story"}, locale: {eq: $locale}}
+      }
     ) {
       nodes {
         id

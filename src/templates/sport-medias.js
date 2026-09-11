@@ -10,13 +10,14 @@ import {useMemo} from "react"
 
 const SportMedias = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     photos,
     videos,
   },
+  children,
 }) => {
   const masonryItems = useMemo(() => {
     const videosItems = videos.nodes.map((node) => ({
@@ -35,7 +36,7 @@ const SportMedias = ({
     <LayoutPage
       title={title}
       description={excerpt}
-      body={body}
+      body={children}
       css={{maxWidth: "100%"}}
     >
       <Masonry maxColumnsCount={4}>
@@ -67,17 +68,16 @@ const SportMedias = ({
 export default SportMedias
 
 export const pageQuery = graphql`
-  query SportMedias($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query SportMedias($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     videos: allYoutubeVideo(
       filter: {tags: {in: "sport"}}
-      sort: {fields: statistics___viewCount, order: DESC}
+      sort: {statistics: {viewCount: DESC}}
     ) {
       nodes {
         id

@@ -9,34 +9,42 @@ import {WorldMap} from "./world-map"
 export const AnimationTravel = ({...props}) => {
   const data = useStaticQuery(graphql`
     query WorldAnimatedQueryQuery {
-      countries: allGoogleDocs(
+      countries: allMdx(
         filter: {
-          index: {eq: true}
-          country: {ne: null}
-          region: {eq: null}
-          locale: {eq: "fr"}
+          frontmatter: {
+            index: {eq: true}
+            country: {ne: null}
+            region: {eq: null}
+            locale: {eq: "fr"}
+          }
         }
       ) {
         nodes {
-          slug
-          name
-          country
-          flag: country
+          frontmatter {
+            slug
+            name
+            country
+            flag: country
+          }
         }
       }
-      regions: allGoogleDocs(
+      regions: allMdx(
         filter: {
-          index: {eq: true}
-          region: {ne: null}
-          showOnMap: {eq: true}
-          locale: {eq: "fr"}
+          frontmatter: {
+            index: {eq: true}
+            region: {ne: null}
+            showOnMap: {eq: true}
+            locale: {eq: "fr"}
+          }
         }
       ) {
         nodes {
-          slug
-          name
-          country: region
-          flag: country
+          frontmatter {
+            slug
+            name
+            country: region
+            flag: country
+          }
         }
       }
     }
@@ -44,13 +52,15 @@ export const AnimationTravel = ({...props}) => {
 
   const countries = useMemo(
     () =>
-      [...data.countries.nodes, ...data.regions.nodes].reduce(
-        (acc, {slug, name, country, flag}) => ({
-          ...acc,
-          [country]: {slug, name, flag},
-        }),
-        {}
-      ),
+      [...data.countries.nodes, ...data.regions.nodes]
+        .map((node) => node.frontmatter)
+        .reduce(
+          (acc, {slug, name, country, flag}) => ({
+            ...acc,
+            [country]: {slug, name, flag},
+          }),
+          {}
+        ),
     [data]
   )
 

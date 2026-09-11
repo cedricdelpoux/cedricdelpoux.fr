@@ -13,9 +13,9 @@ import {graphql} from "gatsby"
 const TravelCountry = ({
   pageContext: {country},
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     regions,
     story,
@@ -23,16 +23,24 @@ const TravelCountry = ({
     photos,
     videos,
   },
+  children,
 }) => {
   return (
     <LayoutPage title={title} description={excerpt}>
       <Flag country={country} css={{alignSelf: "center"}} />
-      <Html body={body} />
+      <Html body={children} />
       <Masonry>
-        {story && <PaperStory key={story.slug} {...story} />}
+        {story && <PaperStory key={story.frontmatter.slug} {...story} />}
         {regions.nodes.length > 0 &&
           regions.nodes.map((node) => (
-            <PaperCountry key={node.id} {...node} country={node.region} />
+            <PaperCountry
+              key={node.id}
+              {...node}
+              frontmatter={{
+                ...node.frontmatter,
+                country: node.frontmatter.region,
+              }}
+            />
           ))}
         {videos &&
           videos.nodes.length > 0 &&
@@ -50,7 +58,9 @@ const TravelCountry = ({
           ))}
         {posts &&
           posts.nodes.length > 0 &&
-          posts.nodes.map((node) => <PaperPost key={node.slug} post={node} />)}
+          posts.nodes.map((node) => (
+            <PaperPost key={node.frontmatter.slug} post={node} />
+          ))}
       </Masonry>
     </LayoutPage>
   )
@@ -59,31 +69,34 @@ const TravelCountry = ({
 export default TravelCountry
 
 export const pageQuery = graphql`
-  query TravelCountry($path: String!, $country: String!, $locale: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query TravelCountry($slug: String!, $country: String!, $locale: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
-    regions: allGoogleDocs(
+    regions: allMdx(
       filter: {
-        locale: {eq: $locale}
-        country: {eq: $country}
-        region: {ne: null}
+        frontmatter: {
+          locale: {eq: $locale}
+          country: {eq: $country}
+          region: {ne: null}
+        }
       }
-      sort: {fields: fields___lastVisitDate, order: DESC}
+      sort: {fields: {lastVisitDate: DESC}}
     ) {
       nodes {
         id
-        region
+        frontmatter {
+          region
+        }
         ...PaperCountryFragment
       }
     }
     videos: allYoutubeVideo(
       filter: {country: {eq: $country}}
-      sort: {fields: statistics___viewCount, order: DESC}
+      sort: {statistics: {viewCount: DESC}}
     ) {
       nodes {
         id
@@ -91,24 +104,28 @@ export const pageQuery = graphql`
         ...PaperVideoFragment
       }
     }
-    story: googleDocs(
-      locale: {eq: $locale}
-      country: {eq: $country}
-      template: {eq: "travel-story"}
+    story: mdx(
+      frontmatter: {
+        locale: {eq: $locale}
+        country: {eq: $country}
+        template: {eq: "travel-story"}
+      }
     ) {
       ...PaperStoryFragment
     }
-    posts: allGoogleDocs(
-      sort: {fields: [date], order: DESC}
+    posts: allMdx(
+      sort: {frontmatter: {date: DESC}}
       filter: {
-        locale: {eq: $locale}
-        country: {eq: $country}
-        region: {eq: null}
-        template: {eq: "post"}
+        frontmatter: {
+          locale: {eq: $locale}
+          country: {eq: $country}
+          region: {eq: null}
+          template: {eq: "post"}
+        }
       }
     ) {
       nodes {
-        slug
+        id
         ...PaperPostFragment
       }
     }

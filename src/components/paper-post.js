@@ -9,11 +9,9 @@ import {View} from "./view"
 
 export const PaperPost = ({
   post: {
-    slug,
-    date,
-    name,
-    cover,
-    childMdx: {timeToRead, excerpt},
+    timeToRead,
+    excerpt,
+    frontmatter: {slug, date, name, cover},
   },
   ...props
 }) => {
@@ -45,20 +43,20 @@ export const PaperPost = ({
 }
 
 export const query = graphql`
-  fragment PaperPostFragment on GoogleDocs {
-    slug
-    name
-    date(formatString: "Do MMM YYYY", locale: $locale)
-    cover {
-      image {
-        childImageSharp {
-          gatsbyImageData(width: 500, placeholder: BLURRED)
+  fragment PaperPostFragment on Mdx {
+    excerpt
+    timeToRead
+    frontmatter {
+      slug
+      name
+      date(formatString: "Do MMM YYYY", locale: $locale)
+      cover {
+        image {
+          childImageSharp {
+            gatsbyImageData(width: 500, placeholder: BLURRED)
+          }
         }
       }
-    }
-    childMdx {
-      excerpt
-      timeToRead
     }
   }
 `

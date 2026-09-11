@@ -19,12 +19,13 @@ import {getColorsScale} from "../utils/colors"
 
 const TravelStory = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
       map: {route, points},
+      frontmatter: {name: title},
     },
   },
+  children,
 }) => {
   const theme = useContext(ThemeContext)
   useGlobalCss({
@@ -75,7 +76,7 @@ const TravelStory = ({
             gap: 3,
           }}
         >
-          <Html body={body} />
+          <Html body={children} />
         </View>
         <View
           css={{
@@ -179,8 +180,10 @@ export default TravelStory
 
 export const pageQuery = graphql`
   query TravelStory($country: String!) {
-    googleDocs(country: {eq: $country}, template: {eq: "travel-story"}) {
-      name
+    mdx(
+      frontmatter: {country: {eq: $country}, template: {eq: "travel-story"}}
+    ) {
+      excerpt
       map {
         route
         points {
@@ -189,9 +192,8 @@ export const pageQuery = graphql`
           routeIndex
         }
       }
-      childMdx {
-        body
-        excerpt
+      frontmatter {
+        name
       }
     }
   }

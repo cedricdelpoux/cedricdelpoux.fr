@@ -25,12 +25,13 @@ const COUNT_PER_PAGE = 9
 
 const SportActivities = ({
   data: {
-    googleDocs: {
-      name: title,
-      childMdx: {body, excerpt},
+    mdx: {
+      excerpt,
+      frontmatter: {name: title},
     },
     activities,
   },
+  children,
 }) => {
   const [activitiesCount, setActivitiesCount] = useState(COUNT_PER_PAGE)
   const [filterSport, setFilterSport] = useState("Run")
@@ -94,7 +95,7 @@ const SportActivities = ({
   }, [sportActivities, filterDistance, filterSpeed, filterSport])
 
   return (
-    <LayoutPage title={title} description={excerpt} body={body}>
+    <LayoutPage title={title} description={excerpt} body={children}>
       <View
         css={{
           flexDirection: {_: "column", s: "row"},
@@ -139,12 +140,11 @@ const SportActivities = ({
 export default SportActivities
 
 export const pageQuery = graphql`
-  query SportActivities($path: String!) {
-    googleDocs(slug: {eq: $path}) {
-      name
-      childMdx {
-        body
-        excerpt
+  query SportActivities($slug: String!) {
+    mdx(frontmatter: {slug: {eq: $slug}}) {
+      excerpt
+      frontmatter {
+        name
       }
     }
     activities: allStravaActivity(
@@ -153,7 +153,7 @@ export const pageQuery = graphql`
         map: {summary_polyline: {ne: null}}
         visibility: {eq: "everyone"}
       }
-      sort: {fields: [start_date], order: DESC}
+      sort: {start_date: DESC}
     ) {
       nodes {
         ...PaperActivityFragment
