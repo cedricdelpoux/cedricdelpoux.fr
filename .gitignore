@@ -1,8 +1,11 @@
 .cache
 .env
+.google-docs
 .netlify
+.strava
 .tags
 .yalc
+content/google-docs
 node_modules
 public
 report.*.json
