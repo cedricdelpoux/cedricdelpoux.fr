@@ -161,9 +161,11 @@ const Animated = ({children, animated, css}) => {
   return (
     <View css={css}>
       {childrenArray.map((child, i) =>
-        React.cloneElement(child, {
-          style: animations[i],
-        })
+        child.type === Helmet
+          ? child
+          : React.cloneElement(child, {
+              style: animations[i],
+            })
       )}
     </View>
   )
