@@ -3,7 +3,6 @@ import MapGL, {
   FullscreenControl,
   LanguageControl,
   Layer,
-  MapContext,
   NavigationControl,
   Popup,
   ScaleControl,
@@ -70,15 +69,6 @@ export const SportTilesMap = ({
         attributionControl={false}
         onLoad={() => setMapLoaded(true)}
       >
-        <MapContext.Consumer>
-          {(map) => {
-            // map.moveLayer("mapbox-terrain-rgb", "water")
-            // map.moveLayer("grass", "water")
-            // map.moveLayer("poi-label", "contour")
-            console.log("map", map.getStyle().layers)
-            return
-          }}
-        </MapContext.Consumer>
         <LanguageControl language={intl.locale} />
 
         {withControls && (
