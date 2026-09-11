@@ -24,7 +24,9 @@ export const Masonry = ({children, maxColumnsCount = 3, ...props}) => {
     >
       <ReactMasonry gutter={`${theme.space[2]}px`}>
         {React.Children.toArray(children).map((child, i) => (
-          <View key={i}>{child}</View>
+          <View key={i} css={{flex: 1, width: "100%"}}>
+            {child}
+          </View>
         ))}
       </ReactMasonry>
     </View>
