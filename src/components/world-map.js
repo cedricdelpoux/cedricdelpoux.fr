@@ -48,22 +48,7 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
       id="world"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1100 690"
-      css={{
-        "& path": {
-          zIndex: 0,
-          fill: theme.colors.backgroundLight,
-          stroke: theme.colors.background,
-          strokeWidth: 1,
-          paintOrder: "stroke",
-        },
-        ...Object.keys(countries).reduce((acc, country) => {
-          acc[`& [data-country="${country}"]`] = {
-            fill: "url(#svg-gradient)",
-          }
-          return acc
-        }, {}),
-        ...css,
-      }}
+      css={css}
       deps={[countries]}
     >
       <g id="countries">
@@ -75,6 +60,9 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
           fill={theme.colors.background}
         />
         {countriesData.map(({iso, code, name, d}) => {
+          // Presentation attributes are cloned by <use> below, unlike
+          // css-system's class-based rules which don't reach into its
+          // shadow tree — so fill/stroke must be set inline here.
           const path = (
             <path
               key={code}
@@ -82,6 +70,14 @@ export const WorldMap = ({css, countries = [], selectedCountry}) => {
               data-country={code}
               title={name}
               d={d}
+              style={{
+                fill: Object.keys(countries).includes(code)
+                  ? "url(#svg-gradient)"
+                  : theme.colors.backgroundLight,
+                stroke: theme.colors.background,
+                strokeWidth: 1,
+                paintOrder: "stroke",
+              }}
             />
           )
           return Object.keys(countries).includes(code) ? (
