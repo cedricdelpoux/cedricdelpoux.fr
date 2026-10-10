@@ -92,6 +92,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "netlify-cli": "^17.22.1",
+    "netlify-plugin-cache": "^1.0.3",
     "prettier": "^2.8.2"
   },
   "scripts": {
