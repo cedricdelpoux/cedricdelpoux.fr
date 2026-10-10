@@ -28,9 +28,12 @@ export const Html = ({body, css, ...props}) => {
           {
             borderRadius: 2,
           },
-        "& > [class^=gatsby-resp-image]": {
+        // gatsby-plugin-mdx wraps the html of gatsby-remark-images in a bare
+        // inline span, which the centered column shrinks to nothing
+        "& > span:has(> [class^=gatsby-resp-image])": {
+          width: "100%",
           maxWidth: 680,
-          "& > figcaption": {
+          "& figcaption": {
             mt: 1,
             textAlign: "center",
             fontStyle: "italic",
