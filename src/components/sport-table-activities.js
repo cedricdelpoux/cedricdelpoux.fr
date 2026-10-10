@@ -9,7 +9,14 @@ import {Icon} from "./icon"
 import {Link} from "./link"
 import {Table, TableButton, TableCell} from "./table"
 
-export const SportTableActivities = ({activities}) => {
+// `onActivityClick` makes the rows clickable, `selectedIds` highlights some
+// of them and `mutedIds` fades others
+export const SportTableActivities = ({
+  activities,
+  onActivityClick,
+  selectedIds,
+  mutedIds,
+}) => {
   return (
     <Table>
       <thead>
@@ -33,7 +40,17 @@ export const SportTableActivities = ({activities}) => {
       </thead>
       <tbody>
         {activities.map((activity) => (
-          <tr key={activity.id}>
+          <tr
+            key={activity.id}
+            onClick={
+              onActivityClick ? () => onActivityClick(activity.id) : undefined
+            }
+            style={{
+              cursor: onActivityClick ? "pointer" : undefined,
+              opacity: mutedIds?.has(activity.id) ? 0.5 : undefined,
+              fontWeight: selectedIds?.has(activity.id) ? "bold" : undefined,
+            }}
+          >
             <TableCell align="center">
               <Icon
                 icon={activity.type === "Ride" ? faBiking : faRunning}
@@ -55,6 +72,8 @@ export const SportTableActivities = ({activities}) => {
                 <TableButton
                   as={Link}
                   to={getStravaActivityUrl(activity.id)}
+                  // Opens Strava in a new tab without selecting the row
+                  onClick={(event) => event.stopPropagation()}
                   noArrow
                 >
                   <Icon icon={faStrava} css={{fontSize: 1}} />

@@ -1,4 +1,4 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect, useMemo, useState} from "react"
 import {
   faAddressCard,
   faBriefcase,
@@ -22,7 +22,9 @@ import {FormattedMessage} from "react-intl"
 import {Html} from "../components/html"
 import {LayoutPage} from "../layouts/page"
 import {Link} from "../components/link"
+import {MapTimeline} from "../components/map-timeline"
 import {ListNumber} from "../components/list-number"
+import {Paper} from "../components/paper"
 import {PaperActivityCompact} from "../components/paper-activity"
 import {PaperCountryCompact} from "../components/paper-country"
 import {PaperPhoto} from "../components/paper-photo"
@@ -34,9 +36,35 @@ import {Text} from "../components/text"
 import {ThemeContext} from "css-system"
 import {Title} from "../components/title"
 import {View} from "../components/view"
+import {fillMonthly, getMonthTilesLayers} from "../utils/tiles-layers"
 import {getStravaActivityUrl} from "../utils/strava"
 import {graphql} from "gatsby"
 import {useMenu} from "../hooks/use-menu"
+
+const toKm = (x) => Math.ceil(x * 1.609344)
+// Sparse early years make the loop mostly empty tiles for a long stretch --
+// starting the animated history here keeps it visually interesting
+const TILES_START_MONTH = "2019-01"
+
+// A swatch drawn like the matching map layer: a filled and outlined square,
+// or just its border
+const TilesLegend = ({color, bordered = false, children}) => (
+  <View css={{flexDirection: "row", alignItems: "center", gap: 1}}>
+    <View
+      css={{
+        flexShrink: 0,
+        width: 14,
+        height: 14,
+        borderRadius: "2px",
+      }}
+      style={{
+        border: `${bordered ? 2 : 1}px solid ${color}`,
+        background: bordered ? "transparent" : `${color}80`,
+      }}
+    />
+    <Text css={{fontSize: 1}}>{children}</Text>
+  </View>
+)
 
 const HomeTitle = ({css, children, ...props}) => (
   <Title
@@ -62,7 +90,7 @@ const Home = ({
       frontmatter: {text1, text2, text3},
     },
     activities,
-    statsHunters,
+    stravaAthlete: {tiles},
     climbs,
     stories,
     countries,
@@ -75,6 +103,38 @@ const Home = ({
 }) => {
   const theme = useContext(ThemeContext)
   const menu = useMenu(locale)
+
+  // Every month since TILES_START_MONTH, the empty ones included, so that
+  // the timeline's scale is regular
+  const monthly = useMemo(
+    () =>
+      fillMonthly(tiles.monthly).filter(
+        (month) => month.yearMonth >= TILES_START_MONTH
+      ),
+    [tiles.monthly]
+  )
+  const yearMonths = useMemo(
+    () => monthly.map((month) => month.yearMonth),
+    [monthly]
+  )
+  // Always playing, looping: a decorative "progress since day one" strip,
+  // not a player -- so the timeline can't be dragged, it advances on a timer
+  const STEP_DURATION_MS = 500
+  const [monthIndex, setMonthIndex] = useState(0)
+  useEffect(() => {
+    if (yearMonths.length === 0) return
+
+    const interval = setInterval(() => {
+      setMonthIndex((index) => (index < yearMonths.length - 1 ? index + 1 : 0))
+    }, STEP_DURATION_MS)
+    return () => clearInterval(interval)
+  }, [yearMonths])
+
+  const monthParts = monthly[monthIndex]?.parts
+  const tilesLayers = useMemo(
+    () => getMonthTilesLayers(theme, monthParts),
+    [monthParts, theme]
+  )
   return (
     <LayoutPage
       title="Cédric Delpoux"
@@ -261,31 +321,74 @@ const Home = ({
         </View>
       </View>
 
-      <View
-        css={{
-          position: "relative",
-          width: "100%",
-          aspectRatio: "16 / 10",
-        }}
-      >
-        <SportTilesMap
-          activities={activities}
-          statsHunters={statsHunters}
-          showTiles={true}
-          initialZoom={6.5}
-        />
-        <Button
-          as={Link}
-          to={menu.categories.sport.items[4].path}
-          icon={faMapLocationDot}
-          text={<FormattedMessage id="actions.see-more" />}
+      <MapTimeline yearMonths={yearMonths} index={monthIndex}>
+        <View
           css={{
-            position: "absolute",
-            bottom: {_: 1, s: 2},
-            right: {_: 1, s: 2},
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16 / 10",
+            borderRadius: "10px",
+            overflow: "hidden",
           }}
-        />
-      </View>
+        >
+          <SportTilesMap
+            layers={tilesLayers}
+            showTiles={true}
+            initialZoom={6.5}
+          />
+          {monthParts && (
+            <Paper
+              css={{
+                position: "absolute",
+                // Below, out of the way of the timeline's month at the top
+                bottom: {_: 1, s: 2},
+                left: {_: 1, s: 2},
+                whiteSpace: "nowrap",
+                gap: 1,
+                p: 2,
+              }}
+            >
+              <TilesLegend color={theme.colors.secondary}>
+                <FormattedMessage
+                  id="home.tiles.count"
+                  values={{
+                    count:
+                      monthParts.squareSize * monthParts.squareSize +
+                      monthParts.cluster.length +
+                      monthParts.rest.length,
+                  }}
+                />
+              </TilesLegend>
+              <TilesLegend color={theme.colors.primary}>
+                <FormattedMessage
+                  id="home.tiles.new"
+                  values={{count: monthParts.new.length}}
+                />
+              </TilesLegend>
+              <TilesLegend color={theme.colors.primary} bordered>
+                <FormattedMessage
+                  id="home.tiles.square"
+                  values={{
+                    size: monthParts.squareSize,
+                    km: toKm(monthParts.squareSize),
+                  }}
+                />
+              </TilesLegend>
+            </Paper>
+          )}
+          <Button
+            as={Link}
+            to={menu.categories.sport.items[4].path}
+            icon={faMapLocationDot}
+            text={<FormattedMessage id="actions.see-more" />}
+            css={{
+              position: "absolute",
+              bottom: {_: 1, s: 2},
+              right: {_: 1, s: 2},
+            }}
+          />
+        </View>
+      </MapTimeline>
 
       <View
         css={{
@@ -425,10 +528,31 @@ export const pageQuery = graphql`
         ...PaperActivityFragment
       }
     }
-    statsHunters {
-      square
-      tiles
-      cluster
+    stravaAthlete {
+      tiles {
+        monthly {
+          yearMonth
+          parts {
+            squareSize
+            square {
+              x
+              y
+            }
+            cluster {
+              x
+              y
+            }
+            rest {
+              x
+              y
+            }
+            new {
+              x
+              y
+            }
+          }
+        }
+      }
     }
     climbs: allClimbsJson(sort: {difficulty: DESC}, limit: 10) {
       nodes {

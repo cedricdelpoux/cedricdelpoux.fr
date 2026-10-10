@@ -1,12 +1,11 @@
-import React, {useState} from "react"
+import React, {useContext, useMemo, useState} from "react"
 
-import {Checkbox} from "../components/checkbox"
 import {LayoutPage} from "../layouts/page"
-import {Select} from "../components/select"
+import {MapTimeline} from "../components/map-timeline"
 import {SportTilesMap} from "../components/sport-tiles-map"
-import {View} from "../components/view"
+import {ThemeContext} from "css-system"
+import {fillMonthly, getMonthTilesLayers} from "../utils/tiles-layers"
 import {graphql} from "gatsby"
-import {useIntl} from "react-intl"
 
 const SportMap = ({
   data: {
@@ -15,15 +14,42 @@ const SportMap = ({
       frontmatter: {name: title},
     },
     activities,
-    statsHunters,
+    stravaAthlete: {tiles},
   },
   children,
 }) => {
-  const intl = useIntl()
-  const [type, setType] = useState("all")
+  const theme = useContext(ThemeContext)
 
-  const [showTiles, setShowTiles] = useState(true)
-  const [showActivities, setShowActivities] = useState(false)
+  // Every month from the first activity to the last one, the empty ones
+  // included, so that the timeline's scale is regular
+  const monthly = useMemo(() => fillMonthly(tiles.monthly), [tiles.monthly])
+  const yearMonths = useMemo(
+    () => monthly.map((month) => month.yearMonth),
+    [monthly]
+  )
+
+  const [monthIndex, setMonthIndex] = useState(
+    Math.max(0, yearMonths.length - 1)
+  )
+  const yearMonth = yearMonths[monthIndex]
+
+  const monthParts = monthly[monthIndex]?.parts
+  const tilesLayers = useMemo(
+    () => getMonthTilesLayers(theme, monthParts, {withActivities: true}),
+    [theme, monthParts]
+  )
+
+  const map = (
+    <SportTilesMap
+      activities={activities}
+      yearMonth={yearMonth}
+      layers={tilesLayers}
+      showActivities
+      showTiles
+      withControls={true}
+      css={{aspectRatio: "20 / 10"}}
+    />
+  )
 
   return (
     <LayoutPage
@@ -35,61 +61,17 @@ const SportMap = ({
         mb: 2,
       }}
     >
-      <View
-        css={{
-          flexDirection: {_: "column", s: "row"},
-          gap: 2,
-          alignSelf: "center",
-          alignItems: "center",
-        }}
-      >
-        <Checkbox
-          label={intl.formatMessage({
-            id: "sport.map.tiles",
-          })}
-          checked={showTiles}
-          onChange={setShowTiles}
-        />
-        <Checkbox
-          label={intl.formatMessage({
-            id: "sport.map.activities",
-          })}
-          checked={showActivities}
-          onChange={setShowActivities}
-        />
-        <Select
-          onChange={(e) => setType(e.target.value)}
-          value={type}
-          css={{ml: 0}}
+      {yearMonths.length > 0 ? (
+        <MapTimeline
+          yearMonths={yearMonths}
+          index={monthIndex}
+          onIndexChange={setMonthIndex}
         >
-          <option value="all">
-            {intl.formatMessage({
-              id: "sport.types.all",
-            })}
-          </option>
-          <option value="run">
-            {intl.formatMessage({
-              id: "sport.types.run",
-            })}
-          </option>
-          <option value="ride">
-            {intl.formatMessage({
-              id: "sport.types.ride",
-            })}
-          </option>
-        </Select>
-      </View>
-      <View>
-        <SportTilesMap
-          activities={activities}
-          statsHunters={statsHunters}
-          showActivities={showActivities}
-          showTiles={showTiles}
-          type={type}
-          withControls={true}
-          css={{aspectRatio: "20 / 10"}}
-        />
-      </View>
+          {map}
+        </MapTimeline>
+      ) : (
+        map
+      )}
     </LayoutPage>
   )
 }
@@ -113,21 +95,43 @@ export const pageQuery = graphql`
       sort: {start_date: DESC}
     ) {
       nodes {
-        type
-        map {
-          geoJSON {
-            type
+        date_year_month
+        declutter {
+          hidden
+          parts
+          stubs {
+            dashUntil
+            hideUntil
             coordinates
           }
         }
-        start_latlng
         ...SportTableActivityFragment
       }
     }
-    statsHunters {
-      square
-      tiles
-      cluster
+    stravaAthlete {
+      tiles {
+        monthly {
+          yearMonth
+          parts {
+            square {
+              x
+              y
+            }
+            cluster {
+              x
+              y
+            }
+            rest {
+              x
+              y
+            }
+            new {
+              x
+              y
+            }
+          }
+        }
+      }
     }
   }
 `

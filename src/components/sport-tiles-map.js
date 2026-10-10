@@ -1,34 +1,209 @@
 import MapGL, {
-  Filter,
   FullscreenControl,
   LanguageControl,
-  Layer,
   NavigationControl,
   Popup,
   ScaleControl,
-  Source,
 } from "@urbica/react-map-gl"
-import React, {useState} from "react"
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
+import {latToY, lngToX} from "gatsby-strava-tiles/utils/map"
 
+import {
+  SportActivitiesMapLayer,
+  SportTracksMapLayer,
+} from "./sport-activities-map-layer"
 import {SportTableActivities} from "./sport-table-activities"
 import {SportTilesMapLayer} from "./sport-tiles-map-layer"
+import {Button} from "./button"
+import {Text} from "./text"
 import {View} from "./view"
-import {useCss} from "css-system"
-import {useIntl} from "react-intl"
+import {withPrefix} from "gatsby"
+import {ThemeContext, useCss} from "css-system"
+import {FormattedMessage, useIntl} from "react-intl"
+
+const EMPTY = []
+
+// Loads the whole tracks of `ids`, kept for the next time (see the `tracks`
+// written by gatsby-node.js)
+const useTracks = (ids) => {
+  const cache = useRef({})
+  const [tracks, setTracks] = useState(EMPTY)
+
+  useEffect(() => {
+    setTracks(EMPTY)
+    if (ids.length === 0) return
+
+    let isCurrent = true
+    const loadTrack = (id) =>
+      cache.current[id] ||
+      (cache.current[id] = fetch(withPrefix(`/tracks/${id}.json`)).then(
+        (response) => response.json()
+      ))
+
+    Promise.all(ids.map(loadTrack))
+      .then((loaded) => isCurrent && setTracks(loaded))
+      .catch(() => {})
+
+    return () => {
+      isCurrent = false
+    }
+  }, [ids])
+
+  return tracks
+}
+
+// The ids of the activities going through each tile, hidden ones included,
+// loaded on the first right click (see gatsby-node.js)
+const useTileActivityIds = (tile) => {
+  const index = useRef(null)
+  const [ids, setIds] = useState(null)
+
+  useEffect(() => {
+    if (!tile) return
+
+    const key = `${tile.x}-${tile.y}`
+
+    if (index.current) {
+      setIds(index.current[key] || EMPTY)
+      return
+    }
+
+    let isCurrent = true
+    setIds(null)
+    fetch(withPrefix("/tile-activities.json"))
+      .then((response) => response.json())
+      .then((loaded) => {
+        index.current = loaded
+        if (isCurrent) setIds(loaded[key] || EMPTY)
+      })
+      .catch(() => isCurrent && setIds(EMPTY))
+
+    return () => {
+      isCurrent = false
+    }
+  }, [tile])
+
+  return ids
+}
 
 export const SportTilesMap = ({
   css,
   activities,
-  statsHunters,
-  type = "all",
+  tiles,
+  // Replaces the default square/cluster/rest/new layers, each item being the
+  // props of a `SportTilesMapLayer`
+  layers,
+  useOutlines = false,
+  // Shows the activities up to this month only, the ones of the month in
+  // blue over the earlier ones in green. Each activity needs its `declutter`.
+  yearMonth,
   showActivities = false,
   showTiles = false,
   withControls = false,
   initialZoom = 7.3,
 }) => {
   const intl = useIntl()
+  const theme = useContext(ThemeContext)
   const [mapLoaded, setMapLoaded] = useState(false)
+  // A left click on a track lists the activities under it, a right click
+  // anywhere lists the ones going through that tile, hidden ones included.
+  // Either way, the whole tracks of the listed activities are drawn.
   const [results, setResults] = useState(null)
+  const [selectedTile, setSelectedTile] = useState(null)
+  const [tileSelectedIds, setTileSelectedIds] = useState(EMPTY)
+  const [isShowingAll, setIsShowingAll] = useState(false)
+
+  // The popup looks the clicked activities up from the ids of the features
+  const activitiesById = useMemo(
+    () =>
+      new Map(
+        (activities?.nodes || []).map((activity) => [activity.id, activity])
+      ),
+    [activities]
+  )
+
+  const tileActivityIds = useTileActivityIds(selectedTile)
+  // In the order of `activities`, and only up to the month the map shows
+  const tileActivities = useMemo(() => {
+    if (!tileActivityIds) return null
+
+    const ids = new Set(tileActivityIds)
+
+    return (activities?.nodes || []).filter(
+      (activity) =>
+        ids.has(activity.id) &&
+        (!yearMonth || activity.date_year_month <= yearMonth)
+    )
+  }, [tileActivityIds, activities, yearMonth])
+  const hiddenIds = useMemo(
+    () =>
+      new Set(
+        (tileActivities || EMPTY)
+          .filter((activity) => activity.declutter?.hidden)
+          .map((activity) => activity.id)
+      ),
+    [tileActivities]
+  )
+
+  const trackIds = useMemo(() => {
+    if (selectedTile) {
+      return isShowingAll
+        ? (tileActivities || EMPTY).map((activity) => activity.id)
+        : tileSelectedIds
+    }
+
+    return results ? results.activities.map((activity) => activity.id) : EMPTY
+  }, [selectedTile, isShowingAll, tileActivities, tileSelectedIds, results])
+  const tracks = useTracks(trackIds)
+
+  const handleActivitiesClick = useCallback(
+    (e) => {
+      setSelectedTile(null)
+      setResults({
+        coordinates: {
+          latitude: e.lngLat.lat,
+          longitude: e.lngLat.lng,
+        },
+        activities: [
+          ...new Set(e.features.map(({properties}) => properties.id)),
+        ]
+          .map((id) => activitiesById.get(id))
+          .filter(Boolean)
+          .sort((a, b) => b.distance - a.distance)
+          .slice(0, 10),
+      })
+    },
+    [activitiesById]
+  )
+  const handleContextMenu = useCallback((e) => {
+    e.originalEvent.preventDefault()
+    setResults(null)
+    setTileSelectedIds(EMPTY)
+    setIsShowingAll(false)
+    setSelectedTile({
+      x: lngToX(e.lngLat.lng),
+      y: latToY(e.lngLat.lat),
+      lngLat: e.lngLat,
+    })
+  }, [])
+  const toggleTileActivity = useCallback((id) => {
+    setIsShowingAll(false)
+    setTileSelectedIds((ids) =>
+      ids.includes(id) ? ids.filter((other) => other !== id) : [...ids, id]
+    )
+  }, [])
+  const selectedTileTiles = useMemo(
+    () => (selectedTile ? [selectedTile] : EMPTY),
+    [selectedTile]
+  )
+
   const [viewState, setViewState] = useState({
     zoom: initialZoom,
     longitude: 1.343,
@@ -68,6 +243,7 @@ export const SportTilesMap = ({
         }
         attributionControl={false}
         onLoad={() => setMapLoaded(true)}
+        onContextmenu={showActivities ? handleContextMenu : undefined}
       >
         <LanguageControl language={intl.locale} />
 
@@ -79,74 +255,78 @@ export const SportTilesMap = ({
           </>
         )}
 
-        {showTiles && mapLoaded && (
+        {showTiles &&
+          mapLoaded &&
+          layers?.map((layer) => (
+            <SportTilesMapLayer key={layer.id} {...layer} />
+          ))}
+        {showTiles && mapLoaded && !layers && (
           <>
             <SportTilesMapLayer
               id="square"
-              tiles={statsHunters.square}
+              tiles={tiles.square}
+              outline={useOutlines ? tiles.outlines?.square : undefined}
               color="#428cf4"
             />
             <SportTilesMapLayer
               id="cluster"
-              tiles={statsHunters.cluster}
+              tiles={tiles.cluster}
+              outline={useOutlines ? tiles.outlines?.cluster : undefined}
               color="#2ca57e"
             />
             <SportTilesMapLayer
               id="tiles"
-              tiles={statsHunters.tiles}
+              tiles={tiles.rest}
+              outline={useOutlines ? tiles.outlines?.rest : undefined}
               color="#ff0000"
             />
+            {tiles.new && (
+              <SportTilesMapLayer id="new" tiles={tiles.new} color="#ffc107" />
+            )}
           </>
         )}
         {showActivities && mapLoaded && (
           <>
-            <Source
-              id="activites"
-              lineMetrics={true}
-              type="geojson"
-              data={{
-                type: "FeatureCollection",
-                features: activities.nodes.map((activity) => ({
-                  type: "Feature",
-                  properties: {
-                    activity,
-                    type: activity.type.toLowerCase(),
-                  },
-                  geometry: activity.map.geoJSON,
-                })),
-              }}
+            <SportActivitiesMapLayer
+              id="activities"
+              activities={activities.nodes}
+              yearMonth={yearMonth}
+              onClick={handleActivitiesClick}
             />
-            <Layer
-              id="activites"
-              onClick={(e) => {
-                setResults({
-                  coordinates: {
-                    latitude: e.lngLat.lat,
-                    longitude: e.lngLat.lng,
-                  },
-                  activities: e.features.map((feature) =>
-                    JSON.parse(feature.properties.activity)
-                  ),
-                  open: false,
-                })
-              }}
-              type="line"
-              source="activites"
-              layout={{
-                "line-join": "round",
-                "line-cap": "round",
-              }}
-              paint={{
-                "line-color": "#2ca57e",
-                "line-width": 1,
-                "line-opacity": 1,
-              }}
-              before="departments-border"
+            <SportTilesMapLayer
+              id="selected-tile"
+              tiles={selectedTileTiles}
+              color={theme.colors.primary}
+              fillOpacity={0.15}
+              lineOpacity={1}
+              lineWidth={2}
             />
-            {type !== "all" && (
-              <Filter layerId="activites" filter={["==", "type", type]} />
+            <SportTracksMapLayer id="tracks" tracks={tracks} />
+            {results && (
+              <MapPopup
+                longitude={results.coordinates.longitude}
+                latitude={results.coordinates.latitude}
+                onClose={() => setResults(null)}
+              >
+                <SportTableActivities activities={results.activities} />
+              </MapPopup>
             )}
-            <ActivitiesPopup results={results} setResults={setResults} />
+            {selectedTile && (
+              <MapPopup
+                longitude={selectedTile.lngLat.lng}
+                latitude={selectedTile.lngLat.lat}
+                onClose={() => setSelectedTile(null)}
+              >
+                <TileActivities
+                  activities={tileActivities}
+                  hiddenIds={hiddenIds}
+                  selectedIds={trackIds}
+                  isShowingAll={isShowingAll}
+                  onShowAllClick={() => setIsShowingAll((all) => !all)}
+                  onActivityClick={toggleTileActivity}
+                />
+              </MapPopup>
+            )}
           </>
         )}
       </MapGL>
@@ -154,7 +334,7 @@ export const SportTilesMap = ({
   )
 }
 
-const ActivitiesPopup = ({results, setResults}) => {
+const MapPopup = ({longitude, latitude, onClose, children}) => {
   const className = useCss({
     "&": {
       maxWidth: "unset !important",
@@ -192,26 +372,84 @@ const ActivitiesPopup = ({results, setResults}) => {
     },
   })
 
-  if (!results) {
-    return null
-  }
-
   return (
     <Popup
       className={className}
-      longitude={results.coordinates.longitude}
-      latitude={results.coordinates.latitude}
+      longitude={longitude}
+      latitude={latitude}
       closeButton={true}
       closeOnClick={false}
-      onClose={() => setResults(null)}
+      onClose={onClose}
     >
-      <View>
-        <SportTableActivities
-          activities={results.activities
-            .sort((a, b) => b.distance - a.distance)
-            .slice(0, 10)}
-        />
-      </View>
+      <View>{children}</View>
     </Popup>
+  )
+}
+
+// The activities going through a tile, hidden ones included, up to the month
+// the map shows. A click on one draws its whole track.
+const TileActivities = ({
+  activities,
+  hiddenIds,
+  selectedIds,
+  isShowingAll,
+  onShowAllClick,
+  onActivityClick,
+}) => {
+  const selected = useMemo(() => new Set(selectedIds), [selectedIds])
+
+  if (!activities) {
+    return (
+      <Text>
+        <FormattedMessage id="sport.map.tile.loading" />
+      </Text>
+    )
+  }
+
+  return (
+    <View css={{gap: 1}}>
+      <View
+        css={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          // Room for the close button of the popup
+          mr: 3,
+        }}
+      >
+        <Text>
+          <FormattedMessage
+            id="sport.map.tile.count"
+            values={{count: activities.length, hidden: hiddenIds.size}}
+          />
+        </Text>
+        {activities.length > 0 && (
+          <Button
+            noArrow
+            onClick={onShowAllClick}
+            text={
+              <FormattedMessage
+                id={
+                  isShowingAll
+                    ? "sport.map.tile.hide-all"
+                    : "sport.map.tile.show-all"
+                }
+              />
+            }
+          />
+        )}
+      </View>
+      {activities.length > 0 && (
+        <View css={{maxHeight: 300, overflowY: "auto"}}>
+          <SportTableActivities
+            activities={activities}
+            onActivityClick={onActivityClick}
+            selectedIds={selected}
+            mutedIds={hiddenIds}
+          />
+        </View>
+      )}
+    </View>
   )
 }

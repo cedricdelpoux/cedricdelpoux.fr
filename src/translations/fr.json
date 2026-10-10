@@ -21,6 +21,9 @@
   "home.last-adventures": "Dernières aventures",
   "home.last-travel-stories": "Derniers récits de voyage",
   "home.last-visited-countries": "Derniers pays visités",
+  "home.tiles.count": "{count}",
+  "home.tiles.square": "{size}×{size} ({km} km²)",
+  "home.tiles.new": "+ {count}",
   "post.comments": "Commentaires",
   "post.shares": "Partages",
   "sport.activities.count": "{count} activités",
@@ -30,6 +33,8 @@
   "sport.types.all": "Toutes",
   "sport.types.ride": "Vélo",
   "sport.types.run": "Course à pied",
-  "sport.map.activities": "Activités :",
-  "sport.map.tiles": "Carrés"
+  "sport.map.tile.count": "{count, plural, one {# activité} other {# activités}}, {hidden, plural, one {# masquée} other {# masquées}}",
+  "sport.map.tile.show-all": "Tout afficher",
+  "sport.map.tile.hide-all": "Tout masquer",
+  "sport.map.tile.loading": "Chargement…"
 }

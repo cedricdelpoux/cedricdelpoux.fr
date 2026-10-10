@@ -4,7 +4,13 @@ import {View} from "../components/view"
 import {graphql} from "gatsby"
 var {useGlobalCss} = require("css-system")
 
-const PageTiles = ({data: {statsHunters}}) => {
+const PageTiles = ({
+  data: {
+    stravaAthlete: {
+      tiles: {parts},
+    },
+  },
+}) => {
   useGlobalCss({
     html: {
       background: "white",
@@ -18,7 +24,8 @@ const PageTiles = ({data: {statsHunters}}) => {
   return (
     <View css={{position: "relative", height: "100vh", width: "100vw"}}>
       <SportTilesMap
-        statsHunters={statsHunters}
+        tiles={{outlines: parts.outlines}}
+        useOutlines
         showTiles
         css={{
           position: "absolute",
@@ -42,23 +49,21 @@ const PageTiles = ({data: {statsHunters}}) => {
           <Legend
             color="#ff0000"
             label={`Tiles : ${
-              statsHunters.square.length +
-              statsHunters.cluster.length +
-              statsHunters.tiles.length
+              parts.squareSize * parts.squareSize +
+              parts.cluster.length +
+              parts.rest.length
             }`}
           />
           <Legend
             color="#2ca57e"
             label={`Cluster : ${
-              statsHunters.cluster.length + statsHunters.square.length
+              parts.cluster.length + parts.squareSize * parts.squareSize
             }`}
           />
           <Legend
             color="#428cf4"
-            label={`Square : ${Math.sqrt(
-              statsHunters.square.length
-            )}x${Math.sqrt(statsHunters.square.length)} (${toKm(
-              Math.sqrt(statsHunters.square.length)
+            label={`Square : ${parts.squareSize}x${parts.squareSize} (${toKm(
+              parts.squareSize
             )} km²)`}
           />
         </View>
@@ -94,10 +99,25 @@ export default PageTiles
 
 export const pageQuery = graphql`
   query Tiles {
-    statsHunters {
-      square
-      tiles
-      cluster
+    stravaAthlete {
+      tiles {
+        parts {
+          squareSize
+          cluster {
+            x
+            y
+          }
+          rest {
+            x
+            y
+          }
+          outlines {
+            square
+            cluster
+            rest
+          }
+        }
+      }
     }
   }
 `
