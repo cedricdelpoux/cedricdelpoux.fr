@@ -1,5 +1,18 @@
+const fs = require("fs")
+const path = require("path")
 const polyline = require("@mapbox/polyline")
 const geocoder = require("city-reverse-geocoder")
+
+// Activities whose `summary_polyline` is too coarse to cover every tile they
+// crossed, given the full `latlng` stream instead. The list is personal, so
+// the file is gitignored and the site builds without it.
+const PRECISE_ACTIVITIES_FILE = path.join(
+  __dirname,
+  "../../precise-activities.json"
+)
+const preciseActivities = new Set(
+  fs.existsSync(PRECISE_ACTIVITIES_FILE) ? require(PRECISE_ACTIVITIES_FILE) : []
+)
 
 const toKebabCase = (str) =>
   str &&
@@ -129,9 +142,13 @@ exports.stravaOptions = {
       process.env.MINIMAL &&
       new Date(
         new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate() - 1
+        new Date().getMonth() - 1,
+        new Date().getDate()
       ).getTime() / 1000,
+    // Also read by `yarn sync-activities`, which fetches the stream of the
+    // listed activities already in the store
+    streamsTypes: ["latlng"],
+    withStreams: (activity) => preciseActivities.has(String(activity.id)),
     extend: ({activity}) => transformStravaActivity(activity),
   },
   athlete: {

@@ -7,6 +7,7 @@
 .yalc
 content/google-docs
 node_modules
+precise-activities.json
 public
 report.*.json
 yarn-error.log

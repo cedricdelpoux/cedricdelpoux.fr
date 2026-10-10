@@ -51,9 +51,9 @@
     "gatsby-source-google-docs": "^3.0.0",
     "gatsby-source-google-mymaps": "^1.0.0",
     "gatsby-source-google-photos": "^3.1.1",
-    "gatsby-source-statshunters": "^1.0.0",
-    "gatsby-source-strava": "^4.0.0",
+    "gatsby-source-strava": "^4.2.0",
     "gatsby-source-youtube": "^2.5.1",
+    "gatsby-strava-tiles": "^0.3.1",
     "gatsby-transformer-cloudinary": "^4.7.0",
     "gatsby-transformer-json": "latest",
     "gatsby-transformer-remark": "^5.13.0",
@@ -101,7 +101,10 @@
     "lint": "eslint ./*.js src/**/*.js",
     "serve": "gatsby serve",
     "prepare": "husky install",
-    "deploy": "netlify deploy --prod --dir=public"
+    "deploy": "netlify deploy --prod --dir=public",
+    "strava-token": "gatsby-source-strava-token",
+    "fetch-activity": "gatsby-source-strava-activity --streams latlng",
+    "sync-activities": "MINIMAL= gatsby-source-strava-activities --write"
   },
   "browserslist": "last 2 versions and >0.25% and not IE 11",
   "config": {
