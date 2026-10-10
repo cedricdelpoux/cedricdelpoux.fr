@@ -1,0 +1,13 @@
+[build]
+  command = "yarn build"
+  publish = "public"
+
+# What a build fetches or computes slowly, kept between two builds: the
+# activities of the Strava store, and the images of the Google Docs store.
+# `content/google-docs` is not kept, it is copied back from that store. The
+# `.cache` and `public` folders of Gatsby are already kept by the Gatsby
+# plugin of Netlify.
+[[plugins]]
+package = "netlify-plugin-cache"
+  [plugins.inputs]
+  paths = [".strava", ".google-docs"]
