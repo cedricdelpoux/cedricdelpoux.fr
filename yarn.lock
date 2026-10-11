@@ -12379,10 +12379,10 @@ gatsby-source-google-photos@^3.1.1:
     googlephotos "^0.3.5"
     yamljs "^0.3.0"
 
-gatsby-source-strava@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/gatsby-source-strava/-/gatsby-source-strava-4.2.0.tgz#02d327d8f61a735e85146d9b2017eed792783080"
-  integrity sha512-j3C3jnE1KVTNXaxKQw+HkMuvrgJQa3iAGEQvuDtjAd6Js2CrmxaE2jduqOO4wJEBtPpH2SjClEjEDTZeyo+0Kg==
+gatsby-source-strava@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-strava/-/gatsby-source-strava-4.3.0.tgz#a8a9e330681ff028283cc27fa03afb3f5adbf58b"
+  integrity sha512-sEKiWxEEck/cTGwNdpGzeE7KJe8DeTZkzpYaDjOP1Gi19Il7GzOnrgkz00FG3Ut/9VN8h98loHtDh4nnaim5AQ==
   dependencies:
     "@mapbox/polyline" "^1.2.1"
     chokidar "^3.5.3"
@@ -12402,10 +12402,10 @@ gatsby-source-youtube@^2.5.1:
     google-oauth2-env-vars "^1.3.0"
     googleapis "^100.0.0"
 
-gatsby-strava-tiles@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/gatsby-strava-tiles/-/gatsby-strava-tiles-0.3.1.tgz#5b37d296ede72c8400b1db13761e3f252f33d02b"
-  integrity sha512-wU1X0Bxvi6JU/jwF+HVJ+7qRdU3g8AAJyFgK22oC1M/+3npqweR1jZ6K5TCKlFazlvvZ67dzPxC1oHvVE5IzEA==
+gatsby-strava-tiles@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/gatsby-strava-tiles/-/gatsby-strava-tiles-0.4.0.tgz#2100f536e818f3fdb4829f4b6da56be5a8b59b04"
+  integrity sha512-arPxlnlAfUDca0LyxTKPOuT0qDww27G48eVuR4AvaohYHM74aDiLvvShS9cR466dBdMJINlIkdTtOwowkQzKOg==
 
 gatsby-transformer-cloudinary@^4.7.0:
   version "4.7.0"

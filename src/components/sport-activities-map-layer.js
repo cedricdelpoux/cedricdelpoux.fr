@@ -4,10 +4,9 @@ import React, {useContext, useMemo} from "react"
 import {ThemeContext} from "css-system"
 import chroma from "chroma-js"
 
-// The activities as the declutter cut them (see src/utils/declutter.js), as
-// in the stravart project: `parts` are solid at every zoom, `stubs` are
-// hidden under their `hideUntil` zoom, dashed under their `dashUntil` one and
-// solid above.
+// The activities as the declutter of gatsby-strava-tiles cut them: `parts`
+// are solid at every zoom, `stubs` are hidden under their `hideUntil` zoom,
+// dashed under their `dashUntil` one and solid above.
 const activitiesToFeatureCollections = (activities) => {
   const parts = []
   const stubs = []

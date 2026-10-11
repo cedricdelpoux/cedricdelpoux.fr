@@ -1,9 +1,10 @@
 const fs = require("fs")
 const path = require("path")
 const readingTime = require("reading-time")
-const {pointsToTiles} = require("gatsby-strava-tiles/utils/tiles")
+const {simplify} = require("gatsby-strava-tiles/utils/declutter")
+const {getTileActivities} = require("gatsby-strava-tiles/utils/tiles")
 
-const {declutter, simplify} = require("./src/utils/declutter")
+const {isMapActivity} = require("./src/config/strava-tiles")
 
 const countryData = {}
 
@@ -165,39 +166,10 @@ exports.createSchemaCustomization = ({actions}) => {
       new: [Tile!]!
     }
   `)
-
-  // What the sport map draws of an activity (see src/utils/declutter.js)
-  createTypes(`
-    type Declutter implements Node @dontInfer {
-      hidden: Boolean!
-      reason: String
-      parts: [[[Float!]!]!]
-      stubs: [DeclutterStub!]
-    }
-
-    # A piece of track depending on the zoom: hidden under \`hideUntil\`,
-    # dashed under \`dashUntil\`, solid above
-    type DeclutterStub {
-      dashUntil: Int!
-      hideUntil: Int!
-      coordinates: [[Float!]!]!
-    }
-  `)
 }
 
-// The activities the sport map shows, the only ones the declutter compares:
-// a private or an indoor activity must not hide a public one
-const isMapActivity = (node) =>
-  ["Run", "Ride", "Hike"].includes(node.type) &&
-  node.visibility === "everyone" &&
-  node.coordinates?.length > 1
-
-const declutterNodeId = (activityId) => `declutter-${activityId}`
-
 // Same approach as gatsby-strava-tiles: `createResolvers` adds the field to a
-// type gatsby-source-strava owns, without a conflict warning. Going through
-// `nodeModel` records the page as depending on the `Declutter` node, so that
-// its query runs again when that node changes.
+// type gatsby-source-strava owns, without a conflict warning
 exports.createResolvers = ({createResolvers}) => {
   createResolvers({
     StravaAthlete: {
@@ -211,60 +183,21 @@ exports.createResolvers = ({createResolvers}) => {
           })),
       },
     },
-    StravaActivity: {
-      declutter: {
-        type: "Declutter",
-        resolve: (source, args, context) =>
-          context.nodeModel.getNodeById({
-            id: declutterNodeId(source.id),
-            type: "Declutter",
-          }),
-      },
-    },
   })
 }
 
-// The declutter depends on every activity at once. The site runs after every
-// plugin, so every activity is already sourced here.
-//
-// Nodes of their own rather than `createNodeField`: Gatsby does not run the
-// queries again when only an added field changes, while a node is compared by
-// its `contentDigest`.
-//
 // The whole track of an activity, shown when it is selected, is not in the
 // page query: it would double its weight for a single useful track at a time.
 // It is written apart, in `public/tracks/<id>.json`, and loaded on click,
 // hidden activities included. `public/tile-activities.json` lists, for each
 // tile, the activities going through it, and is only loaded on the first
 // right click on the map.
-exports.sourceNodes = ({
-  actions: {createNode},
-  createContentDigest,
-  getNodesByType,
-  reporter,
-  store,
-}) => {
-  const activities = getNodesByType("StravaActivity").filter(isMapActivity)
-  const activity = reporter.activityTimer("declutter the sport map activities")
-
-  activity.start()
-  const results = declutter(activities)
-  activity.end()
-
-  results.forEach((value, activityId) => {
-    createNode({
-      ...value,
-      id: declutterNodeId(activityId),
-      internal: {
-        type: "Declutter",
-        contentDigest: createContentDigest(value),
-      },
-    })
-  })
-
+exports.onPostBootstrap = ({getNodesByType, store}) => {
+  const activities = getNodesByType("StravaActivity").filter(
+    (node) => isMapActivity(node) && node.coordinates?.length > 1
+  )
   const publicDir = path.join(store.getState().program.directory, "public")
   const tracksDir = path.join(publicDir, "tracks")
-  const tileActivities = {}
 
   fs.mkdirSync(tracksDir, {recursive: true})
 
@@ -273,17 +206,11 @@ exports.sourceNodes = ({
       path.join(tracksDir, `${node.id}.json`),
       JSON.stringify(simplify(node.coordinates))
     )
-
-    pointsToTiles(node.coordinates).forEach(({x, y}) => {
-      const key = `${x}-${y}`
-      if (!tileActivities[key]) tileActivities[key] = []
-      tileActivities[key].push(node.id)
-    })
   })
 
   fs.writeFileSync(
     path.join(publicDir, "tile-activities.json"),
-    JSON.stringify(tileActivities)
+    JSON.stringify(getTileActivities(activities))
   )
 }
 
