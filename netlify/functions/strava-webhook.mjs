@@ -1,8 +1,11 @@
 // Receives the events of the Strava webhook subscription, and starts the
-// GitHub Actions workflow that builds and deploys the site.
+// GitHub Actions workflow that builds and deploys the site, and the one of
+// stravart: both sites use the same Strava application, and Strava allows a
+// single webhook subscription per application.
 // https://developers.strava.com/docs/webhooks/
 
 const REPOSITORY = "cedricdelpoux/cedricdelpoux.fr"
+const OTHER_REPOSITORIES = ["cedricdelpoux/stravart"]
 const ATHLETE_ID = "229804"
 
 // Strava gives up on a callback after 2 seconds
@@ -31,8 +34,8 @@ const verify = (url) => {
   return json({"hub.challenge": challenge})
 }
 
-const dispatch = (event) =>
-  fetch(`https://api.github.com/repos/${REPOSITORY}/dispatches`, {
+const dispatch = (repository, event) =>
+  fetch(`https://api.github.com/repos/${repository}/dispatches`, {
     method: "POST",
     headers: {
       accept: "application/vnd.github+json",
@@ -73,13 +76,24 @@ export default async (req) => {
     return json({ignored: event.object_type})
   }
 
-  // Strava sends the event again when the callback does not answer 200, so
-  // a failed dispatch is reported as such
-  const response = await dispatch(event).catch((e) => ({
-    ok: false,
-    status: e.name,
-  }))
+  // Sent at once, all within the 2 seconds Strava waits for
+  const [response, ...otherResponses] = await Promise.all(
+    [REPOSITORY, ...OTHER_REPOSITORIES].map((repository) =>
+      dispatch(repository, event).catch((e) => ({ok: false, status: e.name}))
+    )
+  )
 
+  // Only logged: Strava would send the event again, and build this site twice
+  otherResponses.forEach((otherResponse, index) => {
+    if (!otherResponse.ok) {
+      console.error(
+        `GitHub dispatch to ${OTHER_REPOSITORIES[index]} failed: ${otherResponse.status}`
+      )
+    }
+  })
+
+  // Strava sends the event again when the callback does not answer 200, so
+  // a failed dispatch of this site is reported as such
   if (!response.ok) {
     console.error(`GitHub dispatch failed: ${response.status}`)
     return json({error: "Dispatch failed"}, 502)
