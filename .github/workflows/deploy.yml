@@ -7,7 +7,7 @@ on:
   schedule:
     - cron: "0 5 * * *"
   workflow_dispatch:
-  # Sent by a Strava webhook: POST /repos/{owner}/{repo}/dispatches
+  # Sent by the Strava webhook, see netlify/functions/strava-webhook.mjs
   repository_dispatch:
     types: [strava-activity]
 
@@ -61,6 +61,28 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      # A build only fetches the activities started after the store's cursor:
+      # an activity edited or deleted on strava.com needs the store updated
+      # first. The daily build also syncs the whole store, in case an event
+      # got lost.
+      - name: Update the Strava store
+        if: >-
+          github.event_name == 'schedule' ||
+          (github.event_name == 'repository_dispatch' &&
+          github.event.client_payload.aspect_type != 'create')
+        run: |
+          if [ "$ASPECT_TYPE" = "update" ]; then
+            yarn gatsby-source-strava-activity "$ACTIVITY_ID" --refresh
+          else
+            yarn sync-activities
+          fi
+        env:
+          ASPECT_TYPE: ${{ github.event.client_payload.aspect_type }}
+          ACTIVITY_ID: ${{ github.event.client_payload.object_id }}
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_TOKEN: ${{ secrets.STRAVA_TOKEN }}
+
       - name: Build
         run: yarn build
         env:
@@ -95,5 +117,6 @@ jobs:
             public
           key: gatsby-${{ github.run_id }}
 
+      # The Strava webhook function is deployed along with the site
       - name: Deploy to Netlify
-        run: yarn netlify deploy --prod --dir=public
+        run: yarn netlify deploy --prod --dir=public --functions=netlify/functions
