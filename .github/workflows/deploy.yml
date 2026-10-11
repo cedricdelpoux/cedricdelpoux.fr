@@ -1,0 +1,99 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  # A new activity on Strava can come in at any time of the day
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+  # Sent by a Strava webhook: POST /repos/{owner}/{repo}/dispatches
+  repository_dispatch:
+    types: [strava-activity]
+
+# Two builds at once would restore and save the same caches
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # The first build, with no cache, downloads and processes every image
+    timeout-minutes: 360
+    env:
+      NETLIFY_SITE_ID: 545297ff-8406-4213-860c-9db291fbfd9b
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      # Read by the `.npmrc`, for the Font Awesome registry
+      FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
+    steps:
+      # The build writes about 10 GB: the stores, the Gatsby cache, the
+      # processed images and the site. The runner's disk is shared with the
+      # tools it comes with, which this does not need.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      # What a build fetches or computes slowly. `.cache` and `public` go
+      # together: Gatsby only reuses the first one if the second is there.
+      # `content/google-docs` is not kept, it is copied back from
+      # `.google-docs`. The key changes on every run so that the caches are
+      # always saved again, the latest one is the one restored.
+      - name: Restore the caches
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .strava
+            .google-docs
+            .cache
+            public
+          key: gatsby-${{ github.run_id }}
+          restore-keys: gatsby-
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_TOKEN: ${{ secrets.STRAVA_TOKEN }}
+          # `GITHUB_` is a reserved prefix for secrets. It has to be a
+          # personal token: the site reads the gists and the repositories of
+          # its `viewer`.
+          GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
+          GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID }}
+          GOOGLE_DOCS_FOLDER: ${{ secrets.GOOGLE_DOCS_FOLDER }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_DOCS_TOKEN: ${{ secrets.GOOGLE_DOCS_TOKEN }}
+          GATSBY_MAPBOX_TOKEN: ${{ secrets.GATSBY_MAPBOX_TOKEN }}
+          YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
+          CLOUDINARY_CLOUD: ${{ secrets.CLOUDINARY_CLOUD }}
+          CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
+          CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+
+      # Even when the build fails: the first builds may need several tries
+      # to get through every image, each one keeps what the last one did
+      - name: Save the caches
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .strava
+            .google-docs
+            .cache
+            public
+          key: gatsby-${{ github.run_id }}
+
+      - name: Deploy to Netlify
+        run: yarn netlify deploy --prod --dir=public
