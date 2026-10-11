@@ -156,6 +156,16 @@ exports.createSchemaCustomization = ({actions}) => {
     }
   `)
 
+  // The monthly parts of gatsby-strava-tiles repeat every tile covered so far,
+  // tens of megabytes in a page: the browser sums up the new ones instead
+  createTypes(`
+    type TilesMonth {
+      yearMonth: String!
+      square: TileBorder
+      new: [Tile!]!
+    }
+  `)
+
   // What the sport map draws of an activity (see src/utils/declutter.js)
   createTypes(`
     type Declutter implements Node @dontInfer {
@@ -190,6 +200,17 @@ const declutterNodeId = (activityId) => `declutter-${activityId}`
 // its query runs again when that node changes.
 exports.createResolvers = ({createResolvers}) => {
   createResolvers({
+    StravaAthlete: {
+      tilesTimeline: {
+        type: "[TilesMonth!]!",
+        resolve: (source) =>
+          (source.fields?.tiles?.monthly || []).map(({yearMonth, parts}) => ({
+            yearMonth,
+            square: parts.squareSize > 0 ? parts.squareBorder : null,
+            new: parts.new,
+          })),
+      },
+    },
     StravaActivity: {
       declutter: {
         type: "Declutter",

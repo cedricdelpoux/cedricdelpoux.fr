@@ -36,7 +36,7 @@ import {Text} from "../components/text"
 import {ThemeContext} from "css-system"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {fillMonthly, getMonthTilesLayers} from "../utils/tiles-layers"
+import {getMonthTilesLayers, getMonthlyTiles} from "../utils/tiles-layers"
 import {getStravaActivityUrl} from "../utils/strava"
 import {graphql} from "gatsby"
 import {useMenu} from "../hooks/use-menu"
@@ -90,7 +90,7 @@ const Home = ({
       frontmatter: {text1, text2, text3},
     },
     activities,
-    stravaAthlete: {tiles},
+    stravaAthlete: {tilesTimeline},
     climbs,
     stories,
     countries,
@@ -108,10 +108,10 @@ const Home = ({
   // the timeline's scale is regular
   const monthly = useMemo(
     () =>
-      fillMonthly(tiles.monthly).filter(
+      getMonthlyTiles(tilesTimeline).filter(
         (month) => month.yearMonth >= TILES_START_MONTH
       ),
-    [tiles.monthly]
+    [tilesTimeline]
   )
   const yearMonths = useMemo(
     () => monthly.map((month) => month.yearMonth),
@@ -130,10 +130,10 @@ const Home = ({
     return () => clearInterval(interval)
   }, [yearMonths])
 
-  const monthParts = monthly[monthIndex]?.parts
+  const month = monthly[monthIndex]
   const tilesLayers = useMemo(
-    () => getMonthTilesLayers(theme, monthParts),
-    [monthParts, theme]
+    () => getMonthTilesLayers(theme, month),
+    [month, theme]
   )
   return (
     <LayoutPage
@@ -337,7 +337,7 @@ const Home = ({
             initialZoom={6.5}
             initialZoomWidth={900}
           />
-          {monthParts && (
+          {month && (
             <Paper
               css={{
                 // The map is too small on a phone to spare it the room
@@ -355,25 +355,22 @@ const Home = ({
                 <FormattedMessage
                   id="home.tiles.count"
                   values={{
-                    count:
-                      monthParts.squareSize * monthParts.squareSize +
-                      monthParts.cluster.length +
-                      monthParts.rest.length,
+                    count: month.count,
                   }}
                 />
               </TilesLegend>
               <TilesLegend color={theme.colors.primary}>
                 <FormattedMessage
                   id="home.tiles.new"
-                  values={{count: monthParts.new.length}}
+                  values={{count: month.new.length}}
                 />
               </TilesLegend>
               <TilesLegend color={theme.colors.primary} bordered>
                 <FormattedMessage
                   id="home.tiles.square"
                   values={{
-                    size: monthParts.squareSize,
-                    km: toKm(monthParts.squareSize),
+                    size: month.square?.size || 0,
+                    km: toKm(month.square?.size || 0),
                   }}
                 />
               </TilesLegend>
@@ -532,28 +529,16 @@ export const pageQuery = graphql`
       }
     }
     stravaAthlete {
-      tiles {
-        monthly {
-          yearMonth
-          parts {
-            squareSize
-            square {
-              x
-              y
-            }
-            cluster {
-              x
-              y
-            }
-            rest {
-              x
-              y
-            }
-            new {
-              x
-              y
-            }
-          }
+      tilesTimeline {
+        yearMonth
+        square {
+          x
+          y
+          size
+        }
+        new {
+          x
+          y
         }
       }
     }

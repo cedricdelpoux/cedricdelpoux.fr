@@ -1,4 +1,4 @@
-import {distinctTiles, tilesToOutline} from "gatsby-strava-tiles/utils/tiles"
+import {tilesToOutline} from "gatsby-strava-tiles/utils/tiles"
 
 // Only the two theme colors: the covered tiles in green, the month's new
 // tiles in blue, and the max square as a bare blue border on top of them.
@@ -30,21 +30,23 @@ const squareLayer = (theme, tiles) => ({
   lineWidth: 2,
 })
 
+const squareTiles = ({x, y, size}) =>
+  Array.from({length: size * size}, (_, index) => ({
+    x: x + (index % size),
+    y: y + Math.floor(index / size),
+  }))
+
 // A month of the playback: every tile covered before it in one green area,
 // whatever part of the coverage it belongs to, and its new tiles in blue.
 // Under the activities, the tiles are filled lighter, so that the tracks
 // drawn in the same colors stand out.
-export const getMonthTilesLayers = (theme, parts, {withActivities} = {}) => {
-  if (!parts) return []
-
-  const oldTiles = [...parts.square, ...parts.cluster, ...parts.rest].filter(
-    distinctTiles(parts.new)
-  )
+export const getMonthTilesLayers = (theme, month, {withActivities} = {}) => {
+  if (!month) return []
 
   return [
-    tilesLayer(theme, oldTiles, withActivities ? 0.15 : 0.45),
-    newTilesLayer(theme, parts.new, withActivities ? 0.25 : 0.6),
-    squareLayer(theme, parts.square),
+    tilesLayer(theme, month.oldTiles(), withActivities ? 0.15 : 0.45),
+    newTilesLayer(theme, month.new, withActivities ? 0.25 : 0.6),
+    ...(month.square ? [squareLayer(theme, squareTiles(month.square))] : []),
   ]
 }
 
@@ -56,30 +58,34 @@ const nextYearMonth = (yearMonth) => {
     : `${year}-${String(month + 1).padStart(2, "0")}`
 }
 
-// `monthly` only has the months with an activity. Every month in between is
-// added with the coverage of the previous one and no new tile, so that a
-// month takes the same room on a timeline whether anything happened in it or
-// not.
-export const fillMonthly = (monthly) => {
-  if (monthly.length === 0) return monthly
+// Every month from the first to the last of `timeline`, the empty ones
+// included. The covered tiles are shared by all the months, each one slicing
+// the ones before it.
+export const getMonthlyTiles = (timeline) => {
+  if (timeline.length === 0) return []
 
-  const filled = []
+  const allTiles = []
+  const monthly = []
   let index = 0
-  let yearMonth = monthly[0].yearMonth
-  const last = monthly[monthly.length - 1].yearMonth
+  let yearMonth = timeline[0].yearMonth
+  const last = timeline[timeline.length - 1].yearMonth
 
   while (yearMonth <= last) {
-    if (monthly[index].yearMonth === yearMonth) {
-      filled.push(monthly[index])
-      index++
-    } else {
-      const {parts} = filled[filled.length - 1]
+    const month =
+      timeline[index].yearMonth === yearMonth
+        ? timeline[index++]
+        : {yearMonth, square: monthly[monthly.length - 1].square, new: []}
+    const oldCount = allTiles.length
 
-      filled.push({yearMonth, parts: {...parts, new: []}})
-    }
+    allTiles.push(...month.new)
+    monthly.push({
+      ...month,
+      count: allTiles.length,
+      oldTiles: () => allTiles.slice(0, oldCount),
+    })
 
     yearMonth = nextYearMonth(yearMonth)
   }
 
-  return filled
+  return monthly
 }

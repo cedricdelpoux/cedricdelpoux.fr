@@ -4,7 +4,7 @@ import {LayoutPage} from "../layouts/page"
 import {MapTimeline} from "../components/map-timeline"
 import {SportTilesMap} from "../components/sport-tiles-map"
 import {ThemeContext} from "css-system"
-import {fillMonthly, getMonthTilesLayers} from "../utils/tiles-layers"
+import {getMonthTilesLayers, getMonthlyTiles} from "../utils/tiles-layers"
 import {graphql} from "gatsby"
 
 const SportMap = ({
@@ -14,7 +14,7 @@ const SportMap = ({
       frontmatter: {name: title},
     },
     activities,
-    stravaAthlete: {tiles},
+    stravaAthlete: {tilesTimeline},
   },
   children,
 }) => {
@@ -22,7 +22,7 @@ const SportMap = ({
 
   // Every month from the first activity to the last one, the empty ones
   // included, so that the timeline's scale is regular
-  const monthly = useMemo(() => fillMonthly(tiles.monthly), [tiles.monthly])
+  const monthly = useMemo(() => getMonthlyTiles(tilesTimeline), [tilesTimeline])
   const yearMonths = useMemo(
     () => monthly.map((month) => month.yearMonth),
     [monthly]
@@ -33,10 +33,10 @@ const SportMap = ({
   )
   const yearMonth = yearMonths[monthIndex]
 
-  const monthParts = monthly[monthIndex]?.parts
+  const month = monthly[monthIndex]
   const tilesLayers = useMemo(
-    () => getMonthTilesLayers(theme, monthParts, {withActivities: true}),
-    [theme, monthParts]
+    () => getMonthTilesLayers(theme, month, {withActivities: true}),
+    [theme, month]
   )
 
   const map = (
@@ -115,27 +115,16 @@ export const pageQuery = graphql`
       }
     }
     stravaAthlete {
-      tiles {
-        monthly {
-          yearMonth
-          parts {
-            square {
-              x
-              y
-            }
-            cluster {
-              x
-              y
-            }
-            rest {
-              x
-              y
-            }
-            new {
-              x
-              y
-            }
-          }
+      tilesTimeline {
+        yearMonth
+        square {
+          x
+          y
+          size
+        }
+        new {
+          x
+          y
         }
       }
     }
