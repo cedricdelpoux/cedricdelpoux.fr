@@ -25,6 +25,7 @@ import {SportTilesMapLayer} from "./sport-tiles-map-layer"
 import {Button} from "./button"
 import {Text} from "./text"
 import {View} from "./view"
+import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 import {withPrefix} from "gatsby"
 import {ThemeContext, useCss} from "css-system"
 import {FormattedMessage, useIntl} from "react-intl"
@@ -111,6 +112,8 @@ export const SportTilesMap = ({
   showTiles = false,
   withControls = false,
   initialZoom = 7.3,
+  // A narrower map zooms out to show the same area as at this width
+  initialZoomWidth,
 }) => {
   const intl = useIntl()
   const theme = useContext(ThemeContext)
@@ -237,8 +240,20 @@ export const SportTilesMap = ({
     latitude: 43.711,
   })
 
+  const containerRef = useRef(null)
+  useSsrLayoutEffect(() => {
+    const width = containerRef.current?.offsetWidth
+    if (!initialZoomWidth || !width || width >= initialZoomWidth) return
+
+    setViewState((state) => ({
+      ...state,
+      zoom: initialZoom + Math.log2(width / initialZoomWidth),
+    }))
+  }, [initialZoom, initialZoomWidth])
+
   return (
     <View
+      ref={containerRef}
       css={{
         flew: 1,
         borderRadius: 2,

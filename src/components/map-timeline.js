@@ -11,18 +11,32 @@ const RULER_HEIGHT = 30
 const TOOLTIP_GAP = 6
 const RANGE_CLASS_NAME = "map-timeline-range"
 
+// The most year labels the ruler shows on each breakpoint before they overlap
+const MAX_YEAR_LABELS = {_: 8, s: 12}
+
 const noop = () => {}
+
+const thumbRatio = (index, max) => (max > 0 ? index / max : 1)
 
 // Where the thumb's center is at `index`: the thumb never overflows the
 // input, so its center runs from half a thumb to the end minus half a thumb
 const thumbCenter = (index, max) =>
-  `calc(${THUMB_SIZE / 2}px + (100% - ${THUMB_SIZE}px) * ${
-    max > 0 ? index / max : 1
-  })`
+  `calc(${THUMB_SIZE / 2}px + (100% - ${THUMB_SIZE}px) * ${thumbRatio(
+    index,
+    max
+  )})`
 
-// A tick per month, longer and labelled with the year on January
+// A tick per month, longer on January, labelled with the year as long as the
+// labels have room, every few years otherwise
 const Ruler = memo(({yearMonths}) => {
   const max = yearMonths.length - 1
+  const yearsCount = yearMonths.filter((yearMonth) =>
+    yearMonth.endsWith("-01")
+  ).length
+  const yearSteps = {
+    _: Math.ceil(yearsCount / MAX_YEAR_LABELS._),
+    s: Math.ceil(yearsCount / MAX_YEAR_LABELS.s),
+  }
 
   return (
     <View
@@ -47,6 +61,11 @@ const Ruler = memo(({yearMonths}) => {
             {isYear && (
               <Text
                 css={{
+                  display: {
+                    _: year % yearSteps._ === 0 ? "block" : "none",
+                    s: year % yearSteps.s === 0 ? "block" : "none",
+                    m: "block",
+                  },
                   fontSize: 1,
                   fontWeight: "bold",
                   lineHeight: 1.6,
@@ -144,6 +163,10 @@ export const MapTimeline = ({
             position: "relative",
             borderRadius: 2,
             overflow: "hidden",
+            // Out of the way of the month under the thumb
+            "& .mapboxgl-ctrl-top-left, & .mapboxgl-ctrl-top-right": {
+              top: "36px",
+            },
           }}
         >
           {children}
@@ -202,7 +225,7 @@ export const MapTimeline = ({
             cursor: isInteractive ? "pointer" : "default",
           }}
         />
-        {/* Centered under the thumb */}
+        {/* Shifted towards the ends of the track so that it never overflows */}
         <Text
           aria-hidden
           css={{
@@ -223,7 +246,7 @@ export const MapTimeline = ({
           }}
           style={{
             left: thumbCenter(index, max),
-            transform: "translateX(-50%)",
+            transform: `translateX(${-100 * thumbRatio(index, max)}%)`,
           }}
         >
           {label}

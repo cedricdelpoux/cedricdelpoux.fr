@@ -47,14 +47,19 @@ const SportMap = ({
       showActivities
       showTiles
       withControls={true}
-      css={{aspectRatio: "20 / 10"}}
+      initialZoomWidth={1000}
+      css={{
+        height: {_: "75svh", s: "auto"},
+        aspectRatio: {_: "auto", s: "20 / 10"},
+      }}
     />
   )
 
   return (
     <LayoutPage
       title={title}
-      body={children}
+      // An empty body would stretch between the title and the map
+      body={excerpt ? children : null}
       description={excerpt}
       css={{
         maxWidth: "100%",

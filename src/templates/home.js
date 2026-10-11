@@ -326,7 +326,7 @@ const Home = ({
           css={{
             position: "relative",
             width: "100%",
-            aspectRatio: "16 / 10",
+            aspectRatio: {_: "10 / 16", s: "16 / 10"},
             borderRadius: "10px",
             overflow: "hidden",
           }}
@@ -335,10 +335,13 @@ const Home = ({
             layers={tilesLayers}
             showTiles={true}
             initialZoom={6.5}
+            initialZoomWidth={900}
           />
           {monthParts && (
             <Paper
               css={{
+                // The map is too small on a phone to spare it the room
+                display: {_: "none", s: "flex"},
                 position: "absolute",
                 // Below, out of the way of the timeline's month at the top
                 bottom: {_: 1, s: 2},
