@@ -69,13 +69,15 @@ const SOLID_OPACITY = opacityByZoom(false)
 const BEFORE = "departments-border"
 
 // Every activity up to `yearMonth`, the ones of that month in blue over the
-// earlier ones in green. The data is only built once: a month only changes
+// earlier ones in green, but `excludedIds`, drawn whole by
+// `SportNewTracksMapLayer`. The data is only built once: a month only changes
 // the filter and the paint, so that the playback never sends the activities
 // to the map worker again.
 export const SportActivitiesMapLayer = ({
   id,
   activities,
   yearMonth,
+  excludedIds = [],
   onClick,
 }) => {
   const theme = useContext(ThemeContext)
@@ -92,8 +94,16 @@ export const SportActivitiesMapLayer = ({
     // The month's activities drawn over the earlier ones
     const sortKey = ["case", isNew, 1, 0]
 
+    const conditions = [
+      yearMonth && ["<=", ["get", "yearMonth"], yearMonth],
+      excludedIds.length > 0 && [
+        "!",
+        ["in", ["get", "id"], ["literal", excludedIds]],
+      ],
+    ].filter(Boolean)
+
     return {
-      filter: yearMonth ? ["<=", ["get", "yearMonth"], yearMonth] : undefined,
+      filter: conditions.length > 0 ? ["all", ...conditions] : undefined,
       layout: {
         "line-join": "round",
         "line-cap": "round",
@@ -109,7 +119,7 @@ export const SportActivitiesMapLayer = ({
         chroma(theme.colors.secondary).darken(1.2).hex(),
       ],
     }
-  }, [yearMonth, theme])
+  }, [yearMonth, excludedIds, theme])
 
   const solidPaint = useMemo(
     () => ({"line-color": color, "line-width": 1.5}),
@@ -177,22 +187,58 @@ export const SportActivitiesMapLayer = ({
 
 const HIT_PAINT = {"line-width": 10, "line-opacity": 0}
 
+const toFeatureCollection = (tracks) => ({
+  type: "FeatureCollection",
+  features: tracks.map(({id, coordinates}) => ({
+    type: "Feature",
+    properties: {id},
+    geometry: {type: "LineString", coordinates},
+  })),
+})
+
+// The whole tracks of the month's activities bringing new tiles, in blue over
+// the decluttered ones
+export const SportNewTracksMapLayer = ({id, tracks, onClick}) => {
+  const theme = useContext(ThemeContext)
+
+  const data = useMemo(() => toFeatureCollection(tracks), [tracks])
+  const paint = useMemo(
+    () => ({
+      "line-color": chroma(theme.colors.primary).darken(1).hex(),
+      "line-width": 1.5,
+    }),
+    [theme]
+  )
+
+  return (
+    <>
+      <Source id={id} type="geojson" data={data} />
+      <Layer
+        id={id}
+        type="line"
+        source={id}
+        layout={TRACK_LAYOUT}
+        paint={paint}
+        before={BEFORE}
+      />
+      <Layer
+        id={`${id}_hit`}
+        type="line"
+        source={id}
+        paint={HIT_PAINT}
+        before={BEFORE}
+        onClick={onClick}
+      />
+    </>
+  )
+}
+
 // The whole tracks of the selected activities, cuts included, over everything
 // else (see the `tracks` written by gatsby-node.js)
 export const SportTracksMapLayer = ({id, tracks}) => {
   const theme = useContext(ThemeContext)
 
-  const data = useMemo(
-    () => ({
-      type: "FeatureCollection",
-      features: tracks.map((coordinates) => ({
-        type: "Feature",
-        properties: {},
-        geometry: {type: "LineString", coordinates},
-      })),
-    }),
-    [tracks]
-  )
+  const data = useMemo(() => toFeatureCollection(tracks), [tracks])
   const paint = useMemo(
     () => ({
       "line-color": chroma(theme.colors.primary).darken(1.5).hex(),

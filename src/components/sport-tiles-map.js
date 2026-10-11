@@ -17,6 +17,7 @@ import {latToY, lngToX} from "gatsby-strava-tiles/utils/map"
 
 import {
   SportActivitiesMapLayer,
+  SportNewTracksMapLayer,
   SportTracksMapLayer,
 } from "./sport-activities-map-layer"
 import {SportTableActivities} from "./sport-table-activities"
@@ -30,10 +31,17 @@ import {FormattedMessage, useIntl} from "react-intl"
 
 const EMPTY = []
 
-// Loads the whole tracks of `ids`, kept for the next time (see the `tracks`
+// The whole tracks already loaded, shared by every map (see the `tracks`
 // written by gatsby-node.js)
+const trackCache = {}
+const loadTrack = (id) =>
+  trackCache[id] ||
+  (trackCache[id] = fetch(withPrefix(`/tracks/${id}.json`))
+    .then((response) => response.json())
+    .then((coordinates) => ({id, coordinates})))
+
+// Loads the whole tracks of `ids`, as `{id, coordinates}`
 const useTracks = (ids) => {
-  const cache = useRef({})
   const [tracks, setTracks] = useState(EMPTY)
 
   useEffect(() => {
@@ -41,11 +49,6 @@ const useTracks = (ids) => {
     if (ids.length === 0) return
 
     let isCurrent = true
-    const loadTrack = (id) =>
-      cache.current[id] ||
-      (cache.current[id] = fetch(withPrefix(`/tracks/${id}.json`)).then(
-        (response) => response.json()
-      ))
 
     Promise.all(ids.map(loadTrack))
       .then((loaded) => isCurrent && setTracks(loaded))
@@ -162,6 +165,30 @@ export const SportTilesMap = ({
     return results ? results.activities.map((activity) => activity.id) : EMPTY
   }, [selectedTile, isShowingAll, tileActivities, tileSelectedIds, results])
   const tracks = useTracks(trackIds)
+
+  // The month's activities bringing new tiles are drawn whole, in place of
+  // what the declutter left of them: it may have cut them down to nothing,
+  // and the month's new tiles would then show no track.
+  const newIds = useMemo(
+    () =>
+      yearMonth
+        ? (activities?.nodes || [])
+            .filter(
+              (activity) =>
+                activity.date_year_month === yearMonth &&
+                activity.declutter &&
+                activity.declutter.reason !== "no-new-tiles"
+            )
+            .map((activity) => activity.id)
+        : EMPTY,
+    [activities, yearMonth]
+  )
+  const newTracks = useTracks(newIds)
+  // Until they are loaded, the decluttered ones stay drawn
+  const newTrackIds = useMemo(
+    () => newTracks.map((track) => track.id),
+    [newTracks]
+  )
 
   const handleActivitiesClick = useCallback(
     (e) => {
@@ -291,6 +318,12 @@ export const SportTilesMap = ({
               id="activities"
               activities={activities.nodes}
               yearMonth={yearMonth}
+              excludedIds={newTrackIds}
+              onClick={handleActivitiesClick}
+            />
+            <SportNewTracksMapLayer
+              id="new-tracks"
+              tracks={newTracks}
               onClick={handleActivitiesClick}
             />
             <SportTilesMapLayer

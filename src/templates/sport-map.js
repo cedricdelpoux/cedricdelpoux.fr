@@ -98,6 +98,7 @@ export const pageQuery = graphql`
         date_year_month
         declutter {
           hidden
+          reason
           parts
           stubs {
             dashUntil
