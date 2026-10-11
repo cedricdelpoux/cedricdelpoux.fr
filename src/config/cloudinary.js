@@ -5,9 +5,8 @@ exports.cloudinarySourceOptions = {
   maxResults: 1000,
 }
 
+// No size in `defaultTransformations`: appended to the size of each image,
+// it overrides it, placeholders included
 exports.cloudinaryTransformerOptions = {
   transformTypes: ["CloudinaryMedia"],
-  defaultTransformations: process.env.MINIMAL
-    ? ["c_fit", "h_300", "w_300"]
-    : ["c_fit", "h_1600", "w_1600"],
 }
