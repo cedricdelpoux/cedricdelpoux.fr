@@ -19,7 +19,7 @@ import {netlifyOptions} from "./src/config/netlify.js"
 import {nprogressOptions} from "./src/config/nprogress.js"
 import {siteConfig} from "./src/config/site.js"
 import {stravaOptions} from "./src/config/strava.js"
-import {stravaTilesOptions} from "./src/config/strava-tiles.js"
+import {stravaDeclutterOptions} from "./src/config/strava-declutter.js"
 import {svgOptions} from "./src/config/react-svg.js"
 import {webfontsOptions} from "./src/config/webfonts.js"
 import {youtubeOptions} from "./src/config/youtube.js"
@@ -71,9 +71,9 @@ const config = {
     {resolve: "gatsby-plugin-react-svg", options: svgOptions},
     {resolve: "gatsby-source-filesystem", options: filesystemOptions},
     {resolve: "gatsby-source-strava", options: stravaOptions},
-    // It MUST be after `gatsby-source-strava`: it adds a `tiles` field to
-    // the `StravaActivity`/`StravaAthlete` nodes that plugin creates.
-    {resolve: "gatsby-strava-tiles", options: stravaTilesOptions},
+    // They MUST be after `gatsby-source-strava`
+    "gatsby-strava-tiles",
+    {resolve: "gatsby-strava-declutter", options: stravaDeclutterOptions},
     {resolve: "gatsby-source-github-api", options: githubOptions},
     // The order of the following source plugins is important.
     // gatsby-source-google-docs must be last

@@ -1,10 +1,9 @@
 const fs = require("fs")
 const path = require("path")
 const readingTime = require("reading-time")
-const {simplify} = require("gatsby-strava-tiles/utils/declutter")
-const {getTileActivities} = require("gatsby-strava-tiles/utils/tiles")
+const {getTileActivities} = require("gatsby-strava-tiles")
 
-const {isMapActivity} = require("./src/config/strava-tiles")
+const {isMapActivity} = require("./src/config/strava-declutter")
 
 const countryData = {}
 
@@ -186,28 +185,22 @@ exports.createResolvers = ({createResolvers}) => {
   })
 }
 
-// The whole track of an activity, shown when it is selected, is not in the
-// page query: it would double its weight for a single useful track at a time.
-// It is written apart, in `public/tracks/<id>.json`, and loaded on click,
-// hidden activities included. `public/tile-activities.json` lists, for each
-// tile, the activities going through it, and is only loaded on the first
-// right click on the map.
+// Out of the page query, which they would double in size
 exports.onPostBootstrap = ({getNodesByType, store}) => {
   const activities = getNodesByType("StravaActivity").filter(
     (node) => isMapActivity(node) && node.coordinates?.length > 1
   )
   const publicDir = path.join(store.getState().program.directory, "public")
-  const tracksDir = path.join(publicDir, "tracks")
-
-  fs.mkdirSync(tracksDir, {recursive: true})
+  const tracks = {}
 
   activities.forEach((node) => {
-    fs.writeFileSync(
-      path.join(tracksDir, `${node.id}.json`),
-      JSON.stringify(simplify(node.coordinates))
-    )
+    const encoded = node.map && (node.map.polyline || node.map.summary_polyline)
+
+    if (encoded) tracks[node.id] = encoded
   })
 
+  fs.mkdirSync(publicDir, {recursive: true})
+  fs.writeFileSync(path.join(publicDir, "tracks.json"), JSON.stringify(tracks))
   fs.writeFileSync(
     path.join(publicDir, "tile-activities.json"),
     JSON.stringify(getTileActivities(activities))

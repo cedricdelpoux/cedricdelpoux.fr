@@ -14,14 +14,19 @@ import React, {
   useState,
 } from "react"
 import {latToY, lngToX} from "gatsby-strava-tiles/utils/map"
+import polyline from "@mapbox/polyline"
 
 import {
   SportActivitiesMapLayer,
   SportNewTracksMapLayer,
   SportTracksMapLayer,
+  getActivityMonths,
 } from "./sport-activities-map-layer"
+import {
+  SportTilesMapLayer,
+  SportTimelineTilesMapLayer,
+} from "./sport-tiles-map-layer"
 import {SportTableActivities} from "./sport-table-activities"
-import {SportTilesMapLayer} from "./sport-tiles-map-layer"
 import {Button} from "./button"
 import {Text} from "./text"
 import {View} from "./view"
@@ -32,36 +37,62 @@ import {FormattedMessage, useIntl} from "react-intl"
 
 const EMPTY = []
 
-// The whole tracks already loaded, shared by every map (see the `tracks`
-// written by gatsby-node.js)
-const trackCache = {}
-const loadTrack = (id) =>
-  trackCache[id] ||
-  (trackCache[id] = fetch(withPrefix(`/tracks/${id}.json`))
+// Loaded once and shared by every map, each track decoded once
+let tracksFile = null
+const loadTracks = () =>
+  tracksFile ||
+  (tracksFile = fetch(withPrefix("/tracks.json"))
     .then((response) => response.json())
-    .then((coordinates) => ({id, coordinates})))
+    .catch((error) => {
+      tracksFile = null
+      throw error
+    }))
 
-// Loads the whole tracks of `ids`, as `{id, coordinates}`
-const useTracks = (ids) => {
-  const [tracks, setTracks] = useState(EMPTY)
+const decodedTracks = new Map()
+const decodeTrack = (encodedTracks, id) => {
+  if (!decodedTracks.has(id)) {
+    decodedTracks.set(
+      id,
+      encodedTracks[id] && {
+        id,
+        coordinates: polyline
+          .decode(encodedTracks[id])
+          .map(([lat, lng]) => [lng, lat]),
+      }
+    )
+  }
+
+  return decodedTracks.get(id)
+}
+
+const useEncodedTracks = (enabled) => {
+  const [encodedTracks, setEncodedTracks] = useState(null)
 
   useEffect(() => {
-    setTracks(EMPTY)
-    if (ids.length === 0) return
+    if (!enabled) return
 
     let isCurrent = true
 
-    Promise.all(ids.map(loadTrack))
-      .then((loaded) => isCurrent && setTracks(loaded))
+    loadTracks()
+      .then((loaded) => isCurrent && setEncodedTracks(loaded))
       .catch(() => {})
 
     return () => {
       isCurrent = false
     }
-  }, [ids])
+  }, [enabled])
 
-  return tracks
+  return encodedTracks
 }
+
+const useTracks = (encodedTracks, ids) =>
+  useMemo(
+    () =>
+      encodedTracks
+        ? ids.map((id) => decodeTrack(encodedTracks, id)).filter(Boolean)
+        : EMPTY,
+    [encodedTracks, ids]
+  )
 
 // The ids of the activities going through each tile, hidden ones included,
 // loaded on the first right click (see gatsby-node.js)
@@ -101,19 +132,18 @@ export const SportTilesMap = ({
   css,
   activities,
   tiles,
-  // Replaces the default square/cluster/rest/new layers, each item being the
-  // props of a `SportTilesMapLayer`
-  layers,
   useOutlines = false,
-  // Shows the activities up to this month only, the ones of the month in
-  // blue over the earlier ones in green. Each activity needs its `declutter`.
-  yearMonth,
+  // From `getMonthlyTiles`, in place of `tiles`
+  monthly,
+  monthIndex,
   showActivities = false,
   showTiles = false,
   withControls = false,
   initialZoom = 7.3,
   // A narrower map zooms out to show the same area as at this width
   initialZoomWidth,
+  controls,
+  fullscreenContainer,
 }) => {
   const intl = useIntl()
   const theme = useContext(ThemeContext)
@@ -125,6 +155,18 @@ export const SportTilesMap = ({
   const [selectedTile, setSelectedTile] = useState(null)
   const [tileSelectedIds, setTileSelectedIds] = useState(EMPTY)
   const [isShowingAll, setIsShowingAll] = useState(false)
+
+  const yearMonth = monthly?.[monthIndex]?.yearMonth
+  const yearMonths = useMemo(
+    () => monthly?.map((month) => month.yearMonth),
+    [monthly]
+  )
+  const activityMonths = useMemo(
+    () => getActivityMonths(activities?.nodes || EMPTY, yearMonths),
+    [activities, yearMonths]
+  )
+  // Without a timeline, every activity is an old one
+  const activitiesMonthIndex = monthly ? monthIndex : 1
 
   // The popup looks the clicked activities up from the ids of the features
   const activitiesById = useMemo(
@@ -167,31 +209,32 @@ export const SportTilesMap = ({
 
     return results ? results.activities.map((activity) => activity.id) : EMPTY
   }, [selectedTile, isShowingAll, tileActivities, tileSelectedIds, results])
-  const tracks = useTracks(trackIds)
+  const encodedTracks = useEncodedTracks(showActivities)
+  const tracks = useTracks(encodedTracks, trackIds)
 
-  // The month's activities bringing new tiles are drawn whole, in place of
-  // what the declutter left of them: it may have cut them down to nothing,
-  // and the month's new tiles would then show no track.
+  // The declutter may have cut them down to nothing, and the month's new
+  // tiles would then show no track
   const newIds = useMemo(
     () =>
-      yearMonth
+      monthly
         ? (activities?.nodes || [])
             .filter(
-              (activity) =>
-                activity.date_year_month === yearMonth &&
-                activity.declutter &&
-                activity.declutter.reason !== "no-new-tiles"
+              (activity) => activity.declutter && activity.tiles?.length > 0
             )
             .map((activity) => activity.id)
         : EMPTY,
-    [activities, yearMonth]
+    [activities, monthly]
   )
-  const newTracks = useTracks(newIds)
+  const newTracks = useTracks(encodedTracks, newIds)
   // Until they are loaded, the decluttered ones stay drawn
   const newTrackIds = useMemo(
     () => newTracks.map((track) => track.id),
     [newTracks]
   )
+
+  // The click handler of a layer is the one it was added with
+  const yearMonthRef = useRef(yearMonth)
+  yearMonthRef.current = yearMonth
 
   const handleActivitiesClick = useCallback(
     (e) => {
@@ -205,7 +248,12 @@ export const SportTilesMap = ({
           ...new Set(e.features.map(({properties}) => properties.id)),
         ]
           .map((id) => activitiesById.get(id))
-          .filter(Boolean)
+          .filter(
+            (activity) =>
+              activity &&
+              (!yearMonthRef.current ||
+                activity.date_year_month <= yearMonthRef.current)
+          )
           .sort((a, b) => b.distance - a.distance)
           .slice(0, 10),
       })
@@ -229,6 +277,10 @@ export const SportTilesMap = ({
       ids.includes(id) ? ids.filter((other) => other !== id) : [...ids, id]
     )
   }, [])
+  const tilesColors = useMemo(
+    () => ({old: theme.colors.secondary, new: theme.colors.primary}),
+    [theme]
+  )
   const selectedTileTiles = useMemo(
     () => (selectedTile ? [selectedTile] : EMPTY),
     [selectedTile]
@@ -293,16 +345,25 @@ export const SportTilesMap = ({
           <>
             <ScaleControl unit="metric" position="bottom-right" />
             <NavigationControl showCompass showZoom position="top-right" />
-            <FullscreenControl position="top-right" />
+            {/* The container is only read when the control is created */}
+            <FullscreenControl
+              key={fullscreenContainer ? "container" : "map"}
+              container={fullscreenContainer}
+              position="top-right"
+            />
           </>
         )}
+        {mapLoaded && controls}
 
-        {showTiles &&
-          mapLoaded &&
-          layers?.map((layer) => (
-            <SportTilesMapLayer key={layer.id} {...layer} />
-          ))}
-        {showTiles && mapLoaded && !layers && (
+        {showTiles && mapLoaded && monthly && (
+          <SportTimelineTilesMapLayer
+            monthly={monthly}
+            monthIndex={monthIndex}
+            colors={tilesColors}
+            withActivities={showActivities}
+          />
+        )}
+        {showTiles && mapLoaded && !monthly && (
           <>
             <SportTilesMapLayer
               id="square"
@@ -332,13 +393,16 @@ export const SportTilesMap = ({
             <SportActivitiesMapLayer
               id="activities"
               activities={activities.nodes}
-              yearMonth={yearMonth}
-              excludedIds={newTrackIds}
+              activityMonths={activityMonths}
+              monthIndex={activitiesMonthIndex}
+              replacedIds={newTrackIds}
               onClick={handleActivitiesClick}
             />
             <SportNewTracksMapLayer
               id="new-tracks"
               tracks={newTracks}
+              activityMonths={activityMonths}
+              monthIndex={activitiesMonthIndex}
               onClick={handleActivitiesClick}
             />
             <SportTilesMapLayer

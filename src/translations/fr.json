@@ -36,5 +36,7 @@
   "sport.map.tile.count": "{count, plural, one {# activité} other {# activités}}, {hidden, plural, one {# masquée} other {# masquées}}",
   "sport.map.tile.show-all": "Tout afficher",
   "sport.map.tile.hide-all": "Tout masquer",
-  "sport.map.tile.loading": "Chargement…"
+  "sport.map.tile.loading": "Chargement…",
+  "sport.map.play": "Lire",
+  "sport.map.pause": "Pause"
 }

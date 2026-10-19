@@ -1,11 +1,13 @@
-import React, {useContext, useMemo, useState} from "react"
+import React, {useCallback, useEffect, useMemo, useState} from "react"
 
 import {LayoutPage} from "../layouts/page"
+import {MapPlayControl} from "../components/map-play-control"
 import {MapTimeline} from "../components/map-timeline"
 import {SportTilesMap} from "../components/sport-tiles-map"
-import {ThemeContext} from "css-system"
-import {getMonthTilesLayers, getMonthlyTiles} from "../utils/tiles-layers"
+import {getMonthlyTiles} from "../utils/tiles-timeline"
 import {graphql} from "gatsby"
+
+const STEP_DURATION_MS = 500
 
 const SportMap = ({
   data: {
@@ -18,8 +20,6 @@ const SportMap = ({
   },
   children,
 }) => {
-  const theme = useContext(ThemeContext)
-
   // Every month from the first activity to the last one, the empty ones
   // included, so that the timeline's scale is regular
   const monthly = useMemo(() => getMonthlyTiles(tilesTimeline), [tilesTimeline])
@@ -28,25 +28,50 @@ const SportMap = ({
     [monthly]
   )
 
-  const [monthIndex, setMonthIndex] = useState(
-    Math.max(0, yearMonths.length - 1)
-  )
-  const yearMonth = yearMonths[monthIndex]
+  const lastIndex = Math.max(0, yearMonths.length - 1)
+  const [monthIndex, setMonthIndex] = useState(lastIndex)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [timelineElement, setTimelineElement] = useState(null)
 
-  const month = monthly[monthIndex]
-  const tilesLayers = useMemo(
-    () => getMonthTilesLayers(theme, month, {withActivities: true}),
-    [theme, month]
-  )
+  useEffect(() => {
+    if (!isPlaying) return
+
+    const interval = setInterval(
+      () => setMonthIndex((index) => Math.min(index + 1, lastIndex)),
+      STEP_DURATION_MS
+    )
+
+    return () => clearInterval(interval)
+  }, [isPlaying, lastIndex])
+
+  useEffect(() => {
+    if (isPlaying && monthIndex >= lastIndex) setIsPlaying(false)
+  }, [isPlaying, monthIndex, lastIndex])
+
+  const togglePlaying = () => {
+    if (!isPlaying && monthIndex >= lastIndex) setMonthIndex(0)
+    setIsPlaying(!isPlaying)
+  }
+
+  const handleIndexChange = useCallback((index) => {
+    setIsPlaying(false)
+    setMonthIndex(index)
+  }, [])
 
   const map = (
     <SportTilesMap
       activities={activities}
-      yearMonth={yearMonth}
-      layers={tilesLayers}
+      monthly={monthly}
+      monthIndex={monthIndex}
       showActivities
       showTiles
       withControls={true}
+      fullscreenContainer={timelineElement}
+      controls={
+        yearMonths.length > 1 && (
+          <MapPlayControl isPlaying={isPlaying} onClick={togglePlaying} />
+        )
+      }
       initialZoomWidth={1000}
       css={{
         height: {_: "75svh", s: "auto"},
@@ -70,7 +95,8 @@ const SportMap = ({
         <MapTimeline
           yearMonths={yearMonths}
           index={monthIndex}
-          onIndexChange={setMonthIndex}
+          onIndexChange={handleIndexChange}
+          containerRef={setTimelineElement}
         >
           {map}
         </MapTimeline>
@@ -101,13 +127,15 @@ export const pageQuery = graphql`
     ) {
       nodes {
         date_year_month
+        tiles {
+          x
+        }
         declutter {
           hidden
-          reason
           parts
           stubs {
-            dashUntil
             hideUntil
+            showUntil
             coordinates
           }
         }

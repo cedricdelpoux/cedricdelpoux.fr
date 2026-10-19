@@ -1,4 +1,12 @@
-import React, {memo, useContext, useMemo} from "react"
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import {ThemeContext} from "css-system"
 import {useIntl} from "react-intl"
 
@@ -93,18 +101,57 @@ const Ruler = memo(({yearMonths}) => {
 // The months of `yearMonths` as a ruler above the map, `children`, and a
 // gradient track on the map's top edge, filled up to the current month. The
 // thumb carries the name of that month. It can be dragged, or moved with the
-// arrow keys, when `onIndexChange` is given.
+// arrow keys, when `onIndexChange` is given, which a drag only calls once the
+// thumb is released.
 export const MapTimeline = ({
   yearMonths,
-  index,
+  index: committedIndex,
   onIndexChange,
   children,
   css,
+  containerRef,
 }) => {
   const theme = useContext(ThemeContext)
   const intl = useIntl()
   const max = yearMonths.length - 1
   const isInteractive = Boolean(onIndexChange)
+
+  const [draggedIndex, setDraggedIndex] = useState(null)
+  const index = draggedIndex ?? committedIndex
+  const isDragging = useRef(false)
+  const draggedIndexRef = useRef(null)
+  draggedIndexRef.current = draggedIndex
+
+  // The pointer is often released outside of the input
+  const endDrag = useCallback(() => {
+    if (!isDragging.current) return
+
+    isDragging.current = false
+    if (draggedIndexRef.current !== null) {
+      onIndexChange(draggedIndexRef.current)
+    }
+    setDraggedIndex(null)
+  }, [onIndexChange])
+
+  useEffect(() => {
+    window.addEventListener("pointerup", endDrag)
+    window.addEventListener("pointercancel", endDrag)
+
+    return () => {
+      window.removeEventListener("pointerup", endDrag)
+      window.removeEventListener("pointercancel", endDrag)
+    }
+  }, [endDrag])
+
+  const handleChange = (event) => {
+    const value = Number(event.target.value)
+
+    if (isDragging.current) {
+      setDraggedIndex(value)
+    } else {
+      onIndexChange(value)
+    }
+  }
 
   const label = useMemo(
     () =>
@@ -156,7 +203,21 @@ export const MapTimeline = ({
     <View css={{alignSelf: "stretch", ...css}}>
       <style>{rangeCss}</style>
       <Ruler yearMonths={yearMonths} />
-      <View css={{position: "relative"}}>
+      <View
+        ref={containerRef}
+        css={{
+          position: "relative",
+          "&:fullscreen": {
+            bg: "background",
+            "& > div:first-of-type": {height: "100%", borderRadius: 0},
+            "& > div:first-of-type > div:first-child": {
+              height: "100% !important",
+              aspectRatio: "auto !important",
+              borderRadius: 0,
+            },
+          },
+        }}
+      >
         {/* Clipped to the map's rounded corners, the track follows them */}
         <View
           css={{
@@ -202,10 +263,13 @@ export const MapTimeline = ({
           value={index}
           readOnly={!isInteractive}
           tabIndex={isInteractive ? undefined : -1}
-          onChange={
+          onChange={isInteractive ? handleChange : noop}
+          onPointerDown={
             isInteractive
-              ? (event) => onIndexChange(Number(event.target.value))
-              : noop
+              ? () => {
+                  isDragging.current = true
+                }
+              : undefined
           }
           css={{
             position: "absolute",

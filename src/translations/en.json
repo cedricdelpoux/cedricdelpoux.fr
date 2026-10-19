@@ -36,5 +36,7 @@
   "sport.map.tile.count": "{count, plural, one {# activity} other {# activities}}, {hidden} hidden",
   "sport.map.tile.show-all": "Show all",
   "sport.map.tile.hide-all": "Hide all",
-  "sport.map.tile.loading": "Loading…"
+  "sport.map.tile.loading": "Loading…",
+  "sport.map.play": "Play",
+  "sport.map.pause": "Pause"
 }

@@ -12402,10 +12402,15 @@ gatsby-source-youtube@^2.5.1:
     google-oauth2-env-vars "^1.3.0"
     googleapis "^100.0.0"
 
-gatsby-strava-tiles@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/gatsby-strava-tiles/-/gatsby-strava-tiles-0.4.0.tgz#2100f536e818f3fdb4829f4b6da56be5a8b59b04"
-  integrity sha512-arPxlnlAfUDca0LyxTKPOuT0qDww27G48eVuR4AvaohYHM74aDiLvvShS9cR466dBdMJINlIkdTtOwowkQzKOg==
+gatsby-strava-declutter@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/gatsby-strava-declutter/-/gatsby-strava-declutter-0.1.0.tgz#3ed0ec3459587d5d426acf0da94c921bc55568e0"
+  integrity sha512-Clw16rqPGWT9yFiyU5IVhkKWiKsEGNoPiiUjSyBjIE/+KoHgcWz7D5WhbXPyqkWoeN9VsBhMOWM1czI1NrjSlg==
+
+gatsby-strava-tiles@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/gatsby-strava-tiles/-/gatsby-strava-tiles-0.5.0.tgz#66fff8c723c7b3f7f932649e6483f9f9922f95af"
+  integrity sha512-7ckqzxdw3i3WzY+6dAGRIc+22Pr/GaxpFKfTLEXneK8Hvc8dFqEAfEsk1Kl/lyIdzOFaRsPJvg3jn3QTNlvhng==
 
 gatsby-transformer-cloudinary@^4.7.0:
   version "4.7.0"

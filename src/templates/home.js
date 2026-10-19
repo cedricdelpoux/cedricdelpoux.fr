@@ -36,7 +36,7 @@ import {Text} from "../components/text"
 import {ThemeContext} from "css-system"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {getMonthTilesLayers, getMonthlyTiles} from "../utils/tiles-layers"
+import {getMonthlyTiles} from "../utils/tiles-timeline"
 import {getStravaActivityUrl} from "../utils/strava"
 import {graphql} from "gatsby"
 import {useMenu} from "../hooks/use-menu"
@@ -105,13 +105,21 @@ const Home = ({
   const menu = useMenu(locale)
 
   // Every month since TILES_START_MONTH, the empty ones included, so that
-  // the timeline's scale is regular
-  const monthly = useMemo(
-    () =>
-      getMonthlyTiles(tilesTimeline).filter(
-        (month) => month.yearMonth >= TILES_START_MONTH
-      ),
+  // the timeline's scale is regular. The map gets the earlier ones too.
+  const allMonthly = useMemo(
+    () => getMonthlyTiles(tilesTimeline),
     [tilesTimeline]
+  )
+  const startIndex = useMemo(() => {
+    const index = allMonthly.findIndex(
+      (month) => month.yearMonth >= TILES_START_MONTH
+    )
+
+    return index === -1 ? allMonthly.length : index
+  }, [allMonthly])
+  const monthly = useMemo(
+    () => allMonthly.slice(startIndex),
+    [allMonthly, startIndex]
   )
   const yearMonths = useMemo(
     () => monthly.map((month) => month.yearMonth),
@@ -131,10 +139,6 @@ const Home = ({
   }, [yearMonths])
 
   const month = monthly[monthIndex]
-  const tilesLayers = useMemo(
-    () => getMonthTilesLayers(theme, month),
-    [month, theme]
-  )
   return (
     <LayoutPage
       title="Cédric Delpoux"
@@ -332,7 +336,8 @@ const Home = ({
           }}
         >
           <SportTilesMap
-            layers={tilesLayers}
+            monthly={allMonthly}
+            monthIndex={startIndex + monthIndex}
             showTiles={true}
             initialZoom={6.5}
             initialZoomWidth={900}

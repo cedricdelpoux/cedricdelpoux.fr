@@ -1,12 +1,12 @@
-import {Layer, Source} from "@urbica/react-map-gl"
-import React, {useContext, useMemo} from "react"
+import {Layer, MapContext, Source} from "@urbica/react-map-gl"
+import React, {useContext, useEffect, useMemo} from "react"
 
 import {ThemeContext} from "css-system"
 import chroma from "chroma-js"
+import {statusAt} from "../utils/tiles-timeline"
+import {useMonthFeatureStates} from "../hooks/use-month-feature-states"
 
-// The activities as the declutter of gatsby-strava-tiles cut them: `parts`
-// are solid at every zoom, `stubs` are hidden under their `hideUntil` zoom,
-// dashed under their `dashUntil` one and solid above.
+// `stubs` are hidden under `hideUntil` and from `showUntil` (0 for never)
 const activitiesToFeatureCollections = (activities) => {
   const parts = []
   const stubs = []
@@ -21,10 +21,10 @@ const activitiesToFeatureCollections = (activities) => {
         properties,
         geometry: {type: "MultiLineString", coordinates: declutter.parts},
       })
-      declutter.stubs.forEach(({dashUntil, hideUntil, coordinates}) =>
+      declutter.stubs.forEach(({hideUntil, showUntil, coordinates}) =>
         stubs.push({
           type: "Feature",
-          properties: {...properties, dashUntil, hideUntil},
+          properties: {...properties, hideUntil, showUntil},
           geometry: {type: "LineString", coordinates},
         })
       )
@@ -38,135 +38,162 @@ const activitiesToFeatureCollections = (activities) => {
 
 // `zoom` is only allowed as the input of a top level `step`: hence a step per
 // whole zoom level, each one comparing the stub's properties to that level
-const ZOOM_STEPS = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+const ZOOM_STEPS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
-const opacityByZoom = (dashed) => {
-  const opacityAt = (zoom) => [
-    "case",
-    [
-      "all",
-      ["<=", ["get", "hideUntil"], zoom],
-      dashed
-        ? [">", ["get", "dashUntil"], zoom]
-        : ["<=", ["get", "dashUntil"], zoom],
-    ],
-    1,
-    0,
-  ]
+const opacityAt = (zoom) => [
+  "case",
+  [
+    "all",
+    ["<=", ["get", "hideUntil"], zoom],
+    ["any", ["==", ["get", "showUntil"], 0], [">", ["get", "showUntil"], zoom]],
+  ],
+  1,
+  0,
+]
 
-  return [
-    "step",
-    ["zoom"],
-    opacityAt(ZOOM_STEPS[0] - 1),
-    ...ZOOM_STEPS.flatMap((zoom) => [zoom, opacityAt(zoom)]),
-  ]
-}
-
-const DASHED_OPACITY = opacityByZoom(true)
-const SOLID_OPACITY = opacityByZoom(false)
+const STUBS_OPACITY = [
+  "step",
+  ["zoom"],
+  opacityAt(ZOOM_STEPS[0] - 1),
+  ...ZOOM_STEPS.flatMap((zoom) => [zoom, opacityAt(zoom)]),
+]
 
 const BEFORE = "departments-border"
 
-// Every activity up to `yearMonth`, the ones of that month in blue over the
-// earlier ones in green, but `excludedIds`, drawn whole by
-// `SportNewTracksMapLayer`. The data is only built once: a month only changes
-// the filter and the paint, so that the playback never sends the activities
-// to the map worker again.
+const LAYOUT = {"line-join": "round", "line-cap": "round"}
+
+const isStatus = (status) => ["==", ["feature-state", "status"], status]
+
+const isReplaced = ["boolean", ["feature-state", "replaced"], false]
+
+// A width rather than a filter, which would rebuild the tiles at each month
+const OLD_WIDTH = ["case", isStatus("old"), 1.5, 0]
+const NEW_WIDTH = ["case", ["all", isStatus("new"), ["!", isReplaced]], 1.5, 0]
+const HIT_WIDTH = ["case", ["any", isStatus("old"), isStatus("new")], 10, 0]
+
+export const getActivityMonths = (activities, yearMonths) => {
+  const indexes = new Map((yearMonths || []).map((ym, index) => [ym, index]))
+  const months = new Map()
+  const idsByMonth = yearMonths ? yearMonths.map(() => []) : [[]]
+
+  activities.forEach(({id, date_year_month: yearMonth}) => {
+    const index = yearMonths
+      ? indexes.get(yearMonth) ?? (yearMonth < yearMonths[0] ? 0 : undefined)
+      : 0
+
+    if (index === undefined) return
+
+    months.set(id, index)
+    idsByMonth[index].push(id)
+  })
+
+  return {
+    idsByMonth,
+    getState: (id, month) => ({status: statusAt(months.get(id), month)}),
+  }
+}
+
+// In their month, `replacedIds` are drawn whole by `SportNewTracksMapLayer`
 export const SportActivitiesMapLayer = ({
   id,
   activities,
-  yearMonth,
-  excludedIds = [],
+  activityMonths,
+  monthIndex,
+  replacedIds = EMPTY,
   onClick,
 }) => {
   const theme = useContext(ThemeContext)
+  const map = useContext(MapContext)
+  const stubsId = `${id}_stubs`
 
   const [partsData, stubsData] = useMemo(
     () => activitiesToFeatureCollections(activities),
     [activities]
   )
 
-  // Memoized: `Layer` compares each paint, layout and filter property by
-  // reference, and a new one is sent to the map worker again
-  const {filter, layout, dashedLayout, color} = useMemo(() => {
-    const isNew = ["==", ["get", "yearMonth"], yearMonth || ""]
-    // The month's activities drawn over the earlier ones
-    const sortKey = ["case", isNew, 1, 0]
+  useMonthFeatureStates(
+    id,
+    activityMonths.idsByMonth,
+    monthIndex,
+    activityMonths.getState
+  )
+  useMonthFeatureStates(
+    stubsId,
+    activityMonths.idsByMonth,
+    monthIndex,
+    activityMonths.getState
+  )
 
-    const conditions = [
-      yearMonth && ["<=", ["get", "yearMonth"], yearMonth],
-      excludedIds.length > 0 && [
-        "!",
-        ["in", ["get", "id"], ["literal", excludedIds]],
-      ],
-    ].filter(Boolean)
+  useEffect(() => {
+    const setReplaced = (replaced) =>
+      [id, stubsId].forEach((source) => {
+        if (!map.getSource(source)) return
+
+        replacedIds.forEach((featureId) =>
+          map.setFeatureState({source, id: featureId}, {replaced})
+        )
+      })
+
+    setReplaced(true)
+
+    return () => setReplaced(false)
+  }, [map, id, stubsId, replacedIds])
+
+  // A shade darker than the tiles, filled with the same colors
+  const paints = useMemo(() => {
+    const oldColor = chroma(theme.colors.secondary).darken(1.2).hex()
+    const newColor = chroma(theme.colors.primary).darken(1).hex()
 
     return {
-      filter: conditions.length > 0 ? ["all", ...conditions] : undefined,
-      layout: {
-        "line-join": "round",
-        "line-cap": "round",
-        "line-sort-key": sortKey,
+      old: {"line-color": oldColor, "line-width": OLD_WIDTH},
+      new: {"line-color": newColor, "line-width": NEW_WIDTH},
+      oldStubs: {
+        "line-color": oldColor,
+        "line-width": OLD_WIDTH,
+        "line-opacity": STUBS_OPACITY,
       },
-      // Round caps would fill the gaps between the dashes
-      dashedLayout: {"line-sort-key": sortKey},
-      // A shade darker than the tiles, which are filled with the same colors
-      color: [
-        "case",
-        isNew,
-        chroma(theme.colors.primary).darken(1).hex(),
-        chroma(theme.colors.secondary).darken(1.2).hex(),
-      ],
+      newStubs: {
+        "line-color": newColor,
+        "line-width": NEW_WIDTH,
+        "line-opacity": STUBS_OPACITY,
+      },
     }
-  }, [yearMonth, excludedIds, theme])
-
-  const solidPaint = useMemo(
-    () => ({"line-color": color, "line-width": 1.5}),
-    [color]
-  )
-  const dashedPaint = useMemo(
-    () => ({
-      "line-color": color,
-      "line-width": 1.5,
-      "line-dasharray": [3, 3],
-      "line-opacity": DASHED_OPACITY,
-    }),
-    [color]
-  )
-  const stubsSolidPaint = useMemo(
-    () => ({...solidPaint, "line-opacity": SOLID_OPACITY}),
-    [solidPaint]
-  )
+  }, [theme])
 
   return (
     <>
-      <Source id={id} type="geojson" data={partsData} />
-      <Source id={`${id}_stubs`} type="geojson" data={stubsData} />
+      <Source id={id} type="geojson" data={partsData} promoteId="id" />
+      <Source id={stubsId} type="geojson" data={stubsData} promoteId="id" />
       <Layer
         id={id}
         type="line"
         source={id}
-        filter={filter}
-        layout={layout}
-        paint={solidPaint}
+        layout={LAYOUT}
+        paint={paints.old}
         before={BEFORE}
       />
       <Layer
-        id={`${id}_stubs`}
+        id={stubsId}
         type="line"
-        source={`${id}_stubs`}
-        filter={filter}
-        layout={dashedLayout}
-        paint={dashedPaint}
+        source={stubsId}
+        layout={LAYOUT}
+        paint={paints.oldStubs}
         before={BEFORE}
       />
       <Layer
-        id={`${id}_stubs_solid`}
+        id={`${id}_new`}
         type="line"
-        source={`${id}_stubs`}
-        filter={filter}
-        layout={layout}
-        paint={stubsSolidPaint}
+        source={id}
+        layout={LAYOUT}
+        paint={paints.new}
+        before={BEFORE}
+      />
+      <Layer
+        id={`${stubsId}_new`}
+        type="line"
+        source={stubsId}
+        layout={LAYOUT}
+        paint={paints.newStubs}
         before={BEFORE}
       />
       {/* Invisible and wider than the track: at 1.5 px, aiming at a line is
@@ -175,8 +202,7 @@ export const SportActivitiesMapLayer = ({
         id={`${id}_hit`}
         type="line"
         source={id}
-        filter={filter}
-        paint={HIT_PAINT}
+        paint={ACTIVITIES_HIT_PAINT}
         before={BEFORE}
         onClick={onClick}
       />
@@ -184,7 +210,9 @@ export const SportActivitiesMapLayer = ({
   )
 }
 
-const HIT_PAINT = {"line-width": 10, "line-opacity": 0}
+const EMPTY = []
+
+const ACTIVITIES_HIT_PAINT = {"line-width": HIT_WIDTH, "line-opacity": 0}
 
 const toFeatureCollection = (tracks) => ({
   type: "FeatureCollection",
@@ -195,23 +223,35 @@ const toFeatureCollection = (tracks) => ({
   })),
 })
 
-// The whole tracks of the month's activities bringing new tiles, in blue over
-// the decluttered ones
-export const SportNewTracksMapLayer = ({id, tracks, onClick}) => {
+// The whole tracks of the activities bringing new tiles, in their month only
+export const SportNewTracksMapLayer = ({
+  id,
+  tracks,
+  activityMonths,
+  monthIndex,
+  onClick,
+}) => {
   const theme = useContext(ThemeContext)
 
   const data = useMemo(() => toFeatureCollection(tracks), [tracks])
   const paint = useMemo(
     () => ({
       "line-color": chroma(theme.colors.primary).darken(1).hex(),
-      "line-width": 1.5,
+      "line-width": ["case", isStatus("new"), 1.5, 0],
     }),
     [theme]
   )
 
+  useMonthFeatureStates(
+    id,
+    activityMonths.idsByMonth,
+    monthIndex,
+    activityMonths.getState
+  )
+
   return (
     <>
-      <Source id={id} type="geojson" data={data} />
+      <Source id={id} type="geojson" data={data} promoteId="id" />
       <Layer
         id={id}
         type="line"
@@ -224,12 +264,17 @@ export const SportNewTracksMapLayer = ({id, tracks, onClick}) => {
         id={`${id}_hit`}
         type="line"
         source={id}
-        paint={HIT_PAINT}
+        paint={NEW_TRACKS_HIT_PAINT}
         before={BEFORE}
         onClick={onClick}
       />
     </>
   )
+}
+
+const NEW_TRACKS_HIT_PAINT = {
+  "line-width": ["case", isStatus("new"), 10, 0],
+  "line-opacity": 0,
 }
 
 // The whole tracks of the selected activities, cuts included, over everything

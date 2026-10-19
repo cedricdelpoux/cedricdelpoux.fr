@@ -6,7 +6,4 @@ const isMapActivity = (activity) =>
 
 exports.isMapActivity = isMapActivity
 
-exports.stravaTilesOptions = {
-  // The map of a month must not depend on the later ones, for the timeline
-  declutter: {order: "chronological", filter: isMapActivity},
-}
+exports.stravaDeclutterOptions = {filter: isMapActivity}
