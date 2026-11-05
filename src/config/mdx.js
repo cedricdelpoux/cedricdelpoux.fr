@@ -21,6 +21,7 @@ exports.mdxOptions = {
         stravaClientId: process.env.STRAVA_CLIENT_ID,
         stravaClientSecret: process.env.STRAVA_CLIENT_SECRET,
         stravaToken: process.env.STRAVA_TOKEN,
+        output: "mdx",
         render: (activity) => {
           const startDate = new Date(activity.start_date)
           const startDateLocalized = startDate.toLocaleDateString("fr-fr", {
@@ -36,7 +37,6 @@ exports.mdxOptions = {
               id="${activity.id}"
               average_speed="${activity.average_speed}"
               calories="${activity.calories}"
-              comment_count="${activity.comment_count}"
               comment_count="${activity.comment_count}"
               distance="${activity.distance}"
               elapsed_time="${activity.elapsed_time}"

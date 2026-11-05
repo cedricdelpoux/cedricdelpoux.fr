@@ -47,6 +47,7 @@ jobs:
         with:
           path: |
             .strava
+            .strava-declutter
             .google-docs
             content/google-docs
             .cache
@@ -107,6 +108,7 @@ jobs:
         with:
           path: |
             .strava
+            .strava-declutter
             .google-docs
             content/google-docs
             .cache
