@@ -98,7 +98,7 @@
   "scripts": {
     "build": "export NODE_OPTIONS=--max_old_space_size=16384 && gatsby build",
     "clean": "gatsby clean",
-    "dev": "gatsby develop",
+    "dev": "gatsby develop -p 8102",
     "lint": "eslint ./*.js src/**/*.js",
     "serve": "gatsby serve",
     "prepare": "husky install",
