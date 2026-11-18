@@ -10,4 +10,3 @@ content/google-docs
 node_modules
 public
 report.*.json
-yarn-error.log

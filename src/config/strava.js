@@ -254,7 +254,7 @@ exports.stravaOptions = {
         new Date().getMonth() - 1,
         new Date().getDate()
       ).getTime() / 1000,
-    // Also read by `yarn sync-activities`, which fetches the stream of the
+    // Also read by `npm run sync-activities`, which fetches the stream of the
     // listed activities already in the store
     streamsTypes: ["latlng"],
     withStreams: (activity) => preciseActivities.has(String(activity.id)),

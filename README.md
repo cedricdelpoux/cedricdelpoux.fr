@@ -8,13 +8,13 @@
 ### Install dependencies
 
 ```sh
-yarn
+npm install
 ```
 
 ### Start Development Server
 
 ```sh
-yarn dev
+npm run dev
 ```
 
 ### Building and Running for Production
@@ -22,11 +22,11 @@ yarn dev
 1. Generate a production build
 
    ```sh
-   yarn build
+   npm run build
    ```
 
 1. Preview the site
 
    ```sh
-   yarn serve
+   npm run serve
    ```

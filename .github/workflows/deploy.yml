@@ -32,7 +32,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: yarn
+          cache: npm
 
       # What a build fetches or computes slowly. `.cache` and `public` go
       # together: Gatsby only reuses the first one if the second is there.
@@ -55,7 +55,7 @@ jobs:
           key: gatsby-${{ github.run_id }}
           restore-keys: gatsby-
 
-      - run: yarn install --frozen-lockfile
+      - run: npm ci
 
       # A build only fetches the activities started after the store's cursor:
       # an activity edited or deleted on strava.com needs the store updated
@@ -68,9 +68,9 @@ jobs:
           github.event.client_payload.aspect_type != 'create')
         run: |
           if [ "$ASPECT_TYPE" = "update" ]; then
-            yarn gatsby-source-strava-activity "$ACTIVITY_ID" --refresh
+            npx gatsby-source-strava-activity "$ACTIVITY_ID" --refresh
           else
-            yarn sync-activities
+            npm run sync-activities
           fi
         env:
           ASPECT_TYPE: ${{ github.event.client_payload.aspect_type }}
@@ -80,7 +80,7 @@ jobs:
           STRAVA_TOKEN: ${{ secrets.STRAVA_TOKEN }}
 
       - name: Build
-        run: yarn build
+        run: npm run build
         env:
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
           STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
@@ -117,4 +117,4 @@ jobs:
 
       # The Strava webhook function is deployed along with the site
       - name: Deploy to Netlify
-        run: yarn netlify deploy --prod --dir=public --functions=netlify/functions
+        run: npx netlify deploy --prod --no-build --dir=public --functions=netlify/functions
