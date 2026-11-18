@@ -8,14 +8,13 @@ const TravelCountries = ({
   data: {
     countries,
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
   },
   children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <Masonry>
         {countries.nodes.map((node) => (
           <PaperCountry key={node.id} {...node} />
@@ -26,6 +25,8 @@ const TravelCountries = ({
 }
 
 export default TravelCountries
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query TravelCountries($slug: String!, $locale: String!) {

@@ -2,9 +2,8 @@ import {useLocation} from "@reach/router"
 import {useTrail} from "@react-spring/web"
 import {ThemeContext} from "css-system"
 import {GatsbyImage} from "gatsby-plugin-image"
-import {getImage, getSrc} from "gatsby-plugin-image"
+import {getImage} from "gatsby-plugin-image"
 import React, {useContext, useState} from "react"
-import {Helmet} from "react-helmet"
 
 import {Html} from "../components/html"
 import {Icon} from "../components/icon"
@@ -12,18 +11,9 @@ import {Link} from "../components/link"
 import {Text} from "../components/text"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {siteConfig} from "../config/site.js"
 import {useSsrLayoutEffect} from "../hooks/use-ssr-layout-effect"
 
-export const LayoutPage = ({
-  css,
-  title,
-  description,
-  metadata,
-  cover,
-  body,
-  children,
-}) => {
+export const LayoutPage = ({css, title, metadata, cover, body, children}) => {
   const theme = useContext(ThemeContext)
 
   // Animations
@@ -35,29 +25,8 @@ export const LayoutPage = ({
     }
   }, [location])
 
-  // Meta
-  const imageUrl = cover && getSrc(cover.image)
-  const metaImage = imageUrl && siteConfig.url + imageUrl
-
   return (
     <>
-      {title && (
-        <Helmet>
-          <title>{title}</title>
-          <meta property="og:title" content={title} />
-        </Helmet>
-      )}
-      {metaImage && (
-        <Helmet>
-          <meta property="image" content={metaImage} />
-          <meta property="og:image" content={metaImage} />
-        </Helmet>
-      )}
-      {description && (
-        <Helmet>
-          <meta name="description" content={description} />
-        </Helmet>
-      )}
       <Animated
         animated={animated}
         css={{
@@ -161,11 +130,7 @@ const Animated = ({children, animated, css}) => {
   return (
     <View css={css}>
       {childrenArray.map((child, i) =>
-        child.type === Helmet
-          ? child
-          : React.cloneElement(child, {
-              style: animations[i],
-            })
+        React.cloneElement(child, {style: animations[i]})
       )}
     </View>
   )

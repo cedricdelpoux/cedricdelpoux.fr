@@ -10,7 +10,6 @@ import {LayoutPage} from "../layouts/page"
 const CodeOpenSource = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     githubData: {
@@ -28,7 +27,6 @@ const CodeOpenSource = ({
   return (
     <LayoutPage
       title={title}
-      description={excerpt}
       body={children}
       metadata={[
         {
@@ -55,6 +53,8 @@ const CodeOpenSource = ({
 }
 
 export default CodeOpenSource
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query CodeOpenSource($slug: String!) {

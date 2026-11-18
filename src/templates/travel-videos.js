@@ -9,14 +9,13 @@ const TravelVideos = ({
   data: {
     videos,
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
   },
   children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <Masonry>
         {videos.nodes
           .filter((node) => !node.region)
@@ -29,6 +28,8 @@ const TravelVideos = ({
 }
 
 export default TravelVideos
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query TravelVideos($slug: String!) {

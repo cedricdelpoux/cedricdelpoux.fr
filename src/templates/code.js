@@ -8,7 +8,6 @@ import {LayoutPage} from "../layouts/page"
 const Code = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     projects,
@@ -16,7 +15,7 @@ const Code = ({
   children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       {projects?.nodes.length > 0 && (
         <Grid>
           {projects.nodes.map((project) => (
@@ -29,6 +28,8 @@ const Code = ({
 }
 
 export default Code
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query Code($slug: String!, $locale: String!) {

@@ -2,7 +2,6 @@ import {MDXProvider} from "@mdx-js/react"
 import Loadable from "@loadable/component"
 import {ThemeContext, useGlobalCss} from "css-system"
 import React from "react"
-import {Helmet} from "react-helmet"
 
 import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
@@ -14,7 +13,6 @@ import {StravaEmbed} from "../components/strava-embed"
 import {Technologies} from "../components/technologies"
 import {Title} from "../components/title"
 import {View} from "../components/view"
-import {siteConfig} from "../config/site.js"
 import {Blank} from "./blank"
 
 // recharts generates ids from a module-level counter that isn't reset
@@ -89,22 +87,6 @@ export default ({children, pageContext}) => {
         h5: (props) => <Title as="h5" {...props} />,
       }}
     >
-      <Helmet>
-        <html lang={pageContext.locale} />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
-        <title>{siteConfig.title}</title>
-        <meta charSet="utf-8" />
-        <meta property="og:site_name" content={siteConfig.title} />
-        <meta property="og:locale" content={pageContext.locale} />
-        <meta property="og:type" content="website" />
-      </Helmet>
-      <Helmet>
-        <meta property="image" content={siteConfig.url + "/meta-image.png"} />
-        <meta
-          property="og:image"
-          content={siteConfig.url + "/meta-image.png"}
-        />
-      </Helmet>
       <View
         as="svg"
         xmlns="http://www.w3.org/2000/svg"

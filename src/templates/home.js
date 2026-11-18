@@ -20,6 +20,7 @@ import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
 import {FormattedMessage} from "react-intl"
 import {Html} from "../components/html"
+import {Seo} from "../components/seo"
 import {LayoutPage} from "../layouts/page"
 import {Link} from "../components/link"
 import {MapTimeline} from "../components/map-timeline"
@@ -86,7 +87,6 @@ const HomeTitle = ({css, children, ...props}) => (
 const Home = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {text1, text2, text3},
     },
     activities,
@@ -140,11 +140,7 @@ const Home = ({
 
   const month = monthly[monthIndex]
   return (
-    <LayoutPage
-      title="Cédric Delpoux"
-      description={excerpt}
-      css={{alignItems: "center"}}
-    >
+    <LayoutPage title="Cédric Delpoux" css={{alignItems: "center"}}>
       <View
         css={{
           flexDirection: {_: "column", m: "row"},
@@ -509,6 +505,13 @@ const Home = ({
 }
 
 export default Home
+
+export const Head = ({
+  data: {
+    mdx: {excerpt},
+  },
+  pageContext: {locale},
+}) => <Seo title="Cédric Delpoux" description={excerpt} locale={locale} />
 
 export const pageQuery = graphql`
   query Home($slug: String!, $locale: String!) {

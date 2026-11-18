@@ -85,7 +85,6 @@ const SportMap = ({
       title={title}
       // An empty body would stretch between the title and the map
       body={excerpt ? children : null}
-      description={excerpt}
       css={{
         maxWidth: "100%",
         mb: 2,
@@ -108,6 +107,8 @@ const SportMap = ({
 }
 
 export default SportMap
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query SportMap($slug: String!) {

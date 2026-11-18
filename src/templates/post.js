@@ -2,7 +2,6 @@ import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
 import Loadable from "@loadable/component"
 import {graphql} from "gatsby"
 import React from "react"
-import {Helmet} from "react-helmet"
 import {FormattedMessage} from "react-intl"
 import {
   EmailIcon,
@@ -18,6 +17,7 @@ import {
 } from "react-share"
 
 import {Html} from "../components/html"
+import {Seo} from "../components/seo"
 import {Title} from "../components/title"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
@@ -38,16 +38,12 @@ const Post = ({
   return (
     <LayoutPage
       title={title}
-      description={excerpt}
       metadata={[
         {icon: faCalendarDay, label: date},
         {icon: faHourglassHalf, label: `${timeToRead} min`},
       ]}
       cover={cover}
     >
-      <Helmet>
-        <meta property="og:type" content="article" />
-      </Helmet>
       {/*<Toc tableOfContents={tableOfContents} />*/}
       <Html body={children} />
       {location && (
@@ -112,6 +108,24 @@ const Post = ({
 }
 
 export default Post
+
+export const Head = ({
+  data: {
+    mdx: {
+      excerpt,
+      frontmatter: {name, cover},
+    },
+  },
+  pageContext: {locale},
+}) => (
+  <Seo
+    title={name}
+    description={excerpt}
+    cover={cover}
+    type="article"
+    locale={locale}
+  />
+)
 
 export const pageQuery = graphql`
   query Post($slug: String!) {

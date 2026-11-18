@@ -13,7 +13,6 @@ import {LayoutPage} from "../layouts/page"
 const Travel = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
   },
@@ -22,7 +21,7 @@ const Travel = ({
 }) => {
   const menu = useMenu(locale)
   return (
-    <LayoutPage title={title} description={excerpt}>
+    <LayoutPage title={title}>
       <View css={{width: 680, alignSelf: "center"}}>
         <AnimationTravel />
       </View>
@@ -39,6 +38,8 @@ const Travel = ({
 }
 
 export default Travel
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query Travel($slug: String!) {

@@ -11,7 +11,6 @@ import {useMemo} from "react"
 const SportMedias = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     photos,
@@ -33,12 +32,7 @@ const SportMedias = ({
     return [...photosItems, ...videosItems].sort((a, b) => b.date - a.date)
   }, [photos, videos])
   return (
-    <LayoutPage
-      title={title}
-      description={excerpt}
-      body={children}
-      css={{maxWidth: "100%"}}
-    >
+    <LayoutPage title={title} body={children} css={{maxWidth: "100%"}}>
       <Masonry maxColumnsCount={4}>
         {masonryItems.map(({type, node}) => {
           switch (type) {
@@ -66,6 +60,8 @@ const SportMedias = ({
 }
 
 export default SportMedias
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query SportMedias($slug: String!) {

@@ -12,7 +12,6 @@ const TravelRegion = ({
   pageContext: {country, region},
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     photos,
@@ -23,7 +22,7 @@ const TravelRegion = ({
   children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <Flag country={country} css={{alignSelf: "center"}} />
       <Masonry>
         {story && <PaperStory key={story.frontmatter.slug} {...story} />}
@@ -50,6 +49,8 @@ const TravelRegion = ({
 }
 
 export default TravelRegion
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query TravelRegion(

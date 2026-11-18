@@ -20,7 +20,6 @@ import {getColorsScale} from "../utils/colors"
 const TravelStory = ({
   data: {
     mdx: {
-      excerpt,
       map: {route, points},
       frontmatter: {name: title},
     },
@@ -56,7 +55,6 @@ const TravelStory = ({
   return (
     <LayoutPage
       title={title}
-      description={excerpt}
       css={{
         maxWidth: "unset",
         px: 0,
@@ -177,6 +175,8 @@ const TravelStory = ({
 }
 
 export default TravelStory
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query TravelStory($country: String!) {

@@ -36,7 +36,6 @@ const config = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-transformer-json",
-    "gatsby-plugin-react-helmet",
     "gatsby-plugin-layout",
     "gatsby-plugin-catch-links",
     "gatsby-plugin-sitemap",

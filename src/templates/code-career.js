@@ -18,7 +18,6 @@ import {getWorkCompanyLogo} from "../utils/work"
 const CodeCareer = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     githubData: {
@@ -39,7 +38,7 @@ const CodeCareer = ({
   }, [locale, resumeGist])
 
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <Timeline>
         {resume.work.map((work) => {
           const logo = getWorkCompanyLogo(work.company)
@@ -153,6 +152,8 @@ const CodeCareer = ({
 }
 
 export default CodeCareer
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query CodeCareer($slug: String!) {

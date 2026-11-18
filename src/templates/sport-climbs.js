@@ -15,7 +15,6 @@ import {getStravaActivityUrl} from "../utils/strava"
 const SportClimbs = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     climbs,
@@ -24,7 +23,7 @@ const SportClimbs = ({
   children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <Table>
         <thead>
           <tr>
@@ -96,6 +95,8 @@ const SportClimbs = ({
 }
 
 export default SportClimbs
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query SportClimbs($slug: String!) {

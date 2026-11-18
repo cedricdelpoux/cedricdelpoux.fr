@@ -9,14 +9,13 @@ const TravelStories = ({
   data: {
     stories,
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
   },
   children,
 }) => {
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <Grid>
         {stories.nodes.map((node) => (
           <PaperStory key={node.id} {...node} flag />
@@ -27,6 +26,8 @@ const TravelStories = ({
 }
 
 export default TravelStories
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query TravelStories($slug: String!, $locale: String!) {

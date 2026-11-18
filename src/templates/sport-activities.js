@@ -26,7 +26,6 @@ const COUNT_PER_PAGE = 9
 const SportActivities = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     activities,
@@ -95,7 +94,7 @@ const SportActivities = ({
   }, [sportActivities, filterDistance, filterSpeed, filterSport])
 
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <View
         css={{
           flexDirection: {_: "column", s: "row"},
@@ -138,6 +137,8 @@ const SportActivities = ({
 }
 
 export default SportActivities
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query SportActivities($slug: String!) {

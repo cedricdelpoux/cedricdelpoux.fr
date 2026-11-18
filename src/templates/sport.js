@@ -15,7 +15,6 @@ import {LayoutPage} from "../layouts/page"
 const Sport = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     fastestRuns,
@@ -43,7 +42,7 @@ const Sport = ({
     [sport]
   )
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <SwitcherSport onChange={setSport} css={{alignSelf: "center"}} />
       <Title as="h2">
         <FormattedMessage id={`sport.types.${sport.toLowerCase()}`} />
@@ -80,6 +79,8 @@ const Sport = ({
 }
 
 export default Sport
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query Sport($slug: String!) {

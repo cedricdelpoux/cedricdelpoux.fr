@@ -6,16 +6,17 @@ import {LayoutPage} from "../layouts/page"
 const Page = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
   },
   children,
 }) => {
-  return <LayoutPage title={title} description={excerpt} body={children} />
+  return <LayoutPage title={title} body={children} />
 }
 
 export default Page
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query Page($slug: String!) {

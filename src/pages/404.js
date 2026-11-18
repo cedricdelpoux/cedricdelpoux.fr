@@ -3,6 +3,7 @@ import React from "react"
 import {AnimationSport} from "../components/animation-sport"
 import {Button} from "../components/button"
 import {Link} from "../components/link"
+import {Seo} from "../components/seo"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 
@@ -21,3 +22,5 @@ const Page404 = () => {
 }
 
 export default Page404
+
+export const Head = () => <Seo title="404" />

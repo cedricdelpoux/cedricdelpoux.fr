@@ -8,7 +8,6 @@ import {LayoutPage} from "../layouts/page"
 const Posts = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
     posts,
@@ -19,7 +18,7 @@ const Posts = ({
     b.frontmatter.dateUS.localeCompare(a.frontmatter.dateUS)
   )
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       {sortedPosts && sortedPosts.length > 0 && (
         <Grid>
           {sortedPosts.map((post) => (
@@ -32,6 +31,8 @@ const Posts = ({
 }
 
 export default Posts
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query Posts($slug: String!, $locale: String!, $category: String) {

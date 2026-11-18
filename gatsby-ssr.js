@@ -2,6 +2,7 @@ import {IntlProvider} from "react-intl"
 import React from "react"
 import messagesEn from "./src/translations/en.json"
 import messagesFr from "./src/translations/fr.json"
+import {getLocale} from "./src/utils/locale"
 
 const messages = {
   fr: messagesFr,
@@ -15,4 +16,8 @@ export const wrapPageElement = ({element, props}) => {
       {element}
     </IntlProvider>
   )
+}
+
+export const onRenderBody = ({pathname, setHtmlAttributes}) => {
+  setHtmlAttributes({lang: getLocale(pathname)})
 }

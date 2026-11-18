@@ -64,7 +64,6 @@ const encode = (data) =>
 const Contact = ({
   data: {
     mdx: {
-      excerpt,
       frontmatter: {name: title},
     },
   },
@@ -95,7 +94,7 @@ const Contact = ({
   )
 
   return (
-    <LayoutPage title={title} description={excerpt} body={children}>
+    <LayoutPage title={title} body={children}>
       <View
         as={animated.form}
         method="post"
@@ -144,6 +143,8 @@ const Contact = ({
 }
 
 export default Contact
+
+export {MdxHead as Head} from "../components/seo"
 
 export const pageQuery = graphql`
   query Contact($slug: String!) {
