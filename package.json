@@ -76,11 +76,11 @@
     "wobblecode-flat-flags": "^1.0.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.18.9",
-    "@babel/preset-react": "^7.18.6",
-    "eslint": "^8.31.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-react": "^7.31.11",
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.14.0",
     "netlify-cli": "^17.22.1",
     "prettier": "^2.8.2"
   },
@@ -88,7 +88,7 @@
     "build": "export NODE_OPTIONS=--max_old_space_size=16384 && gatsby build",
     "clean": "gatsby clean",
     "dev": "gatsby develop -p 8102",
-    "lint": "eslint ./*.js src/**/*.js",
+    "lint": "eslint .",
     "serve": "gatsby serve",
     "deploy": "netlify deploy --prod --dir=public",
     "strava-token": "gatsby-source-strava-token",

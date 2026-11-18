@@ -212,3 +212,17 @@ exports.onCreatePage = ({page}) => {
     page.context.layout = "blank"
   }
 }
+
+// Gatsby's ESLint plugin only understands ESLint 8 options, linting runs with `npm run lint`
+exports.onCreateWebpackConfig = ({stage, getConfig, actions}) => {
+  if (stage !== "develop") return
+
+  const config = getConfig()
+
+  actions.replaceWebpackConfig({
+    ...config,
+    plugins: config.plugins.filter(
+      ({constructor}) => constructor.name !== "ESLintWebpackPlugin"
+    ),
+  })
+}
