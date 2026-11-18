@@ -17,7 +17,6 @@ import {siteConfig} from "./src/config/site.js"
 import {stravaOptions} from "./src/config/strava.js"
 import {stravaDeclutterOptions} from "./src/config/strava-declutter.js"
 import {svgOptions} from "./src/config/react-svg.js"
-import {webfontsOptions} from "./src/config/webfonts.js"
 import {youtubeOptions} from "./src/config/youtube.js"
 import {
   cloudinarySourceOptions,
@@ -56,7 +55,6 @@ const config = {
       },
     },
     {resolve: "gatsby-plugin-netlify", options: netlifyOptions},
-    {resolve: "gatsby-plugin-webfonts", options: webfontsOptions},
     {resolve: "gatsby-plugin-react-svg", options: svgOptions},
     {resolve: "gatsby-source-filesystem", options: filesystemOptions},
     {resolve: "gatsby-source-strava", options: stravaOptions},

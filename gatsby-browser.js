@@ -1,3 +1,5 @@
+import "@fontsource/quicksand/400.css"
+import "@fontsource/quicksand/700.css"
 import "prismjs/themes/prism.css"
 
 import {IntlProvider} from "react-intl"
