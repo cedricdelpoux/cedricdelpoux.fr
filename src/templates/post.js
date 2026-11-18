@@ -1,5 +1,4 @@
 import {faCalendarDay, faHourglassHalf} from "@fortawesome/pro-light-svg-icons"
-import Loadable from "@loadable/component"
 import {graphql} from "gatsby"
 import React from "react"
 import {FormattedMessage} from "react-intl"
@@ -16,13 +15,16 @@ import {
   WhatsappShareButton,
 } from "react-share"
 
+import {createClientOnly} from "../components/client-only"
 import {Html} from "../components/html"
 import {Seo} from "../components/seo"
 import {Title} from "../components/title"
 import {View} from "../components/view"
 import {LayoutPage} from "../layouts/page"
 
-const ReactDisqusComments = Loadable(() => import("react-disqus-comments"))
+const ReactDisqusComments = createClientOnly(
+  () => import("react-disqus-comments")
+)
 
 const Post = ({
   data: {

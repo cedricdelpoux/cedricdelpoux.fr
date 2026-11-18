@@ -1,9 +1,8 @@
-import Loadable from "@loadable/component"
 import {ThemeContext} from "css-system"
 import startOfWeek from "date-fns/startOfWeek"
 import subWeeks from "date-fns/subWeeks"
 import {graphql} from "gatsby"
-import React, {useContext, useState} from "react"
+import React, {lazy, Suspense, useContext, useState} from "react"
 
 import {generateColorsRange, getColorFromRange} from "../utils/colors"
 import {metersToKilometers} from "../utils/convertors"
@@ -12,7 +11,7 @@ import {PaperActivity} from "./paper-activity"
 import {Sidebar} from "./sidebar"
 import {View} from "./view"
 
-const CalendarHeatmap = Loadable(() => import("react-calendar-heatmap"))
+const CalendarHeatmap = lazy(() => import("react-calendar-heatmap"))
 
 const weeksCount = 42
 const endDate = new Date()
@@ -75,40 +74,42 @@ export const Heatmap = ({activities, css, calendarHeatmapProps, ...props}) => {
       }}
       {...props}
     >
-      <CalendarHeatmap
-        horizontal={true}
-        startDate={startDate}
-        endDate={endDate}
-        values={Object.values(activitiesByDate)}
-        gutterSize={2}
-        showWeekdayLabels={false}
-        showMonthLabels={false}
-        titleForValue={(value) =>
-          value && value.date
-            ? `${value.date.slice(0, 10)}: ${metersToKilometers(
-                value.distance
-              )}km`
-            : ""
-        }
-        tooltipDataAttrs={(value) => ({
-          "data-tip":
+      <Suspense fallback={null}>
+        <CalendarHeatmap
+          horizontal={true}
+          startDate={startDate}
+          endDate={endDate}
+          values={Object.values(activitiesByDate)}
+          gutterSize={2}
+          showWeekdayLabels={false}
+          showMonthLabels={false}
+          titleForValue={(value) =>
             value && value.date
               ? `${value.date.slice(0, 10)}: ${metersToKilometers(
                   value.distance
                 )}km`
-              : "",
-        })}
-        onClick={(value) => value && setActiveDay(value)}
-        transformDayElement={(element, value) => {
-          const distance = value ? value.distance : 0
-          return React.cloneElement(element, {
-            style: {
-              fill: getColorFromRange(colorsRange, distance),
-            },
-          })
-        }}
-        {...calendarHeatmapProps}
-      />
+              : ""
+          }
+          tooltipDataAttrs={(value) => ({
+            "data-tip":
+              value && value.date
+                ? `${value.date.slice(0, 10)}: ${metersToKilometers(
+                    value.distance
+                  )}km`
+                : "",
+          })}
+          onClick={(value) => value && setActiveDay(value)}
+          transformDayElement={(element, value) => {
+            const distance = value ? value.distance : 0
+            return React.cloneElement(element, {
+              style: {
+                fill: getColorFromRange(colorsRange, distance),
+              },
+            })
+          }}
+          {...calendarHeatmapProps}
+        />
+      </Suspense>
       <Sidebar
         isOpen={activeDay ? true : false}
         onClose={() => setActiveDay(null)}

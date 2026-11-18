@@ -1,10 +1,10 @@
 import {MDXProvider} from "@mdx-js/react"
-import Loadable from "@loadable/component"
 import {ThemeContext, useGlobalCss} from "css-system"
 import React from "react"
 
 import {Avatar} from "../components/avatar"
 import {Button} from "../components/button"
+import {createClientOnly} from "../components/client-only"
 import {Footer} from "../components/footer"
 import {Header} from "../components/header"
 import {Link} from "../components/link"
@@ -19,13 +19,15 @@ import {Blank} from "./blank"
 // between pages during `gatsby build`, causing it to drift from the
 // counter the browser starts fresh with and breaking hydration. Rendering
 // these charts client-only sidesteps the mismatch entirely.
-const SportStatsMonth = Loadable(
-  () => import("../components/sport-stats-month"),
-  {ssr: false, resolveComponent: (module) => module.SportStatsMonth}
+const SportStatsMonth = createClientOnly(() =>
+  import("../components/sport-stats-month").then((module) => ({
+    default: module.SportStatsMonth,
+  }))
 )
-const SportStatsYear = Loadable(
-  () => import("../components/sport-stats-year"),
-  {ssr: false, resolveComponent: (module) => module.SportStatsYear}
+const SportStatsYear = createClientOnly(() =>
+  import("../components/sport-stats-year").then((module) => ({
+    default: module.SportStatsYear,
+  }))
 )
 
 export default ({children, pageContext}) => {
