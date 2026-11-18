@@ -78,7 +78,7 @@ export const getActivityMonths = (activities, yearMonths) => {
 
   activities.forEach(({id, date_year_month: yearMonth}) => {
     const index = yearMonths
-      ? indexes.get(yearMonth) ?? (yearMonth < yearMonths[0] ? 0 : undefined)
+      ? (indexes.get(yearMonth) ?? (yearMonth < yearMonths[0] ? 0 : undefined))
       : 0
 
     if (index === undefined) return

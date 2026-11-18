@@ -79,9 +79,8 @@ export const Toc = ({tableOfContents}) => {
       const hasParent =
         link.parentNode.offsetLeft - tocRef.current.offsetLeft > 0
       if (hasParent) {
-        const parentLink = link.parentNode.parentNode.parentNode.querySelector(
-          "a:first-child"
-        )
+        const parentLink =
+          link.parentNode.parentNode.parentNode.querySelector("a:first-child")
 
         activateTocLink(parentLink)
       }
