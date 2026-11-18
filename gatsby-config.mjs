@@ -6,7 +6,6 @@ import remarkGfm from "remark-gfm"
 import {cssOptions} from "./src/config/css-system.js"
 import {feedOptions} from "./src/config/feed.js"
 import {filesystemOptions} from "./src/config/filesystem.js"
-import {gaOptions} from "./src/config/google-analytics.js"
 import {githubOptions} from "./src/config/github.js"
 import {googleDocsOptions} from "./src/config/google-docs.js"
 import {googleMymapsOptions} from "./src/config/google-mymaps.js"
@@ -72,7 +71,6 @@ const config = {
     {resolve: "gatsby-source-youtube", options: youtubeOptions},
     {resolve: "gatsby-source-google-docs", options: googleDocsOptions},
     // ---
-    {resolve: "gatsby-plugin-google-analytics", options: gaOptions},
     {resolve: "gatsby-plugin-manifest", options: manifestOptions},
     {resolve: "gatsby-plugin-feed", options: feedOptions},
     {resolve: "gatsby-plugin-nprogress", options: nprogressOptions},
