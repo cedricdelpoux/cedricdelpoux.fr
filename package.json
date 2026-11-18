@@ -78,15 +78,9 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
     "@babel/preset-react": "^7.18.6",
-    "@commitlint/cli": "^17.4.1",
-    "@commitlint/config-conventional": "^17.4.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "cz-customizable": "^6.9.1",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-react": "^7.31.11",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.1.0",
     "netlify-cli": "^17.22.1",
     "prettier": "^2.8.2"
   },
@@ -96,16 +90,10 @@
     "dev": "gatsby develop -p 8102",
     "lint": "eslint ./*.js src/**/*.js",
     "serve": "gatsby serve",
-    "prepare": "husky install",
     "deploy": "netlify deploy --prod --dir=public",
     "strava-token": "gatsby-source-strava-token",
     "fetch-activity": "gatsby-source-strava-activity --streams latlng",
     "sync-activities": "MINIMAL= gatsby-source-strava-activities --write"
   },
-  "browserslist": "last 2 versions and >0.25% and not IE 11",
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-customizable"
-    }
-  }
+  "browserslist": "last 2 versions and >0.25% and not IE 11"
 }
