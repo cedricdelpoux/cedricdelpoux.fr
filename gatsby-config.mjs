@@ -1,8 +1,5 @@
-// Must run before the local config modules below are evaluated: they read
-// `process.env` at module-load time, and ESM evaluates imports in source
-// order before any other top-level code, so a later `dotenv.config()` call
-// would run too late.
-import "dotenv/config"
+// Must run before the config modules below: they read `process.env` when loaded
+import "./load-env.mjs"
 
 import remarkGfm from "remark-gfm"
 
